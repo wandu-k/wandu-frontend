@@ -1,10 +1,14 @@
 const userInfoApi = {
-  getUserInfo: async () => {
+  getUserInfo: async (userID) => {
     try {
-      const response = await fetch("http://api.example.com/userInfo");
+      const response = await fetch(
+        `http://localhost:7090/api/user/get?userID=${userID}`
+      );
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
       const userInfo = await response.json();
       return userInfo;
     } catch (error) {
