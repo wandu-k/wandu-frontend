@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AvatarUi from "../avatar/AvatarUi";
 import UserInfoApi from "../api/UserInfoApi";
 
-class UserInfoBoxUi extends Component {
+class UserInfoUi extends Component {
   render() {
     return (
       <>
@@ -13,4 +13,4 @@ class UserInfoBoxUi extends Component {
   }
 }
 
-export default UserInfoBoxUi;
+export default UserInfoUi;
