@@ -1,4 +1,5 @@
-import MyRoom from "../components/miniHome/myRoom/MyRoom";
+import MyRoomUi from "../components/miniHome/myRoom/MyRoomUi";
+import NavigationUi from "../components/navigation/NavigationUi";
 import CalendarUi from "../components/calendar/CalendarUi";
 import AvatarUi from "../components/avatar/AvatarUi";
 import { MiniHomeProvider } from "../contexts/MiniHomeContext";
@@ -9,29 +10,27 @@ const MainPage = () => {
       <MiniHomeProvider>
         <div className="flex flex-col w-72 gap-4">
           {" "}
-          <div className="border-2 h-full"></div>
-          <div className="border-2">
+          <div className="h-full border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl"></div>
+          <div className="border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl">
             <CalendarUi></CalendarUi>
           </div>
         </div>
         <div className="flex flex-col w-full h-full gap-4">
-          <div className="border-2 flex w-full h-full gap-4">
+          <div className="flex w-full h-full gap-4">
             <div className="flex flex-col w-full gap-4">
-              <div className="border-2 h-full">
-                <MyRoom></MyRoom>
-              </div>
-              <div className="border-2 flex gap-4 h-96">
-                <div className="border-2 w-1/2"></div>
-                <div className="border-2 w-1/2"></div>
+              <MyRoomUi></MyRoomUi>
+              <div className="flex gap-4 h-96">
+                <div className="w-full border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl"></div>
+                <div className="w-full border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl"></div>
               </div>
             </div>
-            <div className="border-2 w-96">fdfd</div>
+            <div className="w-96 border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl md:hidden xl:block"></div>
           </div>
-          <div className="border-2">dfd</div>
+          <div className="h-12 border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-full"></div>
         </div>
         <div className="flex flex-col justify-between">
-          <div className="border-2 h-96 w-20">fdfd</div>
-          <div className="border-2 h-20 w-20">fdfd</div>
+          <NavigationUi></NavigationUi>
+          <div className="h-20 w-20 border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-full"></div>
         </div>
       </MiniHomeProvider>
     </div>
