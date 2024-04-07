@@ -1,7 +1,7 @@
 import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
 import React, { useContext } from "react";
 
-const MyRoom = () => {
+const MyRoomUi = () => {
   const miniHomeInfo = useContext(MiniHomeContext); // 컨텍스트 값을 가져옴
 
   const renderMiniHomeInfo = () => {
@@ -16,7 +16,11 @@ const MyRoom = () => {
     }
     return elements;
   };
-  return <>{renderMiniHomeInfo()}</>;
+  return (
+    <div className="w-full h-full border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl">
+      {renderMiniHomeInfo()}
+    </div>
+  );
 };
 
-export default MyRoom;
+export default MyRoomUi;
