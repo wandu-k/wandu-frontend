@@ -10,8 +10,8 @@ const MainPage = () => {
       <MiniHomeProvider>
         <div className="flex flex-col w-72 gap-4">
           {" "}
-          <div className="h-full border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl"></div>
-          <div className="border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl">
+          <div className="h-full border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl"></div>
+          <div className="border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl">
             <CalendarUi></CalendarUi>
           </div>
         </div>
@@ -20,17 +20,17 @@ const MainPage = () => {
             <div className="flex flex-col w-full gap-4">
               <MyRoomUi></MyRoomUi>
               <div className="flex gap-4 h-96">
-                <div className="w-full border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl"></div>
-                <div className="w-full border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl"></div>
+                <div className="w-full border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl"></div>
+                <div className="w-full border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl"></div>
               </div>
             </div>
-            <div className="w-96 border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-2xl md:hidden xl:block"></div>
+            <div className="w-96 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl md:hidden xl:block"></div>
           </div>
-          <div className="h-12 border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-full"></div>
+          <div className="h-12 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-full"></div>
         </div>
         <div className="flex flex-col justify-between">
           <NavigationUi></NavigationUi>
-          <div className="h-20 w-20 border border-slate-100 drop-shadow-xl backdrop-blur-md bg-white/75 rounded-full"></div>
+          <div className="h-20 w-20 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-full"></div>
         </div>
       </MiniHomeProvider>
     </div>
