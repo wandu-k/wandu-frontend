@@ -10,7 +10,7 @@ const Main = lazy(() => import("../pages/MainPage"));
 
 const root = createBrowserRouter([
   {
-    path: "minihome/:userID",
+    path: "minihome/:hpID",
     element: (
       <Suspense fallback={Loading}>
         <Main />

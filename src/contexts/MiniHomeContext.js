@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 // Context 생성
 
@@ -9,13 +10,14 @@ export const MiniHomeContext = createContext();
 export const MiniHomeProvider = ({ children }) => {
   const [miniHomeInfo, setminiHomeInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { hpID } = useParams();
 
   // REST API로부터 미니홈 정보 가져오기
   useEffect(() => {
     axios
       .get("http://localhost:7090/api/minihome", {
         params: {
-          hpID: 7,
+          hpID: hpID,
         },
       })
       .then((response) => {
@@ -28,11 +30,7 @@ export const MiniHomeProvider = ({ children }) => {
         console.log(error);
       })
       .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  }, [hpID]);
 
   return (
     <MiniHomeContext.Provider value={miniHomeInfo}>

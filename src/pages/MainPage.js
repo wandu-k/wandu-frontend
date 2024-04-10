@@ -1,8 +1,10 @@
 import MyRoomUi from "../components/miniHome/myRoom/MyRoomUi";
 import NavigationUi from "../components/navigation/NavigationUi";
 import CalendarUi from "../components/calendar/CalendarUi";
+import ControllerUi from "../components/music/controller/ControllerUi";
 import AvatarUi from "../components/avatar/AvatarUi";
 import { MiniHomeProvider } from "../contexts/MiniHomeContext";
+import { MusicProvider } from "../contexts/MusicContext";
 
 const MainPage = () => {
   return (
@@ -26,7 +28,10 @@ const MainPage = () => {
             </div>
             <div className="w-96 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl md:hidden xl:block"></div>
           </div>
-          <div className="h-12 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-full"></div>
+
+          <MusicProvider>
+            <ControllerUi></ControllerUi>
+          </MusicProvider>
         </div>
         <div className="flex flex-col justify-between">
           <NavigationUi></NavigationUi>
