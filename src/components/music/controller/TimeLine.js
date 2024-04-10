@@ -27,9 +27,11 @@ const TimeLine = ({
   };
 
   const handleMouseUp = () => {
+    if (isDragging) {
+      setPlaying(true);
+    }
     setTimeLineBarTransClass("duration-1000"); // 클래스 변경
     setIsDragging(false);
-    setPlaying(true);
     //toggleDragging(false);
     console.log("sdsdss");
   };

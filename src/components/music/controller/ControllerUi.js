@@ -44,7 +44,7 @@ const ControllerUi = () => {
           height="50px"
           playing={playing}
           loop
-          autoPlay
+          autoPlay={false}
           muted={mute}
           controls={false}
           volume={volume}
