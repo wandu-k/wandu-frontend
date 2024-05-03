@@ -1,7 +1,10 @@
-import { isValidElement, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import api from "../apis/Api";
+import * as auth from "../apis/Auth";
 
-const LoginContext = ({ children }) => {
+export const LoginContext = createContext();
+
+export const LoginProvider = ({ children }) => {
   //로그인 여부
   const [isLogin, setLogin] = useState(false);
 
@@ -30,10 +33,28 @@ const LoginContext = ({ children }) => {
   };
 
   const logoutSetting = () => {
-    api.defaults.headers.common.Authorization = null;
+    api.defaults.headers.common.Authorization = undefined;
     localStorage.removeItem("accessToken");
     setLogin(false);
     setUserInfo(null);
+  };
+
+  const login = async (username, password) => {
+    console.log(username);
+    console.log(password);
+
+    const response = await auth.login(username, password);
+    const data = response.data;
+    console.log(data);
+
+    const status = response.headers;
+    //const authorization = headers.authorization;
+    //const accessToken = authorization.accessToken;
+
+    // if (status === 200) {
+    //   alert("로그인 성공");
+    //   loginSetting();
+    // }
   };
 
   const logout = () => {
@@ -43,7 +64,7 @@ const LoginContext = ({ children }) => {
   useEffect(() => {});
 
   return (
-    <LoginContext.Provider value={{ isLogin, logout }}>
+    <LoginContext.Provider value={{ isLogin, logout, login }}>
       {children}
     </LoginContext.Provider>
   );
