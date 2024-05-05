@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <>
+    <div className="flex h-dvh gap-4 p-4">
       <div className="flex flex-col w-72 gap-4">
         {" "}
         <div className="h-full border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl"></div>
@@ -24,7 +24,7 @@ const MainLayout = () => {
         <NavigationUi></NavigationUi>
         <div className="h-20 w-20 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-full"></div>
       </div>
-    </>
+    </div>
   );
 };
 
