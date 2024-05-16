@@ -14,8 +14,11 @@ const MainLayout = () => {
           <CalendarUi></CalendarUi>
         </div>
       </div>
-      <div className="flex flex-col w-full h-full gap-4">
-        <Outlet />
+      <div className="flex flex-col flex-1 h-full gap-4">
+        <div className="flex gap-4 h-full">
+          <Outlet />
+          <div className="w-72 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl md:hidden xl:block"></div>
+        </div>
         <MusicProvider>
           <ControllerUi></ControllerUi>
         </MusicProvider>

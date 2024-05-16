@@ -3,6 +3,7 @@ import api from "../apis/Api";
 import * as auth from "../apis/Auth";
 import { decode } from "base-64";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const LoginContext = createContext();
 
@@ -20,28 +21,31 @@ export const LoginProvider = ({ children }) => {
 
   // 로그인 세팅
   const loginSetting = (userData, accessToken) => {
-    const { userid, hpID, email, rol } = userData;
+    const { userID, hpID, email, rol } = userData;
 
     //jwt 헤더 설정
     api.defaults.headers.common.Authorization = `${accessToken}`;
 
     console.log(userData);
-    console.log(userid);
+    console.log(userID);
 
     //유저정보 세팅
-    const updateUserInfo = { userid, hpID, email, rol };
+    const updateUserInfo = { userID, hpID, email, rol };
     setUserInfo(updateUserInfo);
 
     //로그인 여부
     setLogin(true);
 
+    console.log("로그인 성공");
+
     //리다이렉트
-    navigate(`../minihome/${userid}`);
+    navigate(`./minihome/${userID}`);
   };
 
   const logoutSetting = () => {
     api.defaults.headers.common.Authorization = undefined;
     localStorage.removeItem("accessToken");
+    console.log("로그아웃");
     setLogin(false);
     setUserInfo(null);
   };
@@ -50,23 +54,27 @@ export const LoginProvider = ({ children }) => {
     console.log(username);
     console.log(password);
 
-    const response = await auth.login(username, password);
-    const data = response.data;
-    console.log(data);
-    console.log(response.headers["authorization"]);
-    const status = response.status;
-    const accessToken = response.headers["authorization"].replace(
-      "Bearer ",
-      ""
-    );
-
-    console.log(accessToken);
-    if (status === 200) {
-      //토큰 저장
-      localStorage.setItem("accessToken", accessToken);
-      alert("로그인 성공");
-      loginCheck();
-      //loginSetting();
+    try {
+      const response = await auth.login(username, password);
+      const data = response.data;
+      console.log(data);
+      console.log(response.headers["authorization"]);
+      const status = response.status;
+      const accessToken = response.headers["authorization"].replace(
+        "Bearer ",
+        ""
+      );
+      if (status === 200) {
+        //토큰 저장
+        localStorage.setItem("accessToken", accessToken);
+        loginCheck();
+      }
+      console.log(accessToken);
+      return { code: response.status };
+    } catch (error) {
+      if (error.response.status === 401) {
+        return { code: error.response.status };
+      }
     }
   };
 
@@ -75,6 +83,7 @@ export const LoginProvider = ({ children }) => {
   };
 
   const loginCheck = async () => {
+    console.log("로그인 확인중..");
     const accessToken = localStorage.getItem("accessToken");
     console.log(accessToken);
 
@@ -89,17 +98,31 @@ export const LoginProvider = ({ children }) => {
       accessToken.lastIndexOf(".")
     );
 
-    console.log(payload);
+    const jwtData = JSON.parse(decode(payload));
+    const userID = jwtData.userid;
 
-    const data = JSON.parse(decode(payload));
+    console.log(jwtData);
 
-    loginSetting(data, accessToken);
+    console.log(userID);
+
+    let response;
+
+    try {
+      response = await auth.info(userID);
+      const data = response.data;
+      loginSetting(data, accessToken);
+    } catch (error) {
+      if (error.response.status === 422) {
+        console.log("회원 정보가 존재하지 않습니다");
+        logoutSetting();
+      }
+    }
   };
 
-  useEffect(() => {});
-
   return (
-    <LoginContext.Provider value={{ isLogin, logout, login }}>
+    <LoginContext.Provider
+      value={{ isLogin, logout, login, loginCheck, userInfo }}
+    >
       {children}
     </LoginContext.Provider>
   );

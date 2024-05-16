@@ -3,8 +3,11 @@ import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { LoginProvider } from "../contexts/LoginContext";
 import MainLayout from "../layouts/MainLayout";
 import LoginPage from "../pages/LoginPage";
+import BoardPage from "../pages/minihome/BoardPage";
+import PostWritePage from "../pages/minihome/PostWritePage";
 library.add(fas);
 
 const Loading = <div>Loading...</div>;
@@ -21,13 +24,29 @@ const root = createBrowserRouter([
     children: [
       {
         path: ":hpID",
-        element: <Main></Main>,
+        element: (
+          <LoginProvider>
+            <Main></Main>
+          </LoginProvider>
+        ),
+      },
+      {
+        path: ":hpID/board",
+        element: <BoardPage></BoardPage>,
+      },
+      {
+        path: ":hpID/board/write",
+        element: <PostWritePage></PostWritePage>,
       },
     ],
   },
   {
     path: "login",
-    element: <LoginPage></LoginPage>,
+    element: (
+      <LoginProvider>
+        <LoginPage></LoginPage>
+      </LoginProvider>
+    ),
   },
 ]);
 

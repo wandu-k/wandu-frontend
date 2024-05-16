@@ -36,7 +36,7 @@ const ControllerUi = () => {
 
   return (
     <div>
-      <div className="absolute left-3/4">
+      <div className="absolute hidden">
         <ReactPlayer
           url="https://wandukong.s3.ap-northeast-2.amazonaws.com/test.mp3"
           ref={playerRef}

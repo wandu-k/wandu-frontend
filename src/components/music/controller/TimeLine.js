@@ -33,7 +33,6 @@ const TimeLine = ({
     setTimeLineBarTransClass("duration-1000"); // 클래스 변경
     setIsDragging(false);
     //toggleDragging(false);
-    console.log("sdsdss");
   };
   const handleMouseMove = (d) => {
     if (isDragging) {
