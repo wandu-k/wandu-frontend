@@ -10,14 +10,18 @@ export const MiniHomeContext = createContext();
 export const MiniHomeProvider = ({ children }) => {
   const [miniHomeInfo, setminiHomeInfo] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { hpID } = useParams();
+  const { hpId } = useParams();
 
   // REST API로부터 미니홈 정보 가져오기
   useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:7090/api/minihome", {
+      .get("http://localhost:7090/api/user/minihome", {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
         params: {
-          hpID: hpID,
+          hpId: hpId,
         },
       })
       .then((response) => {
@@ -30,7 +34,7 @@ export const MiniHomeProvider = ({ children }) => {
         console.log(error);
       })
       .finally(() => setLoading(false));
-  }, [hpID]);
+  }, [hpId]);
 
   return (
     <MiniHomeContext.Provider value={miniHomeInfo}>

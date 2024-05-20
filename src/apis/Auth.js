@@ -6,5 +6,5 @@ export const login = (username, password) =>
 
 //사용자 정보
 
-export const info = (userID) =>
-  api.get(`http://localhost:7090/api/user?userID=${userID}`);
+export const info = (userId) =>
+  api.get(`http://localhost:7090/api/user/auth?userId=${userId}`);

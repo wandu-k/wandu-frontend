@@ -1,21 +1,25 @@
-import { useContext } from "react";
-import { LoginContext } from "../../contexts/LoginContext";
 import { useForm } from "react-hook-form";
 import naver from "../../images/login/naver.png";
 import google from "../../images/login/google.png";
-
+import api from "../../apis/Api";
+import { json } from "react-router-dom";
 const RegisterForm = () => {
   const { register, handleSubmit, error } = useForm();
 
-  const { login } = useContext(LoginContext);
-
   const onSubmit = (data) => {
-    console.log(data);
+    const formData = new FormData();
 
-    const username = data.username;
-    const password = data.password;
+    const jsonData = JSON.stringify(data);
 
-    login(username, password);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    formData.append("profileImage", null);
+    formData.append("userDto", blob);
+
+    api.post("http://localhost:7090/api/public/register", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
   return (
     <>

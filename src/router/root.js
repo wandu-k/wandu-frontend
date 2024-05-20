@@ -23,7 +23,7 @@ const root = createBrowserRouter([
     ),
     children: [
       {
-        path: ":hpID",
+        path: ":hpId",
         element: (
           <LoginProvider>
             <Main></Main>
@@ -31,11 +31,11 @@ const root = createBrowserRouter([
         ),
       },
       {
-        path: ":hpID/board",
+        path: ":hpId/board",
         element: <BoardPage></BoardPage>,
       },
       {
-        path: ":hpID/board/write",
+        path: ":hpId/board/write",
         element: <PostWritePage></PostWritePage>,
       },
     ],

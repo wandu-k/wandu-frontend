@@ -21,16 +21,13 @@ export const LoginProvider = ({ children }) => {
 
   // 로그인 세팅
   const loginSetting = (userData, accessToken) => {
-    const { userID, hpID, email, rol } = userData;
-
-    //jwt 헤더 설정
-    api.defaults.headers.common.Authorization = `${accessToken}`;
+    const { userId, hpId, email, rol } = userData;
 
     console.log(userData);
-    console.log(userID);
+    console.log(userId);
 
     //유저정보 세팅
-    const updateUserInfo = { userID, hpID, email, rol };
+    const updateUserInfo = { userId, hpId, email, rol };
     setUserInfo(updateUserInfo);
 
     //로그인 여부
@@ -39,7 +36,7 @@ export const LoginProvider = ({ children }) => {
     console.log("로그인 성공");
 
     //리다이렉트
-    navigate(`./minihome/${userID}`);
+    navigate(`minihome/${userId}`);
   };
 
   const logoutSetting = () => {
@@ -60,10 +57,7 @@ export const LoginProvider = ({ children }) => {
       console.log(data);
       console.log(response.headers["authorization"]);
       const status = response.status;
-      const accessToken = response.headers["authorization"].replace(
-        "Bearer ",
-        ""
-      );
+      const accessToken = response.headers["authorization"];
       if (status === 200) {
         //토큰 저장
         localStorage.setItem("accessToken", accessToken);
@@ -93,22 +87,25 @@ export const LoginProvider = ({ children }) => {
       return;
     }
 
+    //jwt 헤더 설정
+    api.defaults.headers.common.Authorization = `${accessToken}`;
+
     const payload = accessToken.substring(
       accessToken.indexOf(".") + 1,
       accessToken.lastIndexOf(".")
     );
 
     const jwtData = JSON.parse(decode(payload));
-    const userID = jwtData.userid;
+    const userId = jwtData.userId;
 
     console.log(jwtData);
 
-    console.log(userID);
+    console.log(userId);
 
     let response;
 
     try {
-      response = await auth.info(userID);
+      response = await auth.info(userId);
       const data = response.data;
       loginSetting(data, accessToken);
     } catch (error) {
