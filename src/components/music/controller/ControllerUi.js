@@ -18,6 +18,12 @@ const ControllerUi = () => {
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
 
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   const handlePlayBtn = () => {
     if (playing === false) {
       setPlaying(true);
@@ -33,9 +39,14 @@ const ControllerUi = () => {
       setMute(false);
     }
   }, [volume]);
+  // Check if inside an iframe
+  const isIframe = window.self !== window.top;
 
+  if (isIframe) {
+    return null;
+  }
   return (
-    <div>
+    <div className="fixed z-50 bottom-0 w-dvw">
       <div className="absolute hidden">
         <ReactPlayer
           url="https://wandukong.s3.ap-northeast-2.amazonaws.com/test.mp3"
@@ -54,7 +65,15 @@ const ControllerUi = () => {
           onDuration={setDuration}
         ></ReactPlayer>
       </div>
-      <div className="h-12 border px-8 flex content-center border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-full gap-6">
+      <TimeLine
+        playing={playing}
+        setPlaying={setPlaying}
+        playerRef={playerRef}
+        setNowPlayTime={setNowPlayTime}
+        nowPlayTime={nowPlayTime}
+        duration={duration}
+      ></TimeLine>
+      <div className=" h-16 border px-8 flex content-center border-slate-100 z-auto backdrop-blur-3xl bg-white/90 gap-6">
         <button onClick={handlePlayBtn}>
           <FontAwesomeIcon
             icon={playing == false ? "fa-solid fa-play" : "fa-solid fa-pause"}
@@ -64,14 +83,9 @@ const ControllerUi = () => {
           <FontAwesomeIcon icon="fa-solid fa-forward-step" />
         </button>
         <Volume volume={volume} setVolume={setVolume}></Volume>
-        <TimeLine
-          playing={playing}
-          setPlaying={setPlaying}
-          playerRef={playerRef}
-          setNowPlayTime={setNowPlayTime}
-          nowPlayTime={nowPlayTime}
-          duration={duration}
-        ></TimeLine>
+        <div className="font-bold content-center">
+          {formatTime(nowPlayTime)} / {formatTime(duration)}
+        </div>
       </div>
     </div>
   );

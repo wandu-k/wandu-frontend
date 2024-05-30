@@ -65,10 +65,9 @@ const TimeLine = ({
   return (
     <>
       <div className="w-full flex items-center gap-4">
-        <div className="font-bold">{formatTime(nowPlayTime)}</div>
         <div
           ref={timeLineBarRef}
-          className="w-full h-2 bg-gray-200 rounded-full cursor-pointer relative "
+          className="w-full h-1 bg-gray-200 cursor-pointer relative "
           onMouseDown={handleTimeLineBarMouseDown}
         >
           {/* 볼륨 바 */}
@@ -80,13 +79,12 @@ const TimeLine = ({
           ></div>
           {/* 동그란 핸들 */}
           <div
-            className={`absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white rounded-full w-4 h-4 shadow border border-gray-200 cursor-pointer transition-all ease-linear ${timeLineBarTransClass}`}
+            className={`absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white rounded-full w-4 h-4 shadow border border-gray-200 cursor-pointer transition-all ease-linear ${timeLineBarTransClass} z-30`}
             style={{
               left: `${(nowPlayTime / duration) * 100}%`,
             }}
           ></div>
         </div>
-        <div className="font-bold">{formatTime(duration)}</div>
       </div>
     </>
   );

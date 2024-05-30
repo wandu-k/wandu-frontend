@@ -4,7 +4,7 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 body {
-  background-color: rgb(241 245 249);
+  background-color: white;
   margin: 0;
   height: 100vh;
 
@@ -18,16 +18,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 100%;
-  }
-}
-
-@media (min-width: 640px) {
-  .container {
-    max-width: 100%;
-  }
 }

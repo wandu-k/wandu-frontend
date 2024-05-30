@@ -5,8 +5,6 @@ import { LoginContext } from "../contexts/LoginContext";
 import { useContext, useEffect, useState } from "react";
 
 const LoginPage = () => {
-  const { loginCheck } = useContext(LoginContext);
-
   // 로그인 폼 상태
   const [loginFormVisible, setLoginFormVisible] = useState(true);
 
@@ -14,10 +12,6 @@ const LoginPage = () => {
   const toggleLoginForm = () => {
     setLoginFormVisible(!loginFormVisible);
   };
-
-  useEffect(() => {
-    loginCheck();
-  }, []);
 
   return (
     <>

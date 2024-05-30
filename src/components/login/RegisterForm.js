@@ -2,9 +2,13 @@ import { useForm } from "react-hook-form";
 import naver from "../../images/login/naver.png";
 import google from "../../images/login/google.png";
 import api from "../../apis/Api";
-import { json } from "react-router-dom";
+import { useContext } from "react";
+import { LoginContext } from "../../contexts/LoginContext";
+
 const RegisterForm = () => {
   const { register, handleSubmit, error } = useForm();
+
+  const { login } = useContext(LoginContext);
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -13,13 +17,20 @@ const RegisterForm = () => {
 
     const blob = new Blob([jsonData], { type: "application/json" });
     formData.append("profileImage", null);
-    formData.append("userDto", blob);
+    formData.append("accountDto", blob);
 
-    api.post("http://localhost:7090/api/public/register", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    api
+      .post("http://localhost:7090/api/public/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          login(data.username, data.password);
+        }
+      })
+      .catch((error) => {});
   };
   return (
     <>

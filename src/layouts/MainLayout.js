@@ -1,33 +1,39 @@
 import NavigationUi from "../components/navigation/NavigationUi";
-import CalendarUi from "../components/calendar/CalendarUi";
 import ControllerUi from "../components/music/controller/ControllerUi";
-import { MusicProvider } from "../contexts/MusicContext";
+import { LoginContext } from "../contexts/LoginContext";
+import { useContext } from "react";
 import { Outlet } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import SideBar from "../components/navigation/SideBar";
 
 const MainLayout = () => {
+  const { userInfo } = useContext(LoginContext);
+
+  const isPc = useMediaQuery({
+    query: "(min-width:1024px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:767px)",
+  });
+
   return (
-    <div className="flex h-dvh gap-4 p-4">
-      <div className="flex flex-col w-72 gap-4">
-        {" "}
-        <div className="h-full border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl"></div>
-        <div className="border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl">
-          <CalendarUi></CalendarUi>
+    <>
+      <div className="h-dvh flex flex-col">
+        <div className="fixed z-10 w-dvw backdrop-blur-3xl bg-white/90">
+          <NavigationUi></NavigationUi>
         </div>
-      </div>
-      <div className="flex flex-col flex-1 h-full gap-4">
-        <div className="flex gap-4 h-full">
-          <Outlet />
-          <div className="w-72 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-2xl md:hidden xl:block"></div>
-        </div>
-        <MusicProvider>
+        <div className="flex h-full w-full">
+          <div className="flex w-dvw">
+            <Outlet></Outlet>
+            <div className="w-96 pt-20">
+              <SideBar></SideBar>
+            </div>
+          </div>
           <ControllerUi></ControllerUi>
-        </MusicProvider>
+        </div>
       </div>
-      <div className="flex flex-col justify-between">
-        <NavigationUi></NavigationUi>
-        <div className="h-20 w-20 border border-slate-100 shadow-light z-auto backdrop-blur-md bg-white/75 rounded-full"></div>
-      </div>
-    </div>
+    </>
   );
 };
 

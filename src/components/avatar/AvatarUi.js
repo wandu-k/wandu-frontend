@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-
-class AvatarUi extends Component {
-  render() {
-    return <h1>Hello React World!!</h1>;
-  }
-}
+const AvatarUi = () => {
+  return (
+    <>
+      <div className="w-full h-96 bg-slate-300"></div>
+    </>
+  );
+};
 
 export default AvatarUi;
