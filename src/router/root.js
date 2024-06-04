@@ -21,6 +21,8 @@ import ShopSubPage from "../pages/ShopSubPage";
 import ChargePage from "../pages/ChargePage";
 import ProfileLayout from "../layouts/ProfileLayout";
 import ItemPage from "../pages/ItemPage";
+import InventoryPage from "../pages/my/InventoryPage";
+import MyPage from "../pages/my/MyPage";
 
 library.add(fas);
 
@@ -177,6 +179,34 @@ const root = createBrowserRouter([
         <ChargePage />
       </LoginProvider>
     ),
+  },
+  {
+    path: "my",
+    element: (
+      <LoginProvider>
+        <Suspense fallback={Loading}>
+          <MainLayout />
+        </Suspense>
+      </LoginProvider>
+    ),
+    children: [
+      {
+        path: "",
+        element: (
+          <Suspense fallback={Loading}>
+            <MyPage></MyPage>
+          </Suspense>
+        ),
+      },
+      {
+        path: "inventory",
+        element: (
+          <Suspense fallback={Loading}>
+            <InventoryPage></InventoryPage>
+          </Suspense>
+        ),
+      },
+    ],
   },
 ]);
 
