@@ -42,7 +42,7 @@ export const LoginProvider = ({ children }) => {
         const payload = accessToken.split(".")[1];
         const jwtData = JSON.parse(decode(payload));
         loginCheck();
-        navigate(`/${jwtData.userId}`);
+        navigate(`/${jwtData.userId}/minihome`);
       }
     } catch (error) {
       response = error.response;

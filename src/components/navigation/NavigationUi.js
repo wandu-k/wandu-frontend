@@ -127,7 +127,7 @@ const NavigationUi = () => {
         <div className="font-bold text-xl">{here}</div>
         <div className="flex gap-4 items-center">
           <Link
-            to={isLogin ? `${userInfo?.userId}/minihome` : "#"}
+            to={isLogin ? `/${userInfo?.userId}/minihome` : "#"}
             onClick={loginCheck}
           >
             <FontAwesomeIcon icon="fa-solid fa-house" />
@@ -147,7 +147,7 @@ const NavigationUi = () => {
             </Link>
           </div>
           <Link
-            to={isLogin ? `/${userId}` : "/login"}
+            to={isLogin ? `/my` : "/login"}
             className="flex items-center gap-2"
           >
             <div className="w-6 h-6 relative rounded-full overflow-hidden">

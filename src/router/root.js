@@ -23,6 +23,7 @@ import ProfileLayout from "../layouts/ProfileLayout";
 import ItemPage from "../pages/ItemPage";
 import InventoryPage from "../pages/my/InventoryPage";
 import MyPage from "../pages/my/MyPage";
+import MyLayout from "../layouts/MyLayout";
 
 library.add(fas);
 
@@ -31,7 +32,7 @@ const Main = lazy(() => import("../pages/MainPage"));
 
 const root = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: (
       <LoginProvider>
         <Suspense fallback={Loading}>
@@ -185,7 +186,7 @@ const root = createBrowserRouter([
     element: (
       <LoginProvider>
         <Suspense fallback={Loading}>
-          <MainLayout />
+          <MyLayout></MyLayout>
         </Suspense>
       </LoginProvider>
     ),

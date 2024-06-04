@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { ShopCategoryContext } from "../contexts/ShopCategoryContext";
 import { Link } from "react-router-dom";
 import ShopItemCard from "../components/shop/ShopItemCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ShopPage = () => {
   const { category } = useContext(ShopCategoryContext);
@@ -49,7 +50,7 @@ const ShopPage = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full gap-4 p-4">
+      <div className="flex flex-col w-full gap-4 p-4 relative">
         {category?.map((cat) => (
           <div
             key={cat.categoryName}
@@ -64,6 +65,14 @@ const ShopPage = () => {
             </div>
           </div>
         ))}
+        <div className="top-0 sticky">
+          <Link
+            to="add"
+            className="h-14 w-14 m-4 content-center text-center bottom-16 right-0 bg-blue-600 py-1 rounded-full text-white text-xl absolute"
+          >
+            <FontAwesomeIcon icon="fa-solid fa-pen" />
+          </Link>
+        </div>
       </div>
     </>
   );
