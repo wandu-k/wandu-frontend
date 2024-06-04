@@ -2,18 +2,16 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PostWritePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const today = new Date();
-
-  const cancelWrite = () => {
-    console.log("취소");
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +19,7 @@ const PostWritePage = () => {
     console.log(content);
 
     axios
-      .put(
+      .post(
         "http://localhost:7090/api/user/diary",
         {
           userId: userId,
@@ -32,12 +30,16 @@ const PostWritePage = () => {
           headers: { Authorization: localStorage.getItem("accessToken") },
         }
       )
-      .then((response) => {})
+      .then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          navigate(`/${userId}/diary`);
+        }
+      })
       .catch((error) => {});
   };
 
   return (
-    <div className="w-full h-full p-6">
+    <div className="w-full h-auto mt-20 mb-16 relative p-4">
       <form
         className="flex flex-col h-full justify-between gap-4"
         onSubmit={handleSubmit}
@@ -60,13 +62,9 @@ const PostWritePage = () => {
           onChange={(value) => setContent(value)}
         ></ReactQuill>
         <div className="flex gap-4 justify-end">
-          <button
-            type="button"
-            onClick={cancelWrite}
-            className="border rounded-md p-1 px-4"
-          >
+          <Link to={`/${userId}/diary`} className="border rounded-md p-1 px-4">
             취소
-          </button>
+          </Link>
           <button
             type="submit"
             className="border border-blue-600 rounded-md p-1 px-4 bg-blue-500 text-white"

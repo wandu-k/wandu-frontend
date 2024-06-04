@@ -1,7 +1,7 @@
 const AvatarUi = () => {
   return (
     <>
-      <div className="w-full h-96 bg-slate-300"></div>
+      <div className="w-full h-full">아바타</div>
     </>
   );
 };

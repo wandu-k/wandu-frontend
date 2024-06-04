@@ -14,7 +14,8 @@ const LoginForm = () => {
     const { username, password } = data;
 
     const code = await login(username, password);
-    setCode(code.code);
+    console.log(code);
+    setCode(code);
   };
   return (
     <>

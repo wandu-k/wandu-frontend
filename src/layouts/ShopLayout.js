@@ -1,10 +1,9 @@
 import { Outlet } from "react-router-dom";
-import SideBar from "../components/navigation/SideBar";
 
 const ShopLayout = () => {
   return (
     <>
-      <div className="h-dvh w-dvw pt-20 pb-16 flex justify-end">
+      <div className="flex justify-center w-full pb-16 pt-20 relative max-lg:flex-col">
         <Outlet></Outlet>
       </div>
     </>

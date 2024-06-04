@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const UserInfo = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -23,7 +24,6 @@ const UserInfo = ({ children }) => {
       } catch (error) {
         setError("An error occurred while fetching user data");
         console.log(error);
-      } finally {
       }
     };
 

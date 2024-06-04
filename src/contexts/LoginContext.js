@@ -13,9 +13,9 @@ export const LoginProvider = ({ children }) => {
 
   const loginSetting = useCallback(
     (userData, accessToken) => {
-      const { userId, nickname, profileImage, rol } = userData;
+      const { userId, nickname, profileImage, rol, point } = userData;
       console.log(userData);
-      setUserInfo({ userId, nickname, profileImage, rol });
+      setUserInfo({ userId, nickname, profileImage, rol, point });
       setLogin(true);
       console.log("로그인 성공");
     },
@@ -31,8 +31,9 @@ export const LoginProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password) => {
+    let response;
     try {
-      const response = await auth.login(username, password);
+      response = await auth.login(username, password);
       console.log(response.data);
       if (response.status === 200) {
         const accessToken = response.headers["authorization"];
@@ -40,15 +41,14 @@ export const LoginProvider = ({ children }) => {
         localStorage.setItem("accessToken", accessToken);
         const payload = accessToken.split(".")[1];
         const jwtData = JSON.parse(decode(payload));
-        loginSetting(jwtData, accessToken);
+        loginCheck();
         navigate(`/${jwtData.userId}`);
-      } else {
-        throw new Error("Login failed");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      response = error.response;
       logout();
     }
+    return response.status;
   };
 
   const logout = () => {
@@ -87,7 +87,7 @@ export const LoginProvider = ({ children }) => {
 
   useEffect(() => {
     loginCheck();
-  }, [loginCheck]);
+  }, []);
 
   return (
     <LoginContext.Provider

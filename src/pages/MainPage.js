@@ -7,7 +7,9 @@ const MainPage = () => {
     <>
       <MiniHomeApi>
         {" "}
-        <MyRoomUi></MyRoomUi>
+        <div className="w-full h-dvh pt-24 pb-20 px-4 rounded-2xl overflow-hidden">
+          <MyRoomUi></MyRoomUi>
+        </div>
       </MiniHomeApi>
     </>
   );

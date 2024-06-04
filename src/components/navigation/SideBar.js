@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "animate.css";
 import {
   format,
   addDays,
@@ -12,10 +13,13 @@ import {
 } from "date-fns"; // Importing date formatting function
 import axios from "axios"; // Importing axios for HTTP requests
 import UserInfoUi from "../userInfo/UserInfoUi";
+import { LoginContext } from "../../contexts/LoginContext";
+import AvatarUi from "../avatar/AvatarUi";
 
 const SideBar = () => {
   const location = useLocation();
   const { userId } = useParams();
+  const { userInfo } = useContext(LoginContext);
   const [startDay, setStartDay] = useState(subDays(new Date(), 2));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(getYear(new Date())); // Adding state for the current year
@@ -59,10 +63,23 @@ const SideBar = () => {
     );
   }
 
+  const dailyCheck = () => {
+    axios.post(
+      "http://localhost:7090/api/user/daily",
+      {
+        userId: userId,
+        date: new Date(),
+      },
+      {
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      }
+    );
+  };
+
   useEffect(() => {
-    if (location.pathname.includes(`/diary`)) {
-      handleDateChange(selectedDate);
-    }
+    // if (location.pathname.includes(`/diary`)) {
+    //   handleDateChange(selectedDate);
+    // }
   }, [location.pathname, selectedDate]);
 
   const handleDateChange = (date) => {
@@ -87,6 +104,7 @@ const SideBar = () => {
             content: diary.content.replace(/<[^>]+>/g, ""), // Removing HTML tags
           }))
         );
+        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -107,55 +125,49 @@ const SideBar = () => {
     );
   } else if (location.pathname.includes(`/diary`)) {
     content = (
-      <div className="flex flex-col">
-        <div className="flexl flex-col"></div>
-        <div className="flex flex-col">
-          <div className="font-bold">
-            {currentYear}년 {currentMonth}월
-          </div>
-          <div className="flex justify-between gap-2 font-bold h-16 items-center">
-            <button onClick={decrementRange}>
-              <FontAwesomeIcon icon="fa-solid fa-caret-left" />
-            </button>
-            {days}
-            <button onClick={incrementRange}>
-              <FontAwesomeIcon icon="fa-solid fa-caret-right" />
-            </button>
-          </div>
-        </div>
-        {/* Displaying the current year and month */}
-        <div>
-          <button className=" h-12 text-white font-bold w-full bg-lime-500 rounded-md">
-            출석체크
-          </button>
-        </div>
-        {diaryList ? (
-          <>
-            <div className="mt-4">
-              {diaryList.map((diary) => (
-                <NavLink
-                  to={`${diary.postId}`}
-                  key={diary.postId}
-                  className="block mb-4"
-                >
-                  <h3 className="font-bold text-xl">{diary.title}</h3>
-                  <p className="text-gray-400">{diary.content}</p>
-                </NavLink>
-              ))}
+      <>
+        <div className="flex flex-col border p-4 rounded-2xl">
+          {/* Displaying the current year and month */}
+          <div>
+            <div className="text-xl font-bold">
+              {currentYear}년 {currentMonth}월
             </div>
-          </>
-        ) : (
-          <>
-            <div className="font-bold text-2xl">아직 작성된 글이 없습니다.</div>
-          </>
-        )}
-      </div>
+            <div className="flex justify-between gap-2 font-bold h-16 items-center">
+              <button onClick={decrementRange}>
+                <FontAwesomeIcon icon="fa-solid fa-caret-left" />
+              </button>
+              {days}
+              <button onClick={incrementRange}>
+                <FontAwesomeIcon icon="fa-solid fa-caret-right" />
+              </button>
+            </div>
+          </div>
+          {userInfo?.userId == userId ? (
+            <>
+              {" "}
+              <button
+                className=" h-12 text-white font-bold w-full bg-lime-500 rounded-md"
+                onClick={dailyCheck}
+              >
+                출석체크
+              </button>
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="flex flex-col border p-4 rounded-2xl">
+          <AvatarUi></AvatarUi>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="border-l w-96 p-4">
-      <UserInfoUi></UserInfoUi>
+    <div className="flex flex-col gap-4 sticky top-20 p-4">
+      <div className="w-full sm:border p-4 sm:rounded-2xl">
+        <UserInfoUi></UserInfoUi>
+      </div>
       {content}
     </div>
   );

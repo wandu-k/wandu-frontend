@@ -8,7 +8,7 @@ const PostPage = () => {
   const [post, setPost] = useState(null); // 게시물 상태
   useEffect(() => {
     axios
-      .get(`http://localhost:7090/api/user/diary?postId=${postId}`, {
+      .get(`http://localhost:7090/api/user/diary/${postId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -26,8 +26,8 @@ const PostPage = () => {
   return (
     <>
       {" "}
-      <div>
-        <h1>{post.title}</h1> {/* 제목 표시 */}
+      <div className="w-full h-auto mt-20 mb-16 relative p-4">
+        <h1 className="text-3xl font-bold">{post.title}</h1> {/* 제목 표시 */}
         <ReactQuill
           readOnly={true}
           value={post.content}

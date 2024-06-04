@@ -14,6 +14,13 @@ import PostPage from "../pages/PostPage";
 import ShopLayout from "../layouts/ShopLayout";
 import ShopPage from "../pages/ShopPage";
 import ItemAddPage from "../pages/ItemAddPage";
+import PictureLayout from "../layouts/PictureLayout";
+import PicturePage from "../pages/PicturePage";
+import { ShopCategoryProvider } from "../contexts/ShopCategoryContext";
+import ShopSubPage from "../pages/ShopSubPage";
+import ChargePage from "../pages/ChargePage";
+import ProfileLayout from "../layouts/ProfileLayout";
+import ItemPage from "../pages/ItemPage";
 
 library.add(fas);
 
@@ -33,70 +40,105 @@ const root = createBrowserRouter([
     children: [
       {
         path: ":userId",
-      },
-      {
-        path: ":userId/minihome",
         element: (
           <Suspense fallback={Loading}>
-            <Main />
-          </Suspense>
-        ),
-      },
-      {
-        path: ":userId/picture",
-        element: <Suspense fallback={Loading}></Suspense>,
-      },
-      {
-        path: ":userId/diary",
-        element: (
-          <Suspense fallback={Loading}>
-            <DiaryLayout></DiaryLayout>
+            <ProfileLayout />
           </Suspense>
         ),
         children: [
           {
-            path: "",
-            element: <DiaryPage />,
-          },
-          {
-            path: "write",
+            path: "minihome",
             element: (
               <Suspense fallback={Loading}>
-                <PostWritePage></PostWritePage>
+                <Main />
               </Suspense>
             ),
           },
           {
-            path: ":postId",
+            path: "picture",
             element: (
               <Suspense fallback={Loading}>
-                <PostPage></PostPage>
+                <PictureLayout />
               </Suspense>
             ),
+            children: [
+              {
+                path: "",
+                element: (
+                  <Suspense fallback={Loading}>
+                    <PicturePage />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+          {
+            path: "diary",
+            element: (
+              <Suspense fallback={Loading}>
+                <DiaryLayout />
+              </Suspense>
+            ),
+            children: [
+              {
+                path: "",
+                element: (
+                  <Suspense fallback={Loading}>
+                    <DiaryPage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: "write",
+                element: (
+                  <Suspense fallback={Loading}>
+                    <PostWritePage />
+                  </Suspense>
+                ),
+              },
+              {
+                path: ":postId",
+                element: (
+                  <Suspense fallback={Loading}>
+                    <PostPage />
+                  </Suspense>
+                ),
+              },
+            ],
           },
         ],
       },
       {
         path: "shop",
         element: (
-          <Suspense fallback={Loading}>
-            <ShopLayout></ShopLayout>
-          </Suspense>
+          <ShopCategoryProvider>
+            <Suspense fallback={Loading}>
+              <ShopLayout />
+            </Suspense>
+          </ShopCategoryProvider>
         ),
         children: [
           {
             path: "",
             element: (
               <Suspense fallback={Loading}>
-                <ShopPage></ShopPage>
+                <ShopPage />
               </Suspense>
             ),
           },
           {
-            path: ":categoryId",
+            path: "item",
             element: (
               <Suspense fallback={Loading}>
-                <ShopPage></ShopPage>
+                <ShopSubPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "item/:itemId",
+            element: (
+              <Suspense fallback={Loading}>
+                <ItemPage />
               </Suspense>
             ),
           },
@@ -104,7 +146,7 @@ const root = createBrowserRouter([
             path: "add",
             element: (
               <Suspense fallback={Loading}>
-                <ItemAddPage></ItemAddPage>
+                <ItemAddPage />
               </Suspense>
             ),
           },
@@ -125,6 +167,14 @@ const root = createBrowserRouter([
     element: (
       <LoginProvider>
         <LogoutPage />
+      </LoginProvider>
+    ),
+  },
+  {
+    path: "charge",
+    element: (
+      <LoginProvider>
+        <ChargePage />
       </LoginProvider>
     ),
   },
