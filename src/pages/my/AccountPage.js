@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../contexts/LoginContext";
 
-const MyPage = () => {
+const AccountPage = () => {
   const navigate = useNavigate();
   const { userInfo, isLogin } = useContext(LoginContext);
   const [initialized, setInitialized] = useState(false);
@@ -44,4 +44,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default AccountPage;

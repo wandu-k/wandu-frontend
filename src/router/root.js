@@ -6,7 +6,6 @@ import { LoginProvider } from "../contexts/LoginContext";
 import MainLayout from "../layouts/MainLayout";
 import LoginPage from "../pages/LoginPage";
 import LogoutPage from "../pages/LogoutPage";
-import ProfilePage from "../pages/ProfilePage";
 import DiaryPage from "../pages/minihome/DiaryPage";
 import PostWritePage from "../pages/PostWritePage";
 import DiaryLayout from "../layouts/DiaryLayout";
@@ -22,8 +21,9 @@ import ChargePage from "../pages/ChargePage";
 import ProfileLayout from "../layouts/ProfileLayout";
 import ItemPage from "../pages/ItemPage";
 import InventoryPage from "../pages/my/InventoryPage";
-import MyPage from "../pages/my/MyPage";
 import MyLayout from "../layouts/MyLayout";
+import MyInfoPage from "../pages/my/MyInfoPage";
+import AccountPage from "../pages/my/AccountPage";
 
 library.add(fas);
 
@@ -195,7 +195,15 @@ const root = createBrowserRouter([
         path: "",
         element: (
           <Suspense fallback={Loading}>
-            <MyPage></MyPage>
+            <MyInfoPage></MyInfoPage>
+          </Suspense>
+        ),
+      },
+      {
+        path: "",
+        element: (
+          <Suspense fallback={Loading}>
+            <AccountPage></AccountPage>
           </Suspense>
         ),
       },

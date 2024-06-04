@@ -53,7 +53,7 @@ const NavigationUi = () => {
   const userContent = useMemo(() => {
     if (location.pathname.includes(`/${userId}`)) {
       return (
-        <div className="flex gap-12 text-2xl font-bold tracking-tighter">
+        <>
           {["minihome", "diary", "picture", "guest"].map((section) => (
             <NavLink
               key={section}
@@ -63,7 +63,7 @@ const NavigationUi = () => {
               }
             >
               {section === "minihome"
-                ? "미니홈"
+                ? "홈"
                 : section === "diary"
                 ? "다이어리"
                 : section === "picture"
@@ -71,20 +71,11 @@ const NavigationUi = () => {
                 : "방명록"}
             </NavLink>
           ))}
-          <NavLink
-            to={`/${userId}`}
-            end
-            className={({ isActive }) =>
-              isActive ? "text-lime-500" : "text-black"
-            }
-          >
-            프로필
-          </NavLink>
-        </div>
+        </>
       );
     } else if (location.pathname.includes("/shop")) {
       return (
-        <div className="flex gap-12 text-2xl font-bold tracking-tighter">
+        <>
           <NavLink
             to={`/shop`}
             className={({ isActive }) =>
@@ -108,22 +99,48 @@ const NavigationUi = () => {
               {cat.categoryName}
             </button>
           ))}
-        </div>
+        </>
+      );
+    } else if (location.pathname.includes("/my")) {
+      return (
+        <>
+          <NavLink
+            to={`/my`}
+            end
+            className={({ isActive }) =>
+              isActive ? "text-lime-500" : "text-black"
+            }
+          >
+            내 정보
+          </NavLink>
+          {["inventory", "account", "ticket"].map((section) => (
+            <NavLink
+              key={section}
+              to={`/my/${section}`}
+              className={({ isActive }) =>
+                isActive ? "text-lime-500" : "text-black"
+              }
+            >
+              {section === "inventory"
+                ? "인벤토리"
+                : section === "account"
+                ? "계정"
+                : "문의"}
+            </NavLink>
+          ))}
+        </>
       );
     }
     return null;
   }, [location.pathname, userId, category, searchParams]);
 
   return (
-    <nav className="w-full flex flex-col justify-end py-2 h-20 px-12">
-      <div className="h-full font-bold content-center">
-        <button onClick={handleBack} className="flex gap-2 items-center">
-          <FontAwesomeIcon icon="fa-solid fa-arrow-left" />
-          뒤로가기
-        </button>
-      </div>
-      <div className="flex justify-between max-sm:hidden">
-        {userContent}
+    <nav className="w-full flex flex-col justify-end py-2 h-20">
+      <div className="flex justify-between  font-bold container mx-auto tracking-tighter">
+        <div className="h-full content-center flex gap-4 text-xl">
+          <div className="content-center">완두콩 </div>
+          <div className="flex gap-2 sm:gap-4 md:gap-12">{userContent}</div>
+        </div>
         <div className="font-bold text-xl">{here}</div>
         <div className="flex gap-4 items-center">
           <Link

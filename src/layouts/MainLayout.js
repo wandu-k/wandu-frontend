@@ -14,8 +14,6 @@ const MainLayout = () => {
       <div className="flex container mx-auto relative">
         <Outlet></Outlet>
       </div>
-
-      <ControllerUi></ControllerUi>
     </>
   );
 };
