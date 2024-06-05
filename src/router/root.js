@@ -200,7 +200,7 @@ const root = createBrowserRouter([
         ),
       },
       {
-        path: "",
+        path: "account",
         element: (
           <Suspense fallback={Loading}>
             <AccountPage></AccountPage>

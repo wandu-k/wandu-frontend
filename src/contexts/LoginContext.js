@@ -13,9 +13,9 @@ export const LoginProvider = ({ children }) => {
 
   const loginSetting = useCallback(
     (userData, accessToken) => {
-      const { userId, nickname, profileImage, rol, point } = userData;
+      const { userId, nickname, profileImage, rol, point, intro } = userData;
       console.log(userData);
-      setUserInfo({ userId, nickname, profileImage, rol, point });
+      setUserInfo({ userId, nickname, profileImage, rol, point, intro });
       setLogin(true);
       console.log("로그인 성공");
     },

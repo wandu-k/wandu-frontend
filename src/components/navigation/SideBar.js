@@ -16,10 +16,9 @@ import UserInfoUi from "../userInfo/UserInfoUi";
 import { LoginContext } from "../../contexts/LoginContext";
 import AvatarUi from "../avatar/AvatarUi";
 
-const SideBar = () => {
+const SideBar = ({ userInfo }) => {
   const location = useLocation();
   const { userId } = useParams();
-  const { userInfo } = useContext(LoginContext);
   const [startDay, setStartDay] = useState(subDays(new Date(), 2));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(getYear(new Date())); // Adding state for the current year
@@ -156,7 +155,7 @@ const SideBar = () => {
             ""
           )}
         </div>
-        <div className="flex flex-col border p-4 rounded-2xl">
+        <div className="flex flex-col border p-4 rounded-2xl min-h-72 h-full">
           <AvatarUi></AvatarUi>
         </div>
       </>
@@ -164,9 +163,9 @@ const SideBar = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 sticky top-20 p-4">
+    <div className="flex flex-col gap-4 h-full p-4 overflow-y-auto">
       <div className="w-full sm:border p-4 sm:rounded-2xl">
-        <UserInfoUi></UserInfoUi>
+        <UserInfoUi userInfo={userInfo} />
       </div>
       {content}
     </div>
