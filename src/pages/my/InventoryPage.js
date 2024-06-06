@@ -10,7 +10,7 @@ const InventoryPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:7090/api/user/${userInfo.userId}/inventory`, {
+      .get(`http://localhost:7090/api/user/${userInfo?.userId}/inventory`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

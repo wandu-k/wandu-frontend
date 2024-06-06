@@ -9,6 +9,19 @@ const MyInfoPage = () => {
   const [enableEditP, setEnableEditP] = useState();
   const { register, handleSubmit, error } = useForm();
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:7090/api/my/statistics", {
+        headers: {
+          Authorization: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {});
+  }, []);
+
   const handleEditProfile = (data) => {
     console.log("test");
     if (enableEditP != true) {

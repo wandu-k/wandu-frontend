@@ -8,7 +8,10 @@ export const ShopCategoryProvider = ({ children }) => {
   const location = useLocation();
   const [category, setCategory] = useState(null); // Correctly initialize useState
   useEffect(() => {
-    if (location.pathname.includes("/shop")) {
+    if (
+      location.pathname.includes("/shop") ||
+      location.pathname.includes("/inventory")
+    ) {
       axios
         .get("http://localhost:7090/api/public/shop/category")
         .then((response) => {

@@ -11,17 +11,19 @@ import {
 import { LoginContext } from "../../contexts/LoginContext";
 import profile from "../../images/basic/profile.png";
 import LoginModal from "../modal/LoginModal";
-import { ShopCategoryContext } from "../../contexts/ShopCategoryContext";
+
+import ItemCategoryMenu from "./ItemCategoryMenu";
 
 const NavigationUi = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { userInfo, isLogin } = useContext(LoginContext);
-  const { category } = useContext(ShopCategoryContext);
-  const { userId } = useParams();
+  const { userId: paramUserId } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [here, setHere] = useState("");
+
+  const userId = paramUserId || userInfo?.userId;
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
@@ -35,23 +37,16 @@ const NavigationUi = () => {
 
   const handleBack = () => navigate(-1);
 
-  const handleCategoryClick = (cat) => {
-    const currentPath = location.pathname;
-    if (currentPath === "/shop" || !currentPath.startsWith("/shop/item")) {
-      navigate(`/shop/item?categoryName=${cat.categoryName}`);
-    } else if (currentPath.startsWith("/shop/item")) {
-      const newSearchParams = new URLSearchParams(searchParams.toString());
-      newSearchParams.set("categoryName", cat.categoryName);
-      navigate(`/shop/item?${newSearchParams.toString()}`);
-    }
-  };
-
   const onErrorProfileImg = (e) => {
     e.target.src = profile;
   };
 
   const userContent = useMemo(() => {
-    if (location.pathname.includes(`/${userId}`)) {
+    if (
+      location.pathname.includes(`/${userId}`) ||
+      (location.pathname.includes("/my") &&
+        !location.pathname.includes("inventory"))
+    ) {
       return (
         <>
           {["minihome", "diary", "picture", "guest"].map((section) => (
@@ -73,66 +68,46 @@ const NavigationUi = () => {
           ))}
         </>
       );
-    } else if (location.pathname.includes("/shop")) {
+    } else if (
+      location.pathname.includes("/shop") ||
+      location.pathname.includes("/my/inventory")
+    ) {
       return (
         <>
-          <NavLink
-            to={`/shop`}
-            className={({ isActive }) =>
-              isActive ? "text-lime-500" : "text-black"
-            }
-            end
-          >
-            홈
-          </NavLink>
-          {category?.map((cat) => (
-            <button
-              key={cat.categoryName}
-              type="button"
-              onClick={() => handleCategoryClick(cat)}
-              className={
-                searchParams.get("categoryName") === cat.categoryName
-                  ? "text-lime-500"
-                  : "text-black"
-              }
-            >
-              {cat.categoryName}
-            </button>
-          ))}
+          <ItemCategoryMenu></ItemCategoryMenu>
         </>
       );
-    } else if (location.pathname.includes("/my")) {
-      return (
-        <>
-          <NavLink
-            to={`/my`}
-            end
-            className={({ isActive }) =>
-              isActive ? "text-lime-500" : "text-black"
-            }
-          >
-            내 정보
-          </NavLink>
-          {["inventory", "account", "ticket"].map((section) => (
-            <NavLink
-              key={section}
-              to={`/my/${section}`}
-              className={({ isActive }) =>
-                isActive ? "text-lime-500" : "text-black"
-              }
-            >
-              {section === "inventory"
-                ? "인벤토리"
-                : section === "account"
-                ? "계정"
-                : "문의"}
-            </NavLink>
-          ))}
-        </>
-      );
+      // } else if (
+      //   location.pathname.includes("/my") &&
+      //   !location.pathname.includes("inventory")
+      // ) {
+      //   return (
+      //     <>
+      //       {/* <NavLink
+      //         to={`/my`}
+      //         end
+      //         className={({ isActive }) =>
+      //           isActive ? "text-lime-500" : "text-black"
+      //         }
+      //       >
+      //         내 정보
+      //       </NavLink>
+      //       {["account", "ticket"].map((section) => (
+      //         <NavLink
+      //           key={section}
+      //           to={`/my/${section}`}
+      //           className={({ isActive }) =>
+      //             isActive ? "text-lime-500" : "text-black"
+      //           }
+      //         >
+      //           {section === "account" ? "계정" : "문의"}
+      //         </NavLink>
+      //       ))} */}
+      //     </>
+      //   );
     }
     return null;
-  }, [location.pathname, userId, category, searchParams]);
+  }, [location.pathname, userId, searchParams]);
 
   return (
     <nav className="w-full flex flex-col justify-end py-2 h-20">

@@ -5,6 +5,7 @@ import { ShopCategoryProvider } from "../contexts/ShopCategoryContext";
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import axios from "axios";
+import MySideBar from "../components/navigation/MySideBar";
 
 const MyLayout = () => {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const MyLayout = () => {
       <div className="flex container mx-auto relative">
         <Outlet context={userInfo}></Outlet>
         <div className=" min-w-96 h-auto mt-20 mb-16">
-          <SideBar userInfo={userInfo}></SideBar>
+          <MySideBar userInfo={userInfo} />
         </div>
       </div>
     </>
