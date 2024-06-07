@@ -39,12 +39,7 @@ const ControllerUi = () => {
       setMute(false);
     }
   }, [volume]);
-  // Check if inside an iframe
-  const isIframe = window.self !== window.top;
 
-  if (isIframe) {
-    return null;
-  }
   return (
     <div className="fixed z-50 bottom-0 w-dvw">
       <div className="absolute hidden">

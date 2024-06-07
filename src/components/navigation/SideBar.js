@@ -156,7 +156,7 @@ const SideBar = ({ userInfo }) => {
           )}
         </div>
         <div className="flex flex-col border p-4 rounded-2xl min-h-72 h-full">
-          <AvatarUi></AvatarUi>
+          <AvatarUi userId={userId}></AvatarUi>
         </div>
       </>
     );

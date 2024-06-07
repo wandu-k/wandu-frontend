@@ -75,15 +75,20 @@ const ItemAddPage = () => {
       .then((response) => {
         setSubcategories(response.data);
         if (response.data.length > 0) {
-          setSelectedCategory(response.data[0].subcategoryName);
-          setSelectedCategoryId(response.data[0].subcategoryId);
-          setValue("subcategoryId", selectedCategoryId);
+          const firstSubcategory = response.data[0];
+          setSelectedCategory(firstSubcategory.subcategoryName);
+          setSelectedCategoryId(firstSubcategory.subcategoryId);
         }
       })
       .catch((error) => {
         console.error("Failed to fetch subcategories:", error);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(selectedCategoryId, selectedCategory);
+    setValue("subcategoryId", selectedCategoryId);
+  }, [selectedCategoryId, selectedCategory]);
 
   const renderCategories = () => {
     const categories = {};

@@ -1,6 +1,21 @@
+import { useEffect, useState } from "react";
 import avatarBody from "../../images/avatar/body.png";
+import axios from "axios";
 
-const AvatarUi = () => {
+const AvatarUi = ({ userId }) => {
+  const [avatar, setAvatar] = useState();
+  useEffect(() => {
+    axios
+      .get(`http://localhost:7090/api/user/avatar/${userId}`, {
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setAvatar(response.data);
+      })
+      .catch((error) => {});
+  }, []);
+
   return (
     <>
       <div className="w-full h-full">
@@ -9,6 +24,10 @@ const AvatarUi = () => {
             <img
               src={avatarBody}
               className=" absolute inset-0 w-full h-full object-contain"
+            />
+            <img
+              src={avatar?.head}
+              className=" absolute inset-0 w-full h-full object-contain z-50"
             />
           </div>
         </div>

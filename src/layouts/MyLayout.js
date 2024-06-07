@@ -29,20 +29,6 @@ const MyLayout = () => {
     setInitialized(true);
   }, [isLogin]); // isLogin이 변경될 때마다 실행
 
-  useEffect(() => {
-    if (isLogin) {
-      axios
-        .get(`http://localhost:7090/api/user/${userInfo.userId}/inventory`, {
-          headers: { Authorization: localStorage.getItem("accessToken") },
-        })
-        .then((response) => {
-          console.log(response.data);
-          setItems(response.data.dtoList);
-        })
-        .catch((error) => {});
-    }
-  }, [isLogin]);
-
   return (
     <>
       <div className="fixed z-10 w-dvw bg-white/80 backdrop-blur-3xl">

@@ -1,4 +1,11 @@
-import React, { useState, useContext, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Link,
@@ -11,7 +18,6 @@ import {
 import { LoginContext } from "../../contexts/LoginContext";
 import profile from "../../images/basic/profile.png";
 import LoginModal from "../modal/LoginModal";
-
 import ItemCategoryMenu from "./ItemCategoryMenu";
 
 const NavigationUi = () => {
@@ -22,24 +28,63 @@ const NavigationUi = () => {
   const { userId: paramUserId } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [here, setHere] = useState("");
+  const [profileDropMenu, setProfileDropMenu] = useState(false);
+  const dropMenu = useRef(null);
+  const dropMenuButton = useRef(null);
+
+  useEffect(() => {
+    // 특정 영역 외 클릭 시 발생하는 이벤트
+    const handleFocus = (e) => {
+      if (
+        dropMenu.current &&
+        !dropMenu.current.contains(e.target) &&
+        dropMenuButton.current &&
+        !dropMenuButton.current.contains(e.target)
+      ) {
+        setProfileDropMenu(false);
+      }
+    };
+
+    // 이벤트 리스너에 handleFocus 함수 등록
+    document.addEventListener("mouseup", handleFocus);
+    return () => {
+      document.removeEventListener("mouseup", handleFocus);
+    };
+  }, []);
+
+  useEffect(() => {
+    setProfileDropMenu(false);
+  }, [location.pathname]);
 
   const userId = paramUserId || userInfo?.userId;
 
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+  const openModal = useCallback(() => setModalIsOpen(true), []);
+  const closeModal = useCallback(() => setModalIsOpen(false), []);
 
-  const loginCheck = (event) => {
+  const loginCheck = useCallback(
+    (event) => {
+      if (!isLogin) {
+        event.preventDefault(); // Prevent default navigation
+        openModal();
+      }
+    },
+    [isLogin, openModal]
+  );
+
+  const handleDropMenu = useCallback(() => {
     if (!isLogin) {
-      event.preventDefault(); // Prevent default navigation
-      openModal();
+      navigate(`/login`);
+      return;
     }
-  };
 
-  const handleBack = () => navigate(-1);
+    setProfileDropMenu((prev) => !prev);
+  }, [isLogin, navigate]);
 
-  const onErrorProfileImg = (e) => {
+  const handleBack = useCallback(() => navigate(-1), [navigate]);
+
+  const onErrorProfileImg = useCallback((e) => {
     e.target.src = profile;
-  };
+  }, []);
 
   const userContent = useMemo(() => {
     if (
@@ -72,48 +117,28 @@ const NavigationUi = () => {
       location.pathname.includes("/shop") ||
       location.pathname.includes("/my/inventory")
     ) {
-      return (
-        <>
-          <ItemCategoryMenu></ItemCategoryMenu>
-        </>
-      );
-      // } else if (
-      //   location.pathname.includes("/my") &&
-      //   !location.pathname.includes("inventory")
-      // ) {
-      //   return (
-      //     <>
-      //       {/* <NavLink
-      //         to={`/my`}
-      //         end
-      //         className={({ isActive }) =>
-      //           isActive ? "text-lime-500" : "text-black"
-      //         }
-      //       >
-      //         내 정보
-      //       </NavLink>
-      //       {["account", "ticket"].map((section) => (
-      //         <NavLink
-      //           key={section}
-      //           to={`/my/${section}`}
-      //           className={({ isActive }) =>
-      //             isActive ? "text-lime-500" : "text-black"
-      //           }
-      //         >
-      //           {section === "account" ? "계정" : "문의"}
-      //         </NavLink>
-      //       ))} */}
-      //     </>
-      //   );
+      return <ItemCategoryMenu />;
     }
     return null;
   }, [location.pathname, userId, searchParams]);
 
   return (
-    <nav className="w-full flex flex-col justify-end py-2 h-20">
-      <div className="flex justify-between  font-bold container mx-auto tracking-tighter">
+    <nav className="w-full flex flex-col justify-end py-2 h-20 relative">
+      {profileDropMenu && (
+        <div
+          ref={dropMenu}
+          className="top-20 w-72 font-bold right-0 absolute flex flex-col border rounded-2xl bg-white p-4 gap-4"
+        >
+          <>
+            <Link to={"/my"}>내 정보</Link>
+            <Link to={"/my/inventory"}>인벤토리</Link>
+            <Link to={"/logout"}>로그아웃</Link>
+          </>
+        </div>
+      )}
+      <div className="flex justify-between font-bold container mx-auto tracking-tighter">
         <div className="h-full content-center flex gap-4 text-xl">
-          <div className="content-center">완두콩 </div>
+          <div className="content-center">완두콩</div>
           <div className="flex gap-2 sm:gap-4 md:gap-12">{userContent}</div>
         </div>
         <div className="font-bold text-xl">{here}</div>
@@ -138,8 +163,10 @@ const NavigationUi = () => {
               {userInfo?.point}
             </Link>
           </div>
-          <Link
-            to={isLogin ? `/my` : "/login"}
+          <button
+            ref={dropMenuButton}
+            type="button"
+            onClick={handleDropMenu}
             className="flex items-center gap-2"
           >
             <div className="w-6 h-6 relative rounded-full overflow-hidden">
@@ -150,7 +177,7 @@ const NavigationUi = () => {
               />
             </div>
             {userInfo ? userInfo.nickname : "로그인"}
-          </Link>
+          </button>
         </div>
       </div>
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />

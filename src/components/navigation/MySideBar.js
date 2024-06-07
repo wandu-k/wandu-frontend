@@ -13,7 +13,9 @@ const MySideBar = ({ userInfo }) => {
       <div className="w-full sm:border p-4 sm:rounded-2xl">
         <UserInfoUi userInfo={userInfo} />
       </div>
+      <Link to={"/my"}>내정보</Link>
       <Link to={"/my/inventory"}>인벤토리</Link>
+      <Link to={"/my/account"}>계정설정</Link>
     </div>
   );
 };

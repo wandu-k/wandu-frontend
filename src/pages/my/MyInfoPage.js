@@ -1,13 +1,16 @@
 import { Link, useOutletContext } from "react-router-dom";
 import AvatarUi from "../../components/avatar/AvatarUi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const MyInfoPage = () => {
   const userInfo = useOutletContext();
+  const { loginCheck } = useContext(LoginContext);
   const [enableEditP, setEnableEditP] = useState();
   const { register, handleSubmit, error } = useForm();
+  const [statistics, setStatistics] = useState();
 
   useEffect(() => {
     axios
@@ -18,12 +21,12 @@ const MyInfoPage = () => {
       })
       .then((response) => {
         console.log(response.data);
+        setStatistics(response.data);
       })
       .catch((error) => {});
   }, []);
 
   const handleEditProfile = (data) => {
-    console.log("test");
     if (enableEditP != true) {
       setEnableEditP(true);
     } else {
@@ -45,6 +48,7 @@ const MyInfoPage = () => {
         .then((response) => {
           console.log(response.data);
           setEnableEditP(false);
+          loginCheck();
         })
         .catch((error) => {});
     }
@@ -58,11 +62,13 @@ const MyInfoPage = () => {
             <div className=" text-xl border-l pl-4">판매 정보</div>
             <div className="grid  md:grid-cols-3 gap-4 md:divide-x max-md:divide-y">
               <div className=" flex flex-col justify-center items-center gap-4 min-h-32   p-6">
-                <div className=" text-6xl">0</div>
+                <div className=" text-6xl">
+                  {statistics?.uploadCount || "0"}
+                </div>
                 <div>업로드</div>
               </div>
               <div className=" flex flex-col justify-center items-center gap-4 min-h-32  p-6">
-                <div className="text-6xl">0</div>
+                <div className="text-6xl">{statistics?.sellCount || "0"}</div>
                 <div>판매 수</div>
               </div>
               <div className=" flex flex-col justify-center items-center gap-4 min-h-32 p-6">
@@ -74,8 +80,11 @@ const MyInfoPage = () => {
           <div className="max-lg:w-full w-1/4 h-full font-bold flex flex-col gap-2">
             <div className=" text-xl border-l pl-4">구매 정보</div>
             <div className="grid grid-cols-1 h-full gap-4">
-              <Link className="flex flex-col justify-center items-center gap-4 w-full min-h-32 p-6">
-                <div className=" text-6xl">0</div>
+              <Link
+                to={"/my/inventory"}
+                className="flex flex-col justify-center items-center gap-4 w-full min-h-32 p-6"
+              >
+                <div className=" text-6xl">{statistics?.buyCount || "0"}</div>
                 <div>구매</div>
               </Link>
             </div>
@@ -114,7 +123,7 @@ const MyInfoPage = () => {
                 {enableEditP && (
                   <button
                     className="w-20 h-11 rounded-2xl font-bold text-black border"
-                    onClick={handleEditProfile}
+                    onClick={handleSubmit(handleEditProfile)}
                   >
                     취소
                   </button>
