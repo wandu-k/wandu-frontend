@@ -6,7 +6,7 @@ import { ShopCategoryProvider } from "../contexts/ShopCategoryContext";
 const MainLayout = () => {
   return (
     <>
-      <div className="fixed top-0 z-10 w-dvw bg-white/80 backdrop-blur-3xl">
+      <div className="fixed top-0 z-30 w-dvw bg-white/80 backdrop-blur-3xl">
         <ShopCategoryProvider>
           <NavigationUi></NavigationUi>
         </ShopCategoryProvider>
@@ -14,6 +14,7 @@ const MainLayout = () => {
       <div className="flex container mx-auto relative">
         <Outlet></Outlet>
       </div>
+      <ControllerUi></ControllerUi>
     </>
   );
 };

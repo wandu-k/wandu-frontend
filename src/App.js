@@ -8,7 +8,6 @@ function App() {
   return (
     <>
       <RouterProvider router={root} />
-      <ControllerUi></ControllerUi>
     </>
   );
 }

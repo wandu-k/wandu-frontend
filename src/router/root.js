@@ -43,69 +43,37 @@ const root = createBrowserRouter([
     children: [
       {
         path: ":userId",
-        element: (
-          <Suspense fallback={Loading}>
-            <ProfileLayout />
-          </Suspense>
-        ),
+        element: <ProfileLayout />,
         children: [
           {
             path: "minihome",
-            element: (
-              <Suspense fallback={Loading}>
-                <Main />
-              </Suspense>
-            ),
+            element: <Main />,
           },
           {
             path: "picture",
-            element: (
-              <Suspense fallback={Loading}>
-                <PictureLayout />
-              </Suspense>
-            ),
+            element: <PictureLayout />,
             children: [
               {
                 path: "",
-                element: (
-                  <Suspense fallback={Loading}>
-                    <PicturePage />
-                  </Suspense>
-                ),
+                element: <PicturePage />,
               },
             ],
           },
           {
             path: "diary",
-            element: (
-              <Suspense fallback={Loading}>
-                <DiaryLayout />
-              </Suspense>
-            ),
+            element: <DiaryLayout />,
             children: [
               {
                 path: "",
-                element: (
-                  <Suspense fallback={Loading}>
-                    <DiaryPage />
-                  </Suspense>
-                ),
+                element: <DiaryPage />,
               },
               {
                 path: "write",
-                element: (
-                  <Suspense fallback={Loading}>
-                    <PostWritePage />
-                  </Suspense>
-                ),
+                element: <PostWritePage />,
               },
               {
                 path: ":postId",
-                element: (
-                  <Suspense fallback={Loading}>
-                    <PostPage />
-                  </Suspense>
-                ),
+                element: <PostPage />,
               },
             ],
           },
@@ -115,43 +83,47 @@ const root = createBrowserRouter([
         path: "shop",
         element: (
           <ShopCategoryProvider>
-            <Suspense fallback={Loading}>
-              <ShopLayout />
-            </Suspense>
+            <ShopLayout />
           </ShopCategoryProvider>
         ),
         children: [
           {
             path: "",
-            element: (
-              <Suspense fallback={Loading}>
-                <ShopPage />
-              </Suspense>
-            ),
+            element: <ShopPage />,
           },
           {
             path: "item",
-            element: (
-              <Suspense fallback={Loading}>
-                <ShopSubPage />
-              </Suspense>
-            ),
+            element: <ShopSubPage />,
           },
           {
             path: "item/:itemId",
-            element: (
-              <Suspense fallback={Loading}>
-                <ItemPage />
-              </Suspense>
-            ),
+            element: <ItemPage />,
           },
           {
             path: "add",
-            element: (
-              <Suspense fallback={Loading}>
-                <ItemAddPage />
-              </Suspense>
-            ),
+            element: <ItemAddPage />,
+          },
+        ],
+      },
+      {
+        path: "my",
+        element: (
+          <LoginProvider>
+            <MyLayout></MyLayout>
+          </LoginProvider>
+        ),
+        children: [
+          {
+            path: "",
+            element: <MyInfoPage></MyInfoPage>,
+          },
+          {
+            path: "account",
+            element: <AccountPage></AccountPage>,
+          },
+          {
+            path: "inventory",
+            element: <InventoryPage></InventoryPage>,
           },
         ],
       },
@@ -180,42 +152,6 @@ const root = createBrowserRouter([
         <ChargePage />
       </LoginProvider>
     ),
-  },
-  {
-    path: "my",
-    element: (
-      <LoginProvider>
-        <Suspense fallback={Loading}>
-          <MyLayout></MyLayout>
-        </Suspense>
-      </LoginProvider>
-    ),
-    children: [
-      {
-        path: "",
-        element: (
-          <Suspense fallback={Loading}>
-            <MyInfoPage></MyInfoPage>
-          </Suspense>
-        ),
-      },
-      {
-        path: "account",
-        element: (
-          <Suspense fallback={Loading}>
-            <AccountPage></AccountPage>
-          </Suspense>
-        ),
-      },
-      {
-        path: "inventory",
-        element: (
-          <Suspense fallback={Loading}>
-            <InventoryPage></InventoryPage>
-          </Suspense>
-        ),
-      },
-    ],
   },
 ]);
 

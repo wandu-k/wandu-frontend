@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import axios from "axios";
 import MySideBar from "../components/navigation/MySideBar";
+import ControllerUi from "../components/music/controller/ControllerUi";
 
 const MyLayout = () => {
   const navigate = useNavigate();
@@ -31,14 +32,9 @@ const MyLayout = () => {
 
   return (
     <>
-      <div className="fixed z-10 w-dvw bg-white/80 backdrop-blur-3xl">
-        <ShopCategoryProvider>
-          <NavigationUi></NavigationUi>
-        </ShopCategoryProvider>
-      </div>
       <div className="flex container mx-auto relative">
         <Outlet context={userInfo}></Outlet>
-        <div className=" min-w-96 h-auto mt-20 mb-16">
+        <div className=" min-w-96 h-dvh pt-20 pb-16 sticky top-0">
           <MySideBar userInfo={userInfo} />
         </div>
       </div>

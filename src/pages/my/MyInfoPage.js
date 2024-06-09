@@ -1,5 +1,4 @@
 import { Link, useOutletContext } from "react-router-dom";
-import AvatarUi from "../../components/avatar/AvatarUi";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -8,9 +7,36 @@ import { LoginContext } from "../../contexts/LoginContext";
 const MyInfoPage = () => {
   const userInfo = useOutletContext();
   const { loginCheck } = useContext(LoginContext);
-  const [enableEditP, setEnableEditP] = useState();
-  const { register, handleSubmit, error } = useForm();
+  const [enableEditP, setEnableEditP] = useState(false);
+  const [enableEditM, setEnableEditM] = useState(false);
+  const { register, handleSubmit, error, reset } = useForm();
+  const [nickname, setNickname] = useState();
+  const [intro, setIntro] = useState();
   const [statistics, setStatistics] = useState();
+  const [playlistList, setPlaylistList] = useState([]);
+  const [selectedPlaylist, setSelectedPlaylist] = useState();
+  const [miniHome, setMiniHome] = useState(null);
+  const [introduction, setIntroduction] = useState();
+  const [statusM, setStatusM] = useState();
+
+  useEffect(() => {
+    if (userInfo) {
+      axios
+        .get(
+          `http://localhost:7090/api/user/minihome?userId=${userInfo.userId}`,
+          {
+            headers: { Authorization: localStorage.getItem("accessToken") },
+          }
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setMiniHome(response.data);
+          }
+        })
+        .catch((error) => {});
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     axios
@@ -26,37 +52,160 @@ const MyInfoPage = () => {
       .catch((error) => {});
   }, []);
 
-  const handleEditProfile = (data) => {
-    if (enableEditP != true) {
-      setEnableEditP(true);
-    } else {
-      const formData = new FormData();
+  useEffect(() => {
+    setNickname(userInfo?.nickname);
+    setIntro(userInfo?.intro);
+  }, [userInfo]);
 
-      const jsonData = JSON.stringify(data);
+  useEffect(() => {
+    setIntroduction(miniHome?.introduction);
+    setStatusM(miniHome?.statusM);
+  }, [miniHome]);
 
-      const blob = new Blob([jsonData], { type: "application/json" });
-      formData.append("profileImage", null);
-      formData.append("userDto", blob);
-      console.log(userInfo?.userId);
-      axios
-        .put(`http://localhost:7090/api/user/${userInfo?.userId}`, formData, {
+  const handleEditMiniHome = () => {
+    axios
+      .patch(
+        `http://localhost:7090/api/user/minihome`,
+        {
+          introduction: introduction,
+          statusM: statusM,
+        },
+        {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
-            "Content-Type": "multipart/form-data",
           },
-        })
-        .then((response) => {
-          console.log(response.data);
-          setEnableEditP(false);
-          loginCheck();
-        })
-        .catch((error) => {});
-    }
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {});
+    setEnableEditM(false);
+  };
+
+  const handleEditProfile = () => {
+    const formData = new FormData();
+    const data = { nickname, intro };
+    const jsonData = JSON.stringify(data);
+
+    const blob = new Blob([jsonData], { type: "application/json" });
+    formData.append("profileImage", null);
+    formData.append("userDto", blob);
+    console.log(userInfo?.userId);
+    axios
+      .put(`http://localhost:7090/api/user`, formData, {
+        headers: {
+          Authorization: localStorage.getItem("accessToken"),
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        loginCheck();
+      })
+      .catch((error) => {});
+    setEnableEditP(false);
+  };
+
+  useEffect(() => {
+    loadPlayList();
+  }, []);
+
+  const loadPlayList = () => {
+    axios
+      .get("http://localhost:7090/api/user/my/playlist", {
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      })
+      .then((response) => setPlaylistList(response.data))
+      .catch((error) => console.error(error));
+  };
+
+  const handleSelectPlaylist = (playlist) => {
+    console.log(playlist);
+    setSelectedPlaylist(playlist);
+    console.log(selectedPlaylist);
+  };
+
+  useEffect(() => {
+    reset();
+  }, [selectedPlaylist]);
+
+  const addNewPlayList = (data) => {
+    console.log(data);
+
+    const { plName } = data;
+
+    axios
+      .post(
+        "http://localhost:7090/api/user/my/playlist",
+        {
+          plName: plName,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        }
+      )
+      .then((response) => {
+        loadPlayList();
+      })
+      .catch((error) => {});
+  };
+
+  const handlePlaylistDelete = (playlistId) => {
+    axios
+      .delete(`http://localhost:7090/api/user/my/playlist/${playlistId}`, {
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+        loadPlayList();
+        setSelectedPlaylist(null);
+      })
+      .catch((error) => {});
+  };
+
+  const editPlayList = (data) => {
+    console.log(data);
+    const { plName } = data;
+    axios
+      .put(
+        `http://localhost:7090/api/user/my/playlist/${selectedPlaylist.playlistId}`,
+        {
+          plName: plName,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        }
+      )
+      .then((response) => {
+        loadPlayList();
+        setSelectedPlaylist(null);
+      })
+      .catch((error) => {});
+  };
+
+  const handleSetPlaylist = () => {
+    axios
+      .patch(
+        `http://localhost:7090/api/user/minihome/playlist`,
+
+        selectedPlaylist.playlistId,
+
+        {
+          headers: {
+            Authorization: localStorage.getItem("accessToken"),
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        setSelectedPlaylist(null);
+      })
+      .catch((error) => {});
   };
 
   return (
     <>
-      <div className="w-full mt-20 p-4 flex flex-col gap-12 tracking-tight">
+      <div className="w-full mt-20 mb-16 p-4 flex flex-col gap-12 tracking-tight">
         <div className="flex w-full gap-4 max-lg:flex-col">
           <div className="max-lg:w-full w-3/4 h-full font-bold flex flex-col gap-2">
             <div className=" text-xl border-l pl-4">판매 정보</div>
@@ -93,7 +242,13 @@ const MyInfoPage = () => {
         <div className="flex flex-col gap-4">
           <div className=" text-xl border-l pl-4 font-bold">프로필 설정</div>
           <div className="flex gap-4">
-            <div className="flex flex-col w-full gap-4">
+            <form
+              className="flex flex-col w-full gap-4"
+              onSubmit={(e) => {
+                e.preventDefault(); // 폼 제출 방지
+                handleEditProfile(); // 폼 처리 함수 호출
+              }}
+            >
               <div className="w-full flex justify-between h-11 items-center">
                 <label className="w-1/3 font-bold">닉네임</label>
                 <div className="flex w-2/3 h-full gap-4">
@@ -102,46 +257,228 @@ const MyInfoPage = () => {
                     className="border rounded-2xl w-full px-4 h-full"
                     disabled={!enableEditP}
                     defaultValue={userInfo?.nickname}
-                    {...register("nickname", { required: true })}
+                    onChange={(e) => setNickname(e.target.value)}
                   />
                 </div>
               </div>
               <div className="w-full flex justify-between h-full">
                 <label className="w-1/3 font-bold">자기소개</label>
                 <div className="flex w-2/3 h-full gap-4">
-                  {" "}
                   <textarea
                     type="text"
                     disabled={!enableEditP}
                     className="border rounded-2xl w-full p-4 h-full resize-none"
                     defaultValue={userInfo?.intro}
-                    {...register("intro", { required: false })}
+                    onChange={(e) => setIntro(e.target.value)}
                   />
                 </div>
               </div>
               <div className="flex justify-end gap-4">
                 {enableEditP && (
                   <button
+                    type="button"
                     className="w-20 h-11 rounded-2xl font-bold text-black border"
-                    onClick={handleSubmit(handleEditProfile)}
+                    onClick={() => setEnableEditP(false)}
                   >
                     취소
                   </button>
                 )}
-                <button
-                  className="bg-lime-500 w-20 h-11 rounded-2xl font-bold text-white"
-                  onClick={
-                    enableEditP
-                      ? handleSubmit(handleEditProfile)
-                      : handleEditProfile
-                  }
-                >
-                  {enableEditP ? "저장" : "수정"}
-                </button>
+                {!enableEditP && (
+                  <button
+                    type="button"
+                    className="bg-lime-500 w-20 h-11 rounded-2xl font-bold text-white"
+                    onClick={() => setEnableEditP(true)}
+                  >
+                    수정
+                  </button>
+                )}
+                {enableEditP && (
+                  <button
+                    type="submit"
+                    className="bg-lime-500 w-20 h-11 rounded-2xl font-bold text-white"
+                  >
+                    저장
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className=" text-xl border-l pl-4 font-bold">미니홈 설정</div>
+          <div className="flex gap-4">
+            <form
+              className="flex flex-col w-full gap-4"
+              onSubmit={(e) => {
+                e.preventDefault(); // 폼 제출 방지
+                handleEditMiniHome(); // 폼 처리 함수 호출
+              }}
+            >
+              <div className="w-full flex justify-between h-11 items-center">
+                <label className="w-1/3 font-bold">상태</label>
+                <div className="flex w-2/3 h-full gap-4">
+                  <input
+                    type="text"
+                    className="border rounded-2xl w-full px-4 h-full"
+                    disabled={!enableEditM}
+                    onChange={(e) => setStatusM(e.target.value)}
+                    defaultValue={miniHome?.statusM}
+                  />
+                </div>
+              </div>
+              <div className="w-full flex justify-between h-full">
+                <label className="w-1/3 font-bold">소개글</label>
+                <div className="flex w-2/3 h-full gap-4">
+                  {" "}
+                  <textarea
+                    type="text"
+                    disabled={!enableEditM}
+                    className="border rounded-2xl w-full p-4 h-full resize-none"
+                    onChange={(e) => setIntroduction(e.target.value)}
+                    defaultValue={miniHome?.introduction}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-4">
+                {enableEditM && (
+                  <button
+                    type="button"
+                    className="w-20 h-11 rounded-2xl font-bold text-black border"
+                    onClick={() => setEnableEditM(false)}
+                  >
+                    취소
+                  </button>
+                )}
+                {!enableEditM && (
+                  <button
+                    type="button"
+                    className="bg-lime-500 w-20 h-11 rounded-2xl font-bold text-white"
+                    onClick={() => setEnableEditM(true)}
+                  >
+                    수정
+                  </button>
+                )}
+                {enableEditM && (
+                  <button
+                    type="submit"
+                    className="bg-lime-500 w-20 h-11 rounded-2xl font-bold text-white"
+                  >
+                    저장
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+
+          <div className="text-xl border-l pl-4 font-bold">
+            플레이리스트 설정
+          </div>
+          <div className="flex h-96 gap-4">
+            <div className="flex flex-col w-1/2 gap-4">
+              <label className="font-bold">플레이리스트 목록</label>
+              <div className="h-full border rounded-2xl">
+                {playlistList.length ? (
+                  <div className="grid  divide-y grid-cols-1">
+                    {playlistList.map((playlist) => (
+                      <button
+                        type="button"
+                        key={playlist.playlistId}
+                        className=" h-14"
+                        onClick={() => handleSelectPlaylist(playlist)}
+                      >
+                        <h3 className="font-bold ">{playlist.plName}</h3>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid h-full divide-y grid-cols-1">
+                    <div className="h-full  font-bold text-center content-center">
+                      플레이리스트가 없음
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-            <div className=" h-72 min-w-56 border rounded-2xl">
-              <AvatarUi></AvatarUi>
+            <div className="flex flex-col gap-4 w-1/2">
+              {selectedPlaylist ? (
+                <>
+                  <form
+                    onSubmit={handleSubmit(editPlayList)}
+                    className="flex  flex-col gap-4"
+                  >
+                    <>
+                      <label className="font-bold">
+                        플레이리스트 수정 : {selectedPlaylist?.plName}
+                      </label>
+                      <input
+                        placeholder="제목"
+                        type="text"
+                        className="border rounded-2xl w-full px-4 h-11"
+                        defaultValue={selectedPlaylist?.plName}
+                        {...register("plName", { required: true })}
+                      ></input>
+                      <div className="flex w-full justify-end gap-4">
+                        <button
+                          type="submit"
+                          className="bg-lime-500 w-full h-11 rounded-2xl font-bold text-white"
+                        >
+                          수정
+                        </button>
+                        <button
+                          onClick={() =>
+                            handlePlaylistDelete(selectedPlaylist.playlistId)
+                          }
+                          type="button"
+                          className="bg-red-500 w-full h-11 rounded-2xl font-bold text-white"
+                        >
+                          삭제
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPlaylist(null)}
+                          className=" w-full h-11 rounded-2xl border font-bold "
+                        >
+                          취소
+                        </button>
+                        <button
+                          type="button"
+                          className="bg-blue-600 w-full h-11 rounded-2xl font-bold text-white"
+                          onClick={handleSetPlaylist}
+                        >
+                          미니홈 설정
+                        </button>
+                      </div>
+                    </>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <form
+                    onSubmit={handleSubmit(addNewPlayList)}
+                    className="flex flex-col gap-4"
+                  >
+                    <>
+                      <label className="font-bold">새 플레이리스트</label>
+                      <input
+                        placeholder="제목"
+                        type="text"
+                        className="border rounded-2xl w-full px-4 h-11"
+                        defaultValue={""}
+                        {...register("plName", { required: true })}
+                      ></input>
+                      <div className="flex justify-end">
+                        <button
+                          type="submit"
+                          className="bg-lime-500 w-20 h-11 rounded-2xl font-bold text-white"
+                        >
+                          추가
+                        </button>
+                      </div>
+                    </>
+                  </form>
+                </>
+              )}
+              <div className="font-bold">미니홈에 설정된 플레이리스트 :</div>
             </div>
           </div>
         </div>

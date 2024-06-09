@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import AvatarUi from "../../avatar/AvatarUi";
 
-const MyRoomUi = ({ userId }) => {
+const MyRoomUi = ({ userId, miniHome }) => {
   return (
     <div className="w-full h-full relative overflow-hidden rounded-2xl">
       <img

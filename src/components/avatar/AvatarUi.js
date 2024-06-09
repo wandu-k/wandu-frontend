@@ -27,7 +27,7 @@ const AvatarUi = ({ userId }) => {
             />
             <img
               src={avatar?.head}
-              className=" absolute inset-0 w-full h-full object-contain z-50"
+              className=" absolute inset-0 w-full h-full object-contain z-10"
             />
           </div>
         </div>
