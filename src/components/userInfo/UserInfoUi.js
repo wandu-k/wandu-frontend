@@ -11,7 +11,7 @@ const UserInfoUi = ({ userInfo }) => {
         const displayUser = user || userInfo;
 
         return (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 ">
             <h2 className="text-xl font-semibold">{displayUser?.nickname}</h2>
             <div className="flex justify-between items-center">
               <div className="w-16 h-16 relative rounded-full overflow-hidden">

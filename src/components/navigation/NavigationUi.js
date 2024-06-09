@@ -98,9 +98,7 @@ const NavigationUi = () => {
             <NavLink
               key={section}
               to={`/${userId}/${section}`}
-              className={({ isActive }) =>
-                isActive ? "text-lime-500" : "text-black"
-              }
+              className={({ isActive }) => (isActive ? "text-lime-500" : "")}
             >
               {section === "minihome"
                 ? "홈"
@@ -127,7 +125,7 @@ const NavigationUi = () => {
       {profileDropMenu && (
         <div
           ref={dropMenu}
-          className="top-20 w-72 font-bold right-0 absolute flex flex-col border rounded-2xl bg-white p-4 gap-4"
+          className="top-20 w-56 text-sm right-0 absolute flex flex-col border rounded-2xl bg-white dark:bg-zinc-950 dark:border-none p-4 gap-4"
         >
           <>
             <Link to={"/my"}>내 정보</Link>

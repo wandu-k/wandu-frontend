@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import ReactPlayer from "react-player/lazy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
@@ -6,6 +6,7 @@ import Volume from "./Volume";
 import TimeLine from "./TimeLine";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
 const ControllerUi = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(() => {
@@ -19,8 +20,9 @@ const ControllerUi = () => {
   const [duration, setDuration] = useState(0);
   const playerRef = useRef(null);
   const [musicPanel, setMusicPanel] = useState(false);
-  const [playlistList, setPlaylistList] = useState([]);
   const location = useLocation();
+  const { miniHome } = useContext(MiniHomeContext);
+  const [bgmList, setBgmList] = useState([]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -31,26 +33,28 @@ const ControllerUi = () => {
   const togglePlay = () => setPlaying((prev) => !prev);
   const toggleMusicPanel = () => setMusicPanel((prev) => !prev);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:7090/api/user/my/playlist", {
-        headers: { Authorization: localStorage.getItem("accessToken") },
-      })
-      .then((response) => setPlaylistList(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+  useEffect(() => setMute(volume === 0), [volume]);
 
   useEffect(() => {
     setMusicPanel(false);
   }, [location.pathname]);
 
-  useEffect(() => setMute(volume === 0), [volume]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:7090/api/user/playlist/${miniHome?.playlistId}`, {
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {});
+  }, [miniHome]);
 
   return (
     <>
       {musicPanel && (
-        <div className="w-dvw fixed top-0 h-dvh z-20 bg-white flex justify-center flex-col items-center">
-          {playlistList.length ? (
+        <div className="w-dvw fixed top-0 h-dvh z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl  flex justify-center flex-col items-center">
+          {miniHome?.playlistId ? (
             "dsds"
           ) : (
             <Link to="/my">
@@ -87,7 +91,7 @@ const ControllerUi = () => {
           nowPlayTime={nowPlayTime}
           duration={duration}
         />
-        <div className="h-16 border px-8 flex content-center border-slate-100 z-auto backdrop-blur-3xl bg-white/90 gap-6">
+        <div className="h-16  px-8 flex content-center dark:bg-zinc-900/80 z-auto backdrop-blur-3xl bg-white/80 gap-6">
           <button onClick={togglePlay}>
             <FontAwesomeIcon
               icon={playing ? "fa-solid fa-pause" : "fa-solid fa-play"}

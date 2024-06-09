@@ -3,10 +3,14 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { LoginContext } from "../../contexts/LoginContext";
+import { MiniHomeContext } from "../../contexts/MiniHomeContext";
+import { Confirm } from "notiflix/build/notiflix-confirm-aio";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 const MyInfoPage = () => {
   const userInfo = useOutletContext();
   const { loginCheck } = useContext(LoginContext);
+  const { miniHome } = useContext(MiniHomeContext);
   const [enableEditP, setEnableEditP] = useState(false);
   const [enableEditM, setEnableEditM] = useState(false);
   const { register, handleSubmit, error, reset } = useForm();
@@ -15,28 +19,8 @@ const MyInfoPage = () => {
   const [statistics, setStatistics] = useState();
   const [playlistList, setPlaylistList] = useState([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState();
-  const [miniHome, setMiniHome] = useState(null);
   const [introduction, setIntroduction] = useState();
   const [statusM, setStatusM] = useState();
-
-  useEffect(() => {
-    if (userInfo) {
-      axios
-        .get(
-          `http://localhost:7090/api/user/minihome?userId=${userInfo.userId}`,
-          {
-            headers: { Authorization: localStorage.getItem("accessToken") },
-          }
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            setMiniHome(response.data);
-          }
-        })
-        .catch((error) => {});
-    }
-  }, [userInfo]);
 
   useEffect(() => {
     axios
@@ -146,6 +130,7 @@ const MyInfoPage = () => {
         }
       )
       .then((response) => {
+        Notify.success(response.data);
         loadPlayList();
       })
       .catch((error) => {});
@@ -157,10 +142,24 @@ const MyInfoPage = () => {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
+        Notify.success(response.data);
         loadPlayList();
         setSelectedPlaylist(null);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        Confirm.show(
+          "삭제 경고",
+          "해당 플레이리스트는 미니홈과 연결되어있습니다. 정말 삭제할까요?",
+          "삭제",
+          "취소",
+          () => {
+            handleSetPlaylist();
+            handlePlaylistDelete(playlistId);
+          },
+          () => {},
+          {}
+        );
+      });
   };
 
   const editPlayList = (data) => {
@@ -183,12 +182,11 @@ const MyInfoPage = () => {
       .catch((error) => {});
   };
 
-  const handleSetPlaylist = () => {
+  const handleSetPlaylist = (playlistId) => {
     axios
       .patch(
         `http://localhost:7090/api/user/minihome/playlist`,
-
-        selectedPlaylist.playlistId,
+        playlistId,
 
         {
           headers: {
@@ -197,10 +195,9 @@ const MyInfoPage = () => {
           },
         }
       )
-      .then((response) => {
-        setSelectedPlaylist(null);
-      })
+      .then((response) => {})
       .catch((error) => {});
+    setSelectedPlaylist(null);
   };
 
   return (
@@ -254,7 +251,7 @@ const MyInfoPage = () => {
                 <div className="flex w-2/3 h-full gap-4">
                   <input
                     type="text"
-                    className="border rounded-2xl w-full px-4 h-full"
+                    className="border rounded-2xl w-full px-4 h-full dark:bg-zinc-950 dark:border-zinc-800"
                     disabled={!enableEditP}
                     defaultValue={userInfo?.nickname}
                     onChange={(e) => setNickname(e.target.value)}
@@ -267,7 +264,7 @@ const MyInfoPage = () => {
                   <textarea
                     type="text"
                     disabled={!enableEditP}
-                    className="border rounded-2xl w-full p-4 h-full resize-none"
+                    className="border rounded-2xl w-full p-4 h-full resize-none dark:bg-zinc-950 dark:border-zinc-800"
                     defaultValue={userInfo?.intro}
                     onChange={(e) => setIntro(e.target.value)}
                   />
@@ -319,7 +316,7 @@ const MyInfoPage = () => {
                 <div className="flex w-2/3 h-full gap-4">
                   <input
                     type="text"
-                    className="border rounded-2xl w-full px-4 h-full"
+                    className="border rounded-2xl w-full px-4 h-full dark:bg-zinc-950 dark:border-zinc-800"
                     disabled={!enableEditM}
                     onChange={(e) => setStatusM(e.target.value)}
                     defaultValue={miniHome?.statusM}
@@ -333,7 +330,7 @@ const MyInfoPage = () => {
                   <textarea
                     type="text"
                     disabled={!enableEditM}
-                    className="border rounded-2xl w-full p-4 h-full resize-none"
+                    className="border rounded-2xl w-full p-4 h-full resize-none dark:bg-zinc-950 dark:border-zinc-800"
                     onChange={(e) => setIntroduction(e.target.value)}
                     defaultValue={miniHome?.introduction}
                   />
@@ -376,7 +373,7 @@ const MyInfoPage = () => {
           <div className="flex h-96 gap-4">
             <div className="flex flex-col w-1/2 gap-4">
               <label className="font-bold">플레이리스트 목록</label>
-              <div className="h-full border rounded-2xl">
+              <div className="h-full border rounded-2xl dark:bg-zinc-950 dark:border-zinc-800">
                 {playlistList.length ? (
                   <div className="grid  divide-y grid-cols-1">
                     {playlistList.map((playlist) => (
@@ -413,7 +410,7 @@ const MyInfoPage = () => {
                       <input
                         placeholder="제목"
                         type="text"
-                        className="border rounded-2xl w-full px-4 h-11"
+                        className="border rounded-2xl w-full px-4 h-11 dark:bg-zinc-950 dark:border-zinc-800"
                         defaultValue={selectedPlaylist?.plName}
                         {...register("plName", { required: true })}
                       ></input>
@@ -443,7 +440,9 @@ const MyInfoPage = () => {
                         <button
                           type="button"
                           className="bg-blue-600 w-full h-11 rounded-2xl font-bold text-white"
-                          onClick={handleSetPlaylist}
+                          onClick={() =>
+                            handleSetPlaylist(selectedPlaylist.playlistId)
+                          }
                         >
                           미니홈 설정
                         </button>
@@ -462,7 +461,7 @@ const MyInfoPage = () => {
                       <input
                         placeholder="제목"
                         type="text"
-                        className="border rounded-2xl w-full px-4 h-11"
+                        className="border rounded-2xl w-full px-4 h-11 dark:bg-zinc-950 dark:border-zinc-800"
                         defaultValue={""}
                         {...register("plName", { required: true })}
                       ></input>

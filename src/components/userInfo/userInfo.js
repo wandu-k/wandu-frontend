@@ -13,7 +13,7 @@ const UserInfo = ({ children, userInfo }) => {
       const fetchUserData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:7090/api/public/user?userId=${userId}`
+            `http://localhost:7090/api/public/user/${userId}`
           );
           if (response.status === 200) {
             console.log(response.data);

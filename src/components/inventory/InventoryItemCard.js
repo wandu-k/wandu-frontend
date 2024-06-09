@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import axios from "axios";
+import PlaylistAddMusicModal from "../modal/PlaylistAddMusicModal";
 
 const InventoryItemCard = ({ item, userInfo }) => {
   const [enable, setEnable] = useState();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const openModal = useCallback(() => setModalIsOpen(true), []);
+  const closeModal = useCallback(() => setModalIsOpen(false), []);
+
   const imgClasses =
     "absolute object-cover h-full hover:scale-110 transition-all duration-300";
   const containerClasses =
@@ -19,27 +24,31 @@ const InventoryItemCard = ({ item, userInfo }) => {
   const handleInvenItemButton = () => {
     const itemId = item.enable === 1 ? null : item.itemId;
 
-    item.enable === 0
-      ? Confirm.show(
-          "장착 확인",
-          "아이템 " + item.itemName + "을 장착 하시겠습니까?",
-          "장착",
-          "취소",
-          () => {
-            avatarUpdate(itemId);
-          },
-          () => {}
-        )
-      : Confirm.show(
-          "장착 취소",
-          "아이템 " + item.itemName + "을 해제 하시겠습니까?",
-          "해제",
-          "취소",
-          () => {
-            avatarUpdate(itemId);
-          },
-          () => {}
-        );
+    if (item?.categoryId == 1) {
+      item.enable === 0
+        ? Confirm.show(
+            "장착 확인",
+            "아이템 " + item.itemName + "을 장착 하시겠습니까?",
+            "장착",
+            "취소",
+            () => {
+              avatarUpdate(itemId);
+            },
+            () => {}
+          )
+        : Confirm.show(
+            "장착 취소",
+            "아이템 " + item.itemName + "을 해제 하시겠습니까?",
+            "해제",
+            "취소",
+            () => {
+              avatarUpdate(itemId);
+            },
+            () => {}
+          );
+    } else {
+      openModal();
+    }
   };
 
   const avatarUpdate = (itemId) => {
@@ -67,23 +76,30 @@ const InventoryItemCard = ({ item, userInfo }) => {
   };
 
   return (
-    <button
-      type="button"
-      key={item.itemId}
-      className={
-        "w-full h-auto overflow-hidden rounded-2xl" +
-        (enable == 1 ? " border-lime-500 border-2" : " border")
-      }
-      onClick={handleInvenItemButton}
-    >
-      <div className={containerClasses}>
-        <img src={item.file} className={imgClasses} alt={item.itemName} />
-      </div>
-      <div className="p-4">
-        <p className="text-sm text-gray-500">{item.subcategoryName}</p>
-        <h3>{item.itemName}</h3>
-      </div>
-    </button>
+    <>
+      <button
+        type="button"
+        key={item.itemId}
+        className={
+          "w-full h-auto overflow-hidden rounded-2xl" +
+          (enable == 1 ? " border-lime-500 border-2" : " border")
+        }
+        onClick={handleInvenItemButton}
+      >
+        <div className={containerClasses}>
+          <img src={item.file} className={imgClasses} alt={item.itemName} />
+        </div>
+        <div className="p-4">
+          <p className="text-sm text-gray-500">{item.subcategoryName}</p>
+          <h3>{item.itemName}</h3>
+        </div>
+      </button>
+      <PlaylistAddMusicModal
+        isOpen={modalIsOpen}
+        item={item}
+        onRequestClose={closeModal}
+      ></PlaylistAddMusicModal>
+    </>
   );
 };
 

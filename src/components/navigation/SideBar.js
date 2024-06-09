@@ -125,7 +125,7 @@ const SideBar = ({ userInfo }) => {
   } else if (location.pathname.includes(`/diary`)) {
     content = (
       <>
-        <div className="flex flex-col border p-4 rounded-2xl">
+        <div className="flex flex-col border p-4 rounded-2xl dark:bg-zinc-950 dark:border-none">
           {/* Displaying the current year and month */}
           <div>
             <div className="text-xl font-bold">
@@ -163,8 +163,8 @@ const SideBar = ({ userInfo }) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 h-full p-4 overflow-y-auto">
-      <div className="w-full sm:border p-4 sm:rounded-2xl">
+    <div className="flex flex-col gap-4 h-full p-4 overflow-y-auto ">
+      <div className="w-full sm:border p-4 sm:rounded-2xl dark:bg-zinc-950 dark:border-none">
         <UserInfoUi userInfo={userInfo} />
       </div>
       {content}

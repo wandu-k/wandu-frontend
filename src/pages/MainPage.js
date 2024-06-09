@@ -1,27 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MyRoomUi from "../components/miniHome/myRoom/MyRoomUi";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { MiniHomeContext } from "../contexts/MiniHomeContext";
 
 const MainPage = () => {
   const { userId } = useParams();
-
-  const [miniHome, setMiniHome] = useState(null);
-
-  useEffect(() => {
-    console.log(userId);
-    axios
-      .get(`http://localhost:7090/api/user/minihome?userId=${userId}`, {
-        headers: { Authorization: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          setMiniHome(response.data);
-        }
-      })
-      .catch((error) => {});
-  }, []);
+  const { miniHome } = useContext(MiniHomeContext);
 
   return (
     <>

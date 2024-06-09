@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import defaultAlbum from "../../images/shop/album.png";
 
 const ShopItemCard = ({ item }) => {
   return (
@@ -10,7 +11,7 @@ const ShopItemCard = ({ item }) => {
     >
       <div className="relative rounded-2xl w-full aspect-square mb-1 overflow-hidden">
         <img
-          src={item.file}
+          src={item.categoryId == 1 ? item.file : defaultAlbum}
           className="absolute object-cover h-full hover:scale-110 transition-all duration-300"
           alt={item.itemName}
         />

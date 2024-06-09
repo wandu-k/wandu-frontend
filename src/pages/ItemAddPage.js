@@ -139,7 +139,7 @@ const ItemAddPage = () => {
         <input
           hidden
           type="file"
-          accept=".gif, .jpg, .png"
+          accept={selectedCategoryId == 1 ? ".gif, .jpg, .png" : ".mp3"}
           onChange={previewImage}
           ref={fileInputRef}
         ></input>

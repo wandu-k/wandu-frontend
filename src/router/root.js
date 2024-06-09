@@ -107,11 +107,7 @@ const root = createBrowserRouter([
       },
       {
         path: "my",
-        element: (
-          <LoginProvider>
-            <MyLayout></MyLayout>
-          </LoginProvider>
-        ),
+        element: <MyLayout></MyLayout>,
         children: [
           {
             path: "",
