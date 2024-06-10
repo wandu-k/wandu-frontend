@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactPlayer from "react-player/lazy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
@@ -6,8 +6,8 @@ import Volume from "./Volume";
 import TimeLine from "./TimeLine";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
-const ControllerUi = () => {
+
+const ControllerUi = ({ miniHome }) => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(() => {
     const savedVolume = Cookies.get("volume");
@@ -21,8 +21,9 @@ const ControllerUi = () => {
   const playerRef = useRef(null);
   const [musicPanel, setMusicPanel] = useState(false);
   const location = useLocation();
-  const { miniHome } = useContext(MiniHomeContext);
+  const [playlist, setPlaylist] = useState();
   const [bgmList, setBgmList] = useState([]);
+  const [nowPlayNumber, setNowPlayNumber] = useState(0);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -39,23 +40,107 @@ const ControllerUi = () => {
     setMusicPanel(false);
   }, [location.pathname]);
 
-  useEffect(() => {
+  const loadBgmList = () => {
     axios
-      .get(`http://localhost:7090/api/user/playlist/${miniHome?.playlistId}`, {
-        headers: { Authorization: localStorage.getItem("accessToken") },
-      })
+      .get(
+        `http://localhost:7090/api/user/playlist/${miniHome?.playlistId}/bgm`,
+        {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        }
+      )
       .then((response) => {
         console.log(response.data);
+        setBgmList(response.data);
       })
       .catch((error) => {});
+  };
+
+  useEffect(() => {
+    if (miniHome) {
+      axios
+        .get(
+          `http://localhost:7090/api/user/playlist/${miniHome?.playlistId}`,
+          {
+            headers: { Authorization: localStorage.getItem("accessToken") },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          setPlaylist(response.data);
+          loadBgmList();
+        })
+        .catch((error) => {});
+    }
   }, [miniHome]);
+
+  const handleChangeMusic = (index) => {
+    setNowPlayNumber(index);
+    setPlaying(true);
+  };
+
+  const handleOnEndedPlayer = () => {
+    if (bgmList.length > nowPlayNumber) {
+      setNowPlayNumber(nowPlayNumber + 1);
+      setPlaying(true);
+    }
+  };
+
+  const handleOnProgress = (progress) => {
+    setNowPlayTime(progress.playedSeconds);
+  };
 
   return (
     <>
       {musicPanel && (
-        <div className="w-dvw fixed top-0 h-dvh z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl  flex justify-center flex-col items-center">
+        <div className="w-dvw fixed top-0 h-dvh z-20 bg-white/80 dark:bg-zinc-950/95 backdrop-blur-3xl  flex justify-center flex-col items-center">
           {miniHome?.playlistId ? (
-            "dsds"
+            <>
+              <div className=" container h-dvh items-center mx-auto flex p-4">
+                <div className=" w-full flex justify-center">
+                  <div className="flex flex-col">
+                    <div className="w-96 h-96 relative">
+                      <img
+                        className="absolute inset-0 object-cover w-full h-full"
+                        src={
+                          "data:image/jpeg;base64," +
+                          (bgmList.length > 0 && bgmList[nowPlayNumber].album)
+                        }
+                      ></img>
+                    </div>
+                  </div>
+                </div>
+                <div className=" w-full flex flex-col">
+                  {bgmList.map((bgm, index) => (
+                    <button
+                      key={bgm.itemId}
+                      className={
+                        "flex h-14 items-center p-2 " +
+                        (index == nowPlayNumber && " bg-zinc-600")
+                      }
+                      onClick={() => handleChangeMusic(index)}
+                    >
+                      <div className="flex w-full items-center gap-4">
+                        <div className="w-11 aspect-square relative">
+                          <img
+                            className="absolute inset-0 object-cover w-full h-full"
+                            src={
+                              "data:image/jpeg;base64," +
+                              (bgmList.length > 0 && bgmList[index].album)
+                            }
+                          ></img>
+                        </div>
+                        <div>
+                          <div className="">{bgm.title}</div>
+                          <h3 className=" text-gray-300">
+                            {bgm?.artist || "정보 없음"}
+                          </h3>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
           ) : (
             <Link to="/my">
               <div className="text-2xl font-bold">
@@ -69,17 +154,17 @@ const ControllerUi = () => {
       <div className="fixed z-50 bottom-0 w-dvw">
         <div className="absolute hidden">
           <ReactPlayer
-            url="https://wandukong.s3.ap-northeast-2.amazonaws.com/test.mp3"
+            url={bgmList[nowPlayNumber]?.url}
             ref={playerRef}
             width="400px"
             height="50px"
             playing={playing}
-            loop
             muted={mute}
             volume={volume}
             onPause={() => setPlaying(false)}
             onPlay={() => setPlaying(true)}
-            onProgress={(progress) => setNowPlayTime(progress.playedSeconds)}
+            onEnded={handleOnEndedPlayer}
+            onProgress={(progress) => handleOnProgress(progress)}
             onDuration={setDuration}
           />
         </div>

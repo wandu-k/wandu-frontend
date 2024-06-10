@@ -2,69 +2,84 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { LoginContext } from "../../contexts/LoginContext";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
-Modal.setAppElement("#root"); // Set the root element for accessibility
+Modal.setAppElement("#root");
 
 const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
   const { userInfo } = useContext(LoginContext);
   const [playlistList, setPlaylistList] = useState([]);
   const [checkItems, setCheckItems] = useState(new Set());
-  const handleLogin = () => {
-    // Handle login logic here
-    onRequestClose();
-  };
 
   const loadPlaylist = () => {
     axios
-      .get(
-        "http://localhost:7090/api/user/my/playlist",
-
-        {
-          params: { itemId: item.itemId },
-          headers: { Authorization: localStorage.getItem("accessToken") },
-        }
-      )
+      .get("http://localhost:7090/api/my/playlist", {
+        params: { itemId: item.itemId },
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      })
       .then((response) => {
         console.log(response.data);
         setPlaylistList(response.data);
+        includeCheck(response.data); // includeCheck 함수에 playlist 데이터를 전달합니다.
       })
       .catch((error) => {});
   };
 
-  const toggleCheck = (playlistId, itemId) => {
-    const newCheckItems = new Set(checkItems); // checkItems의 복사본을 만듭니다.
+  const toggleCheck = (playlistId) => {
+    const newCheckItems = new Set(checkItems);
     if (newCheckItems.has(playlistId)) {
-      newCheckItems.delete(playlistId); // 이미 체크된 상태였다면 제거
+      newCheckItems.delete(playlistId);
     } else {
-      newCheckItems.add(playlistId); // 체크되지 않은 상태였다면 추가
+      newCheckItems.add(playlistId);
     }
-    setCheckItems(newCheckItems); // 새로운 체크 항목으로 상태를 업데이트합니다.
+    setCheckItems(newCheckItems);
 
-    // 체크 상태에 따라 "A" 또는 "B"를 콘솔에 출력합니다.
     if (newCheckItems.has(playlistId)) {
-      console.log("A");
-      axios.post(
-        "http://localhost:7090/api/user/bgm",
-        {
-          userId: userInfo.userId,
-          playlistId: playlistId,
-          itemId: item.itemId,
-        },
-        {
-          headers: { Authorization: localStorage.getItem("accessToken") },
-        }
-      );
+      axios
+        .post(
+          `http://localhost:7090/api/user/playlist/${playlistId}/bgm/${item.itemId}`,
+          {},
+          {
+            headers: { Authorization: localStorage.getItem("accessToken") },
+          }
+        )
+        .then((response) => {
+          Notify.success(response.data);
+        })
+        .catch((error) => {});
     } else {
-      console.log("B");
+      axios
+        .delete(
+          `http://localhost:7090/api/user/playlist/${playlistId}/bgm/${item.itemId}`,
+          {
+            headers: { Authorization: localStorage.getItem("accessToken") },
+          }
+        )
+        .then((response) => {
+          Notify.success(response.data);
+        })
+        .catch((error) => {});
     }
   };
+
+  const includeCheck = (playlist) => {
+    const newCheckItems = new Set(checkItems);
+    for (let i = 0; i < playlist.length; i++) {
+      if (playlist[i].include === 1) {
+        console.log(playlist[i]);
+        newCheckItems.add(playlist[i].playlistId);
+      }
+    }
+    setCheckItems(newCheckItems);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onAfterOpen={loadPlaylist}
       onRequestClose={onRequestClose}
       className={
-        "dark:bg-slate-950 dark:border-slate-800 dark:text-white text-black p-4"
+        "dark:bg-slate-950 dark:border-slate-800 dark:text-white text-black p-4 bg-white"
       }
       style={{
         content: {
@@ -93,7 +108,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
         <div className="flex flex-col">
           <h3 className=" font-bold text-lg">노래 저장</h3>
           <div className="overflow-y-scroll">
-            {playlistList?.map((playlist) => (
+            {playlistList.map((playlist) => (
               <div
                 key={playlist.playlistId}
                 className="flex w-full flex-row-reverse items-center h-11 gap-4 justify-end"
@@ -104,9 +119,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
                 <input
                   type="checkbox"
                   id={playlist.playlistId}
-                  checked={
-                    playlist.include == 1 || checkItems.has(playlist.playlistId)
-                  }
+                  checked={checkItems.has(playlist.playlistId)}
                   onChange={() => toggleCheck(playlist.playlistId)}
                 />
               </div>
@@ -114,10 +127,9 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
           </div>
         </div>
         <div className=" flex justify-end">
-          <button>확인</button>
+          <button onClick={onRequestClose}>확인</button>
         </div>
       </div>
-      <></>
     </Modal>
   );
 };
