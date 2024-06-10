@@ -13,22 +13,26 @@ export const MiniHomeProvider = ({ children }) => {
 
   useEffect(() => {
     if (userId) {
-      axios
-        .get(`http://localhost:7090/api/user/${userId}/minihome`, {
-          headers: { Authorization: localStorage.getItem("accessToken") },
-        })
-        .then((response) => {
-          console.log(response.data);
-          if (response.status === 200) {
-            setMiniHome(response.data);
-          }
-        })
-        .catch((error) => {
-          // 에러 처리
-          console.error("Error fetching minihome data:", error);
-        });
+      fetchMiniHomeData();
     }
   }, [userId]);
+
+  const fetchMiniHomeData = () => {
+    axios
+      .get(`http://localhost:7090/api/user/${userId}/minihome`, {
+        headers: { Authorization: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          setMiniHome(response.data);
+        }
+      })
+      .catch((error) => {
+        // 에러 처리
+        console.error("Error fetching minihome data:", error);
+      });
+  };
 
   useEffect(() => {
     if (userIdParam === undefined) {
@@ -37,7 +41,7 @@ export const MiniHomeProvider = ({ children }) => {
   }, [userIdParam, userInfo]);
 
   return (
-    <MiniHomeContext.Provider value={{ miniHome }}>
+    <MiniHomeContext.Provider value={{ miniHome, fetchMiniHomeData }}>
       {children}
     </MiniHomeContext.Provider>
   );

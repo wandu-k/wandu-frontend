@@ -24,6 +24,7 @@ import InventoryPage from "../pages/my/InventoryPage";
 import MyLayout from "../layouts/MyLayout";
 import MyInfoPage from "../pages/my/MyInfoPage";
 import AccountPage from "../pages/my/AccountPage";
+import { MiniHomeProvider } from "../contexts/MiniHomeContext";
 
 library.add(fas);
 
@@ -35,9 +36,11 @@ const root = createBrowserRouter([
     path: "",
     element: (
       <LoginProvider>
-        <Suspense fallback={Loading}>
-          <MainLayout />
-        </Suspense>
+        <MiniHomeProvider>
+          <Suspense fallback={Loading}>
+            <MainLayout />
+          </Suspense>
+        </MiniHomeProvider>
       </LoginProvider>
     ),
     children: [

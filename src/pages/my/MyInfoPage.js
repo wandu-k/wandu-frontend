@@ -10,7 +10,7 @@ import { Notify } from "notiflix/build/notiflix-notify-aio";
 const MyInfoPage = () => {
   const userInfo = useOutletContext();
   const { loginCheck } = useContext(LoginContext);
-  const { miniHome } = useContext(MiniHomeContext);
+  const { miniHome, fetchMiniHomeData } = useContext(MiniHomeContext);
   const [enableEditP, setEnableEditP] = useState(false);
   const [enableEditM, setEnableEditM] = useState(false);
   const { register, handleSubmit, error, reset } = useForm();
@@ -61,7 +61,8 @@ const MyInfoPage = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
+        Notify.success(response.data);
+        fetchMiniHomeData();
       })
       .catch((error) => {});
     setEnableEditM(false);
@@ -86,6 +87,7 @@ const MyInfoPage = () => {
       .then((response) => {
         console.log(response.data);
         loginCheck();
+        Notify.success(response.data);
       })
       .catch((error) => {});
     setEnableEditP(false);
@@ -97,7 +99,7 @@ const MyInfoPage = () => {
 
   const loadPlayList = () => {
     axios
-      .get("http://localhost:7090/api/user/my/playlist", {
+      .get("http://localhost:7090/api/my/playlist", {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => setPlaylistList(response.data))
@@ -121,7 +123,7 @@ const MyInfoPage = () => {
 
     axios
       .post(
-        "http://localhost:7090/api/user/my/playlist",
+        "http://localhost:7090/api/my/playlist",
         {
           plName: plName,
         },
@@ -138,13 +140,12 @@ const MyInfoPage = () => {
 
   const handlePlaylistDelete = (playlistId) => {
     axios
-      .delete(`http://localhost:7090/api/user/my/playlist/${playlistId}`, {
+      .delete(`http://localhost:7090/api/my/playlist/${playlistId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
         Notify.success(response.data);
         loadPlayList();
-        setSelectedPlaylist(null);
       })
       .catch((error) => {
         Confirm.show(
@@ -160,6 +161,7 @@ const MyInfoPage = () => {
           {}
         );
       });
+    setSelectedPlaylist(null);
   };
 
   const editPlayList = (data) => {
@@ -167,7 +169,7 @@ const MyInfoPage = () => {
     const { plName } = data;
     axios
       .put(
-        `http://localhost:7090/api/user/my/playlist/${selectedPlaylist.playlistId}`,
+        `http://localhost:7090/api/my/playlist/${selectedPlaylist.playlistId}`,
         {
           plName: plName,
         },
@@ -177,9 +179,10 @@ const MyInfoPage = () => {
       )
       .then((response) => {
         loadPlayList();
-        setSelectedPlaylist(null);
+        Notify.success(response.data);
       })
       .catch((error) => {});
+    setSelectedPlaylist(null);
   };
 
   const handleSetPlaylist = (playlistId) => {
@@ -195,7 +198,10 @@ const MyInfoPage = () => {
           },
         }
       )
-      .then((response) => {})
+      .then((response) => {
+        Notify.success(response.data);
+        fetchMiniHomeData();
+      })
       .catch((error) => {});
     setSelectedPlaylist(null);
   };
