@@ -119,7 +119,7 @@ const ControllerUi = ({ miniHome }) => {
                     key={bgm.itemId}
                     className={
                       "flex h-14 items-center p-2 " +
-                      (index == nowPlayNumber && " bg-zinc-600")
+                      (index == nowPlayNumber && "dark:bg-zinc-600 bg-gray-200")
                     }
                     onClick={() => handleChangeMusic(index)}
                   >
