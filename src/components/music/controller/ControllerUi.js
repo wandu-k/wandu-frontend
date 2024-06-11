@@ -148,11 +148,13 @@ const ControllerUi = () => {
             </div>
           </>
         ) : (
-          <Link to="/my">
-            <div className="text-2xl font-bold">
-              아직 설정된 플레이리스트가 없습니다.
+          <Link to="/my" onClick={() => setMusicPanel(false)}>
+            <div className="flex flex-col items-center">
+              <div className="text-2xl font-bold">
+                아직 설정된 플레이리스트가 없습니다.
+              </div>
+              <div>설정하러 가기</div>
             </div>
-            <div>설정하러 가기</div>
           </Link>
         )}
       </div>
@@ -182,21 +184,46 @@ const ControllerUi = () => {
           nowPlayTime={nowPlayTime}
           duration={duration}
         />
-        <div className="h-16  px-8 flex content-center dark:bg-zinc-900/80 z-auto backdrop-blur-3xl bg-white/80 gap-6">
-          <button onClick={togglePlay}>
-            <FontAwesomeIcon
-              icon={playing ? "fa-solid fa-pause" : "fa-solid fa-play"}
-            />
-          </button>
-          <button>
-            <FontAwesomeIcon icon="fa-solid fa-forward-step" />
-          </button>
-          <Volume volume={volume} setVolume={setVolume} />
-          <div className="font-bold content-center">
-            {formatTime(nowPlayTime)} / {formatTime(duration)}
+        <div
+          className="h-16  px-8 flex justify-between content-center dark:bg-zinc-900/80 z-auto backdrop-blur-3xl bg-white/80 gap-6"
+          onClick={toggleMusicPanel}
+        >
+          <div className="flex gap-6">
+            <div className="flex gap-6" onClick={(e) => e.stopPropagation()}>
+              <button>
+                <FontAwesomeIcon icon="fa-solid fa-backward-step" />
+              </button>
+              <button onClick={togglePlay}>
+                <FontAwesomeIcon
+                  icon={playing ? "fa-solid fa-pause" : "fa-solid fa-play"}
+                />
+              </button>
+              <button>
+                <FontAwesomeIcon icon="fa-solid fa-forward-step" />
+              </button>
+            </div>
+            <div className="flex gap-4" onClick={(e) => e.stopPropagation()}>
+              <Volume volume={volume} setVolume={setVolume} />
+              <div className="font-bold content-center">
+                {formatTime(nowPlayTime)} / {formatTime(duration)}
+              </div>
+            </div>
           </div>
-          <button className="text-2xl" type="button" onClick={toggleMusicPanel}>
-            <FontAwesomeIcon icon="fa-solid fa-caret-up" />
+          <button
+            className="text-2xl"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMusicPanel();
+            }}
+          >
+            <FontAwesomeIcon
+              icon="fa-solid fa-caret-up"
+              className={
+                "transition-transform duration-300" +
+                (musicPanel && " rotate-180")
+              }
+            />
           </button>
         </div>
       </div>

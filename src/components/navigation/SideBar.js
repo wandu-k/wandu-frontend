@@ -160,6 +160,26 @@ const SideBar = ({ userInfo }) => {
         </div>
       </>
     );
+  } else if (location.pathname.includes(`/minihome`)) {
+    content = (
+      <>
+        <div className="flex flex-col gap-4 h-full">
+          <div className="flex flex-col h-full gap-4 border rounded-2xl p-4">
+            <label className="text-xl font-bold">실시간 채팅</label>
+            <div className="flex flex-col h-full justify-end"></div>
+          </div>
+          <div className="h-14 flex rounded-full border w-full pr-10 overflow-hidden relative">
+            <input
+              placeholder="채팅 보내기"
+              className="h-full w-full rounded-full p-4"
+            ></input>
+            <button className=" absolute right-6 bottom-0 top-0">
+              <FontAwesomeIcon icon="fa-solid fa-paper-plane" />
+            </button>
+          </div>
+        </div>
+      </>
+    );
   }
 
   return (

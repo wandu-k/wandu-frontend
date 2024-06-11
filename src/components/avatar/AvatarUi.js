@@ -25,10 +25,12 @@ const AvatarUi = ({ userId }) => {
               src={avatarBody}
               className=" absolute inset-0 w-full h-full object-contain"
             />
-            <img
-              src={avatar?.head}
-              className=" absolute inset-0 w-full h-full object-contain z-10"
-            />
+            {avatar?.head && (
+              <img
+                src={avatar?.head}
+                className=" absolute inset-0 w-full h-full object-contain z-10"
+              />
+            )}
           </div>
         </div>
       </div>
