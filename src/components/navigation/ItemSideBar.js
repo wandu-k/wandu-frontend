@@ -3,6 +3,7 @@ import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoginContext } from "../../contexts/LoginContext";
+import defaultAlbum from "../../images/shop/album.png";
 
 const ItemSideBar = ({ item }) => {
   const navigate = useNavigate();
@@ -45,7 +46,13 @@ const ItemSideBar = ({ item }) => {
       <div className="flex gap-4 h-36">
         <div className=" relative h-full aspect-square rounded-2xl overflow-hidden">
           <img
-            src={item?.file}
+            src={
+              item?.categoryId == 1
+                ? item?.file
+                : item?.thumbnail
+                ? item?.thumbnail
+                : defaultAlbum
+            }
             className=" absolute inset-0 w-full h-full object-cover"
           />
         </div>

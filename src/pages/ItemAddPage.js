@@ -13,6 +13,7 @@ const ItemAddPage = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedCategoryId, setSelectedCategoryId] = useState();
+  const [metadata, setMetadata] = useState(null);
   const {
     register,
     handleSubmit,
@@ -45,15 +46,12 @@ const ItemAddPage = () => {
 
     const blob = new Blob([jsonData], { type: "application/json" });
 
-    if (fileInputRef.current && fileInputRef.current.files) {
-      console.log(fileInputRef.current.files);
-      formData.append("itemfile", fileInputRef.current.files[0]);
-    }
+    formData.append("itemfile", fileInputRef.current.files[0]);
 
     formData.append("shopDto", blob);
 
     axios
-      .put("http://localhost:7090/api/user/shop", formData, {
+      .post("http://localhost:7090/api/user/shop", formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -143,54 +141,69 @@ const ItemAddPage = () => {
           onChange={previewImage}
           ref={fileInputRef}
         ></input>
-        <div className="flex flex-col gap-2">
-          <label className="font-bold text-xl">아이템 이름</label>
-          <input
-            placeholder="제목"
-            className="w-full p-2 border rounded-2xl"
-            {...register("itemName", { required: "Item name is required" })}
-          ></input>
-        </div>
-        <div className="flex flex-col gap-2 relative">
-          <label className="font-bold text-xl">아이템 카테고리</label>
-          <button
-            type="button"
-            className="w-full p-2 border rounded-2xl h-12 text-left font-bold tracking-tight"
-            onClick={handleCategoryButton}
-          >
-            {selectedCategory}
-          </button>
-          {categoryButton && (
-            <div className="absolute top-24 border rounded-2xl w-full flex flex-col bg-white z-10 p-2">
-              {renderCategories()}
+        <div className="flex gap-4">
+          <div className="flex flex-col gap-2 w-full">
+            <label className="font-bold text-xl">아이템 정보</label>
+            <input
+              placeholder="제목"
+              className="w-full p-2 border rounded-2xl"
+              {...register("itemName", { required: "Item name is required" })}
+            ></input>
+            <label className="font-bold text-xl">아이템 가격</label>
+            <input
+              placeholder="가격"
+              className="w-full p-2 border rounded-2xl"
+              {...register("price", { required: "Item price is required" })}
+            ></input>
+            <div className="flex flex-col gap-2 relative">
+              <label className="font-bold text-xl">아이템 카테고리</label>
+              <button
+                type="button"
+                className="w-full p-2 border rounded-2xl h-12 text-left font-bold tracking-tight"
+                onClick={handleCategoryButton}
+              >
+                {selectedCategory}
+              </button>
+              {categoryButton && (
+                <div className="absolute top-24 border rounded-2xl w-full flex flex-col bg-white z-10 p-2">
+                  {renderCategories()}
+                </div>
+              )}
             </div>
-          )}
+            <div className="flex flex-col gap-2">
+              <label className="font-bold text-xl">아이템 업로드</label>
+              <button
+                type="button"
+                className="w-full h-36 border rounded-2xl relative overflow-hidden"
+                onClick={handlefileAddButton}
+              >
+                {filePath ? (
+                  <div className="absolute top-0 text-xl w-full h-full font-bold content-center">
+                    {filePath}
+                  </div>
+                ) : (
+                  <div className="absolute top-0 text-xl w-full h-full flex flex-col font-bold content-center justify-center">
+                    <div className="text-lg">
+                      하나의 파일만 업로드 가능합니다.
+                    </div>
+                    <div className=" text-sm">
+                      {" "}
+                      {selectedCategoryId == 1 ? ".gif, .jpg, .png" : ".mp3"}
+                    </div>
+                  </div>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="font-bold text-xl">아이템 파일 업로드</label>
-          <button
-            type="button"
-            className="w-full h-36 border rounded-2xl relative overflow-hidden"
-            onClick={handlefileAddButton}
-          >
-            {filePath ? (
-              <div className="absolute top-0 text-xl w-full h-full font-bold content-center">
-                {filePath}
-              </div>
-            ) : (
-              <div className="absolute top-0 text-xl w-full h-full font-bold content-center">
-                하나의 파일만 업로드 가능합니다.
-              </div>
-            )}
-          </button>
-        </div>
+
         <div className="flex gap-4 justify-end">
           <Link to={"/shop"} className="font-bold border rounded-md p-1 px-4">
             취소
           </Link>
           <button
             type="submit"
-            className="font-bold border border-blue-600 rounded-md p-1 px-4 bg-blue-500 text-white"
+            className="font-bold borde rounded-md p-1 px-4 bg-blue-600 text-white"
           >
             등록
           </button>

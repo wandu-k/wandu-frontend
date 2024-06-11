@@ -11,7 +11,13 @@ const ShopItemCard = ({ item }) => {
     >
       <div className="relative rounded-2xl w-full aspect-square mb-1 overflow-hidden">
         <img
-          src={item.categoryId == 1 ? item.file : defaultAlbum}
+          src={
+            item.categoryId == 1
+              ? item.file
+              : item.thumbnail
+              ? item.thumbnail
+              : defaultAlbum
+          }
           className="absolute object-cover h-full hover:scale-110 transition-all duration-300"
           alt={item.itemName}
         />

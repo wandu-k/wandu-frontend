@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import ReactPlayer from "react-player/lazy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
@@ -6,8 +6,9 @@ import Volume from "./Volume";
 import TimeLine from "./TimeLine";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
 
-const ControllerUi = ({ miniHome }) => {
+const ControllerUi = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(() => {
     const savedVolume = Cookies.get("volume");
@@ -15,6 +16,7 @@ const ControllerUi = ({ miniHome }) => {
       ? parseFloat(savedVolume)
       : 1;
   });
+  const { miniHome } = useContext(MiniHomeContext);
   const [mute, setMute] = useState(volume === 0);
   const [nowPlayTime, setNowPlayTime] = useState(0);
   const [duration, setDuration] = useState(0);

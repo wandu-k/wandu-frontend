@@ -11,14 +11,15 @@ const ShopPage = () => {
 
   const getList = async (category) => {
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         "http://localhost:7090/api/user/shop",
+
         {
-          categoryName: category.categoryName,
-          page: 1,
-          size: 12,
-        },
-        {
+          params: {
+            categoryName: category.categoryName,
+            page: 1,
+            size: 12,
+          },
           headers: { Authorization: localStorage.getItem("accessToken") },
         }
       );

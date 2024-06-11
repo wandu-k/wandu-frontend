@@ -11,7 +11,7 @@ const ItemPage = () => {
   const [item, setItem] = useState();
   useEffect(() => {
     axios
-      .get(`http://localhost:7090/api/user/shop?itemId=${itemId}`, {
+      .get(`http://localhost:7090/api/user/shop/${itemId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -26,7 +26,13 @@ const ItemPage = () => {
         <div className="w-full flex gap-4 h-full max-xl:flex-col">
           <div className="xl:w-3/5 w-full h-96 rounded-2xl overflow-hidden relative">
             <img
-              src={item?.categoryId == 1 ? item?.file : defaultAlbum}
+              src={
+                item?.categoryId == 1
+                  ? item?.file
+                  : item?.thumbnail
+                  ? item?.thumbnail
+                  : defaultAlbum
+              }
               className="absolute inset-0 object-cover w-full h-full"
             ></img>
           </div>

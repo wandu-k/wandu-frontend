@@ -12,14 +12,17 @@ const ShopSubPage = () => {
 
   useEffect(() => {
     axios
-      .post(
+      .get(
         "http://localhost:7090/api/user/shop",
+
         {
-          categoryName: searchParams.get("categoryName"),
-          userId: searchParams.get("userId"),
-          nickname: searchParams.get("nickname"),
-        },
-        { headers: { Authorization: localStorage.getItem("accessToken") } }
+          params: {
+            categoryName: searchParams.get("categoryName"),
+            userId: searchParams.get("userId"),
+            nickname: searchParams.get("nickname"),
+          },
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        }
       )
       .then((response) => {
         console.log(response.data.dtoList);
