@@ -33,7 +33,7 @@ const TimeLine = ({
       playerRef.current.seekTo(newNowPlayTime);
     }
 
-    setTimeLineBarTransClass("duration-500"); // 클래스 변경
+    setTimeLineBarTransClass("duration-0"); // 클래스 변경
     setIsDragging(false);
 
     //toggleDragging(false);

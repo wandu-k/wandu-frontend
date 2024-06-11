@@ -91,66 +91,70 @@ const ControllerUi = ({ miniHome }) => {
 
   return (
     <>
-      {musicPanel && (
-        <div className="w-dvw fixed top-0 h-dvh z-20 bg-white/80 dark:bg-zinc-950/95 backdrop-blur-3xl  flex justify-center flex-col items-center">
-          {miniHome?.playlistId ? (
-            <>
-              <div className=" container h-dvh items-center mx-auto flex p-4">
-                <div className=" w-full flex justify-center">
-                  <div className="flex flex-col">
-                    <div className="w-96 h-96 relative">
-                      <img
-                        className="absolute inset-0 object-cover w-full h-full"
-                        src={
-                          "data:image/jpeg;base64," +
-                          (bgmList.length > 0 && bgmList[nowPlayNumber].album)
-                        }
-                      ></img>
-                    </div>
+      <div
+        className={
+          "w-dvw fixed top-0 h-dvh z-20 bg-white dark:bg-zinc-900 pt-20 pb-16 flex justify-center flex-col items-center transition-transform duration-300 " +
+          (!musicPanel && " translate-y-full")
+        }
+      >
+        {miniHome?.playlistId ? (
+          <>
+            <div className=" container h-full items-center mx-auto flex p-4">
+              <div className=" w-full flex justify-center">
+                <div className="flex flex-col">
+                  <div className="w-96 h-96 relative">
+                    <img
+                      className="absolute inset-0 object-cover w-full h-full"
+                      src={
+                        "data:image/jpeg;base64," +
+                        (bgmList.length > 0 && bgmList[nowPlayNumber].album)
+                      }
+                    ></img>
                   </div>
                 </div>
-                <div className=" w-full flex flex-col">
-                  {bgmList.map((bgm, index) => (
-                    <button
-                      key={bgm.itemId}
-                      className={
-                        "flex h-14 items-center p-2 " +
-                        (index == nowPlayNumber && " bg-zinc-600")
-                      }
-                      onClick={() => handleChangeMusic(index)}
-                    >
-                      <div className="flex w-full items-center gap-4">
-                        <div className="w-11 aspect-square relative">
-                          <img
-                            className="absolute inset-0 object-cover w-full h-full"
-                            src={
-                              "data:image/jpeg;base64," +
-                              (bgmList.length > 0 && bgmList[index].album)
-                            }
-                          ></img>
-                        </div>
-                        <div>
-                          <div className="">{bgm.title}</div>
-                          <h3 className=" text-gray-300">
-                            {bgm?.artist || "정보 없음"}
-                          </h3>
-                        </div>
+              </div>
+              <div className=" w-full flex flex-col">
+                {bgmList.map((bgm, index) => (
+                  <button
+                    key={bgm.itemId}
+                    className={
+                      "flex h-14 items-center p-2 " +
+                      (index == nowPlayNumber && " bg-zinc-600")
+                    }
+                    onClick={() => handleChangeMusic(index)}
+                  >
+                    <div className="flex w-full items-center gap-4">
+                      <div className="w-11 aspect-square relative">
+                        <img
+                          className="absolute inset-0 object-cover w-full h-full"
+                          src={
+                            "data:image/jpeg;base64," +
+                            (bgmList.length > 0 && bgmList[index].album)
+                          }
+                        ></img>
                       </div>
-                    </button>
-                  ))}
-                </div>
+                      <div>
+                        <div className="">{bgm.title}</div>
+                        <h3 className=" text-gray-300">
+                          {bgm?.artist || "정보 없음"}
+                        </h3>
+                      </div>
+                    </div>
+                  </button>
+                ))}
               </div>
-            </>
-          ) : (
-            <Link to="/my">
-              <div className="text-2xl font-bold">
-                아직 설정된 플레이리스트가 없습니다.
-              </div>
-              <div>설정하러 가기</div>
-            </Link>
-          )}
-        </div>
-      )}
+            </div>
+          </>
+        ) : (
+          <Link to="/my">
+            <div className="text-2xl font-bold">
+              아직 설정된 플레이리스트가 없습니다.
+            </div>
+            <div>설정하러 가기</div>
+          </Link>
+        )}
+      </div>
+
       <div className="fixed z-50 bottom-0 w-dvw">
         <div className="absolute hidden">
           <ReactPlayer

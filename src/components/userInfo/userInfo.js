@@ -9,11 +9,11 @@ const UserInfo = ({ children, userInfo }) => {
   const { userId } = useParams();
 
   useEffect(() => {
-    if (userId || userInfo?.userId) {
+    if (userId && userInfo?.userId) {
       const fetchUserData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:7090/api/public/user/${userId}`
+            `http://localhost:7090/api/public/user/${userId}?followCheckUserId=${userInfo.userId}`
           );
           if (response.status === 200) {
             console.log(response.data);
@@ -26,7 +26,7 @@ const UserInfo = ({ children, userInfo }) => {
 
       fetchUserData();
     }
-  }, [userId]);
+  }, [userId, userInfo]);
 
   return <>{children({ user })}</>;
 };

@@ -3,8 +3,23 @@ import UserInfo from "./UserInfo";
 import profile from "../../images/basic/profile.png";
 import { Link, NavLink, useParams } from "react-router-dom";
 import { format } from "date-fns";
+import axios from "axios";
 
 const UserInfoUi = ({ userInfo }) => {
+  const handleFollowButton = (userId) => {
+    axios
+      .post(
+        `http://localhost:7090/api/my/follow/${userId}`,
+        {},
+        {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {});
+  };
   return (
     <UserInfo userInfo={userInfo}>
       {({ user }) => {
@@ -21,6 +36,15 @@ const UserInfoUi = ({ userInfo }) => {
                   className="absolute object-cover"
                 />
               </div>
+              {displayUser?.userId != userInfo?.userId && (
+                <button
+                  type="button"
+                  onClick={() => handleFollowButton(displayUser?.userId)}
+                  className="rounded-full border h-10 w-20 dark:bg-white dark:text-black"
+                >
+                  팔로우
+                </button>
+              )}
               <div className="flex gap-4">
                 <Link
                   to={`${displayUser?.userId}/follower`}
