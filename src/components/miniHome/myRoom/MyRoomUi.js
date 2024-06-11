@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useRef } from "react";
+import main from "../../../images/myroom/main.jpg"
 import AvatarUi from "../../avatar/AvatarUi";
 
 const MyRoomUi = ({ userId, miniHome }) => {
   return (
     <div className="w-full h-full relative overflow-hidden rounded-2xl">
-      <img
-        src="https://img.freepik.com/free-photo/view-room-interior-with-furniture-copy-space_23-2150680550.jpg?t=st=1716429732~exp=1716433332~hmac=c534d26506dba45adda692a3c64e88b8e4ec09a8adf0d09ed90516a0abb6514c&w=2000"
-        alt="background"
-        className=" inset-0 w-full h-full object-cover absolute -z-50"
-      ></img>
+      <img src={main} alt="background" className=" inset-0 w-full h-full object-cover absolute -z-50"></img>
       <div className=" absolute bottom-0 right-0 w-64 h-64">
         <AvatarUi userId={userId}></AvatarUi>
       </div>
