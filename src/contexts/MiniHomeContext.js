@@ -6,18 +6,13 @@ import { LoginContext } from "./LoginContext";
 export const MiniHomeContext = createContext();
 
 export const MiniHomeProvider = ({ children }) => {
-  const { userId: userIdParam } = useParams();
-  const { userInfo } = useContext(LoginContext);
+  const { userId } = useParams(null);
   const [miniHome, setMiniHome] = useState(null);
-  const [userId, setUserId] = useState(userIdParam);
 
-  useEffect(() => {
-    if (userId) {
-      fetchMiniHomeData();
-    }
-  }, [userId]);
 
-  const fetchMiniHomeData = () => {
+  useEffect(()=>{fetchMiniHomeData(userId)},[userId])
+
+  const fetchMiniHomeData = (userId) => {
     axios
       .get(`http://localhost:7090/api/user/${userId}/minihome`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
@@ -34,11 +29,7 @@ export const MiniHomeProvider = ({ children }) => {
       });
   };
 
-  useEffect(() => {
-    if (userIdParam === undefined) {
-      setUserId(userInfo?.userId);
-    }
-  }, [userIdParam, userInfo]);
+
 
   return (
     <MiniHomeContext.Provider value={{ miniHome, fetchMiniHomeData }}>
