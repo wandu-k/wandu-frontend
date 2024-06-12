@@ -23,6 +23,7 @@ const MyInfoPage = () => {
   const [statusM, setStatusM] = useState();
 
   useEffect(() => {
+    fetchMiniHomeData();
     axios
       .get("http://localhost:7090/api/my/statistics", {
         headers: {

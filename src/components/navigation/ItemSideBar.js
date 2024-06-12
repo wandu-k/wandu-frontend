@@ -80,7 +80,7 @@ const ItemSideBar = ({ item }) => {
         </button>
       )}
       <Link
-        to={`/shop/item?userId=${item?.userId}&nickname=${item?.nickname}&categoryName=${item?.categoryName}`}
+        to={`/shop/item?userId=${item?.userId}&nickname=${item?.nickname}`}
         className=" border-lime-500 border h-14 rounded-2xl font-bold text-xl content-center text-center"
       >
         제작자의 다른 리소스 보기

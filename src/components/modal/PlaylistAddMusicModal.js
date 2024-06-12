@@ -37,7 +37,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
     if (newCheckItems.has(playlistId)) {
       axios
         .post(
-          `http://localhost:7090/api/user/playlist/${playlistId}/bgm/${item.itemId}`,
+          `http://localhost:7090/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {},
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
@@ -50,7 +50,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
     } else {
       axios
         .delete(
-          `http://localhost:7090/api/user/playlist/${playlistId}/bgm/${item.itemId}`,
+          `http://localhost:7090/api/user/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           }

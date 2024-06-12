@@ -25,6 +25,8 @@ import MyLayout from "../layouts/MyLayout";
 import MyInfoPage from "../pages/my/MyInfoPage";
 import AccountPage from "../pages/my/AccountPage";
 import { MiniHomeProvider } from "../contexts/MiniHomeContext";
+import FollowingPage from "../pages/FollowingPage";
+import FollowersPage from "../pages/FollowersPage";
 
 library.add(fas);
 
@@ -48,6 +50,14 @@ const root = createBrowserRouter([
         path: ":userId",
         element: <ProfileLayout />,
         children: [
+          {
+            path: "following",
+            element: <FollowingPage></FollowingPage>,
+          },
+          {
+            path: "followers",
+            element: <FollowersPage />,
+          },
           {
             path: "minihome",
             element: <Main />,

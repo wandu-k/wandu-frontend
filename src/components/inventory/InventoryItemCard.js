@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import axios from "axios";
 import PlaylistAddMusicModal from "../modal/PlaylistAddMusicModal";
+import defaultAlbum from "../../images/shop/album.png";
+import previewAvatar from "../../images/avatar/body.png";
 
 const InventoryItemCard = ({ item, userInfo }) => {
   const [enable, setEnable] = useState();
@@ -87,7 +89,22 @@ const InventoryItemCard = ({ item, userInfo }) => {
         onClick={handleInvenItemButton}
       >
         <div className={containerClasses}>
-          <img src={item.file} className={imgClasses} alt={item.itemName} />
+          <img
+            src={
+              item.categoryId == 1
+                ? item.file
+                : item.thumbnail
+                ? item.thumbnail
+                : defaultAlbum
+            }
+            className="absolute object-cover h-full "
+            alt={item.itemName}
+          />
+          <img
+            src={previewAvatar}
+            className="absolute object-cover h-full -z-40 brightness-150 grayscale"
+            alt={item.itemName}
+          />
         </div>
         <div className="p-4">
           <p className="text-sm text-gray-500">{item.subcategoryName}</p>

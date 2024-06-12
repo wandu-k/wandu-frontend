@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Editor } from "@tinymce/tinymce-react";
 
 const PostWritePage = () => {
   const [title, setTitle] = useState("");
@@ -44,23 +45,43 @@ const PostWritePage = () => {
         className="flex flex-col h-full justify-between gap-4"
         onSubmit={handleSubmit}
       >
-        <div className="text-2xl font-bold">
-          {today.getFullYear()}년 {today.getMonth()}월 {today.getDate()}일
+        <div>
+          <div className="text-2xl font-bold">
+            {today.getFullYear()}년 {today.getMonth()}월 {today.getDate()}일
+          </div>
+          <div className="flex">
+            <input
+              className="w-full text-xl p-2 border-b"
+              placeholder="제목을 입력해 주세요"
+              name="title"
+              id="title"
+              required
+              onChange={(e) => setTitle(e.target.value)}
+            ></input>
+          </div>
         </div>
-        <div className="flex">
-          <input
-            className="w-full text-xl p-2 border-b"
-            placeholder="제목을 입력해 주세요"
-            name="title"
-            id="title"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-          ></input>
-        </div>
-        <ReactQuill
-          className="flex flex-col h-full"
+
+        <Editor
           onChange={(value) => setContent(value)}
-        ></ReactQuill>
+          apiKey="mqvcirn1n2i01h0ifbltkq2fk0cvwadntra96la2j2p1g379"
+          init={{
+            height: "100%",
+            plugins:
+              "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",
+            toolbar:
+              "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
+            tinycomments_mode: "embedded",
+            tinycomments_author: "Author name",
+            mergetags_list: [
+              { value: "First.Name", title: "First Name" },
+              { value: "Email", title: "Email" },
+            ],
+            ai_request: (request, respondWith) =>
+              respondWith.string(() =>
+                Promise.reject("See docs to implement AI Assistant")
+              ),
+          }}
+        ></Editor>
         <div className="flex gap-4 justify-end">
           <Link to={`/${userId}/diary`} className="border rounded-md p-1 px-4">
             취소

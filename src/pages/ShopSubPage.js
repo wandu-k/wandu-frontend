@@ -12,15 +12,15 @@ const ShopSubPage = () => {
 
   useEffect(() => {
     axios
-      .get(
-        "http://localhost:7090/api/user/shop",
+      .post(
+        "http://localhost:7090/api/user/shop/list",
+        {
+          categoryName: searchParams.get("categoryName"),
+          userId: searchParams.get("userId"),
+          nickname: searchParams.get("nickname"),
+        },
 
         {
-          params: {
-            categoryName: searchParams.get("categoryName"),
-            userId: searchParams.get("userId"),
-            nickname: searchParams.get("nickname"),
-          },
           headers: { Authorization: localStorage.getItem("accessToken") },
         }
       )
@@ -39,16 +39,18 @@ const ShopSubPage = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="flex flex-col w-full gap-4 p-4">
-      <div className="text-2xl font-bold">
-        {searchParams.get("userId") && searchParams.get("nickname")
-          ? searchParams.get("nickname")
-          : searchParams.get("categoryName")}
-      </div>
-      <div className="grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 overflow-hidden">
-        {items.map((item) => (
-          <ShopItemCard key={item.itemId} item={item} />
-        ))}
+    <div className="flex justify-center w-full pb-16 pt-20 relative max-lg:flex-col">
+      <div className="flex flex-col w-full gap-4 p-4">
+        <div className="text-2xl font-bold">
+          {searchParams.get("userId") && searchParams.get("nickname")
+            ? searchParams.get("nickname")
+            : searchParams.get("categoryName")}
+        </div>
+        <div className="grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 overflow-hidden">
+          {items?.map((item) => (
+            <ShopItemCard key={item.itemId} item={item} />
+          ))}
+        </div>
       </div>
     </div>
   );

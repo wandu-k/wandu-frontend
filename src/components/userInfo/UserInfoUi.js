@@ -1,13 +1,16 @@
 // UserInfoUi 컴포넌트
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import profile from "../../images/basic/profile.png";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import axios from "axios";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+import FollowButton from "../follow/FollowButton";
+
+let content;
 
 const UserInfoUi = ({ userInfo }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const { userId: paramUserId } = useParams();
 
   const [userId, setUserId] = useState();
@@ -27,6 +30,7 @@ const UserInfoUi = ({ userInfo }) => {
         )
         .then((response) => {
           if (response.status === 200) {
+            console.log(response.data);
             setUser(response.data);
           }
         })
@@ -36,48 +40,22 @@ const UserInfoUi = ({ userInfo }) => {
     }
   }, [userInfo, userId]);
 
-  const handleFollowButton = (userId) => {
-    axios
-      .post(
-        `http://localhost:7090/api/my/follow/${userId}`,
-        {},
-        {
-          headers: { Authorization: localStorage.getItem("accessToken") },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-        setUser((prevUser) => ({
-          ...user,
-          followCheck: 1,
-          followerCount: prevUser.followerCount + 1,
-        }));
-        Notify.success(response.data);
-      })
-      .catch((error) => {});
-  };
-
-  const handleUnFollowButton = (userId) => {
-    axios
-      .delete(`http://localhost:7090/api/my/follow/${userId}`, {
-        headers: { Authorization: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        console.log(response);
-        setUser((prevUser) => ({
-          ...user,
-          followCheck: 0,
-          followerCount: prevUser.followerCount - 1,
-        }));
-        Notify.success(response.data);
-      })
-      .catch((error) => {});
-  };
+  useLayoutEffect(() => {
+    content = <></>;
+  });
 
   return (
     <>
       <div className="flex flex-col gap-2 ">
-        <h2 className="text-xl font-semibold">{user?.nickname}</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-semibold">{user?.nickname}</h2>
+          {user?.followerCheck == 1 && (
+            <div className="text-sm bg-gray-200 text-gray-600 px-2 rounded-2xl">
+              나를 팔로우 합니다
+            </div>
+          )}
+        </div>
+
         <div className="flex justify-between items-center">
           <div className="w-16 h-16 relative rounded-full overflow-hidden">
             <img
@@ -86,39 +64,24 @@ const UserInfoUi = ({ userInfo }) => {
               className="absolute object-cover"
             />
           </div>
-          {user?.userId !== userInfo?.userId && (
-            <>
-              {user?.followCheck !== 0 ? (
-                <button
-                  type="button"
-                  onClick={() => handleUnFollowButton(user.userId)}
-                  className="rounded-full border h-10 w-20 dark:bg-white dark:text-black"
-                >
-                  언팔로우
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => handleFollowButton(user.userId)}
-                  className="rounded-full border h-10 w-20 dark:bg-white dark:text-black"
-                >
-                  팔로우
-                </button>
-              )}
-            </>
+          {user && userInfo?.userId !== user?.userId && (
+            <FollowButton setUser={setUser} user={user} />
           )}
           <div className="flex gap-4">
             <Link
-              to={`${user?.userId}/follower`}
+              to={`/${user?.userId}/following`}
               className=" text-center hover:backdrop-brightness-75 rounded-md p-2"
             >
               <div className="font-bold">{user?.followCount || "0"}</div>
               <div>팔로잉</div>
             </Link>
-            <button className="hover:backdrop-brightness-75 rounded-md p-2">
+            <Link
+              to={`/${user?.userId}/followers`}
+              className=" text-center hover:backdrop-brightness-75 rounded-md p-2"
+            >
               <div className="font-bold">{user?.followerCount || "0"}</div>
               <div>팔로워</div>
-            </button>
+            </Link>
           </div>
         </div>
         <div>{user?.intro}</div>

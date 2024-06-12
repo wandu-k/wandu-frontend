@@ -101,51 +101,71 @@ const ControllerUi = () => {
       >
         {miniHome?.playlistId ? (
           <>
-            <div className=" container h-full items-center mx-auto flex p-4">
-              <div className=" w-full flex justify-center">
-                <div className="flex flex-col">
-                  <div className="w-96 h-96 relative">
-                    <img
-                      className="absolute inset-0 object-cover w-full h-full"
-                      src={
-                        "data:image/jpeg;base64," +
-                        (bgmList.length > 0 && bgmList[nowPlayNumber].album)
-                      }
-                    ></img>
-                  </div>
-                </div>
-              </div>
-              <div className=" w-full flex flex-col">
-                {bgmList.map((bgm, index) => (
-                  <button
-                    key={bgm.itemId}
-                    className={
-                      "flex h-14 items-center p-2 " +
-                      (index == nowPlayNumber && "dark:bg-zinc-600 bg-gray-200")
-                    }
-                    onClick={() => handleChangeMusic(index)}
-                  >
-                    <div className="flex w-full items-center gap-4">
-                      <div className="w-11 aspect-square relative">
+            {bgmList.length > 0 ? (
+              <>
+                <div className=" container h-full items-center mx-auto flex p-4">
+                  <div className=" w-full flex justify-center">
+                    <div className="flex flex-col">
+                      <div className="w-96 h-96 relative">
                         <img
                           className="absolute inset-0 object-cover w-full h-full"
                           src={
                             "data:image/jpeg;base64," +
-                            (bgmList.length > 0 && bgmList[index].album)
+                            (bgmList.length > 0 && bgmList[nowPlayNumber].album)
                           }
                         ></img>
                       </div>
-                      <div>
-                        <div className="">{bgm.title}</div>
-                        <h3 className=" text-gray-300">
-                          {bgm?.artist || "정보 없음"}
-                        </h3>
-                      </div>
                     </div>
-                  </button>
-                ))}
-              </div>
-            </div>
+                  </div>
+                  <div className=" w-full flex flex-col">
+                    {bgmList.map((bgm, index) => (
+                      <button
+                        key={bgm.itemId}
+                        className={
+                          "flex h-14 items-center p-2 " +
+                          (index == nowPlayNumber &&
+                            "dark:bg-zinc-600 bg-gray-200")
+                        }
+                        onClick={() => handleChangeMusic(index)}
+                      >
+                        <div className="flex w-full items-center gap-4">
+                          <div className="w-11 aspect-square relative">
+                            <img
+                              className="absolute inset-0 object-cover w-full h-full"
+                              src={
+                                "data:image/jpeg;base64," +
+                                (bgmList.length > 0 && bgmList[index].album)
+                              }
+                            ></img>
+                          </div>
+                          <div>
+                            <div className="">{bgm.title}</div>
+                            <h3 className=" text-gray-300">
+                              {bgm?.artist || "정보 없음"}
+                            </h3>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {" "}
+                <Link
+                  to="/my/inventory?categoryName=음악"
+                  onClick={() => setMusicPanel(false)}
+                >
+                  <div className="flex flex-col items-center">
+                    <div className="text-2xl font-bold">
+                      현재 플레이리스트에 노래가 없습니다.
+                    </div>
+                    <div>추가하러 가기</div>
+                  </div>
+                </Link>
+              </>
+            )}
           </>
         ) : (
           <Link to="/my" onClick={() => setMusicPanel(false)}>
@@ -185,9 +205,18 @@ const ControllerUi = () => {
           duration={duration}
         />
         <div
-          className="h-16  px-8 flex justify-between content-center dark:bg-zinc-900/80 z-auto backdrop-blur-3xl bg-white/80 gap-6"
+          className="h-16  px-8 flex justify-between content-center dark:bg-zinc-900/80 z-auto backdrop-blur-3xl bg-white/80 gap-6 relative"
           onClick={toggleMusicPanel}
         >
+          <div className="flex flex-col w-ful items-center justify-center absolute inset-0 m-auto">
+            {bgmList.length > 0 ? (
+              <>dsd</>
+            ) : (
+              <>
+                <div>현재 곡이 존재하지 않아요</div>
+              </>
+            )}
+          </div>
           <div className="flex gap-6">
             <div className="flex gap-6" onClick={(e) => e.stopPropagation()}>
               <button>
@@ -209,6 +238,7 @@ const ControllerUi = () => {
               </div>
             </div>
           </div>
+
           <button
             className="text-2xl"
             type="button"

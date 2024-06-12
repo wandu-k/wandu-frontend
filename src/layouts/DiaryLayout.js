@@ -1,5 +1,4 @@
-import { NavLink, Outlet, useParams } from "react-router-dom";
-import SideBar from "../components/navigation/SideBar";
+import { Outlet } from "react-router-dom";
 
 const DiaryLayout = () => {
   return (
