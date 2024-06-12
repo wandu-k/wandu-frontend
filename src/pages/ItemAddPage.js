@@ -3,6 +3,8 @@ import { useEffect, useRef, useState, useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { Notify } from "notiflix";
+
 
 const ItemAddPage = () => {
   const fileInputRef = useRef();
@@ -60,9 +62,11 @@ const ItemAddPage = () => {
         },
       })
       .then((response) => {
-        navigate(`/shop`);
+        Notify.success(response.data);
+
       })
       .catch((error) => {});
+      navigate(`/shop`);
   };
 
   useEffect(() => {

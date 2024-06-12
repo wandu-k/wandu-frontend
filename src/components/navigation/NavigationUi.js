@@ -131,18 +131,6 @@ const NavigationUi = () => {
 
   return (
     <nav className="w-full flex flex-col justify-end py-2 h-20 relative">
-      {profileDropMenu && (
-        <div
-          ref={dropMenu}
-          className="top-20 w-56 text-sm right-0 absolute flex flex-col border rounded-2xl bg-white dark:bg-zinc-950 dark:border-none p-4 gap-4"
-        >
-          <>
-            <Link to={"/my"}>내 정보</Link>
-            <Link to={"/my/inventory"}>인벤토리</Link>
-            <Link to={"/logout"}>로그아웃</Link>
-          </>
-        </div>
-      )}
       <div className="flex justify-between font-bold container mx-auto tracking-tighter">
         <div className="h-full content-center flex gap-4 text-xl">
           <div className="content-center">완두콩</div>
@@ -170,6 +158,7 @@ const NavigationUi = () => {
               {userInfo?.point}
             </Link>
           </div>
+          <div className=" relative">
           <button
             ref={dropMenuButton}
             type="button"
@@ -185,6 +174,20 @@ const NavigationUi = () => {
             </div>
             {userInfo ? userInfo.nickname : "로그인"}
           </button>
+          {profileDropMenu && (
+        <div
+          ref={dropMenu}
+          className=" w-56 text-sm right-0 top-10 mx-auto absolute flex flex-col border rounded-2xl bg-white dark:bg-zinc-950 dark:border-none p-4 gap-4"
+        >
+          <>
+            <Link to={"/my"}>내 정보</Link>
+            <Link to={"/my/inventory"}>인벤토리</Link>
+            <Link to={"/logout"}>로그아웃</Link>
+          </>
+        </div>
+      )}
+          </div>
+          
         </div>
       </div>
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />

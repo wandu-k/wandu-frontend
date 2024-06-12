@@ -5,6 +5,8 @@ import axios from "axios";
 import PlaylistAddMusicModal from "../modal/PlaylistAddMusicModal";
 import defaultAlbum from "../../images/shop/album.png";
 import previewAvatar from "../../images/avatar/body.png";
+import { Notify } from "notiflix";
+
 
 const InventoryItemCard = ({ item, userInfo }) => {
   const [enable, setEnable] = useState();
@@ -56,7 +58,7 @@ const InventoryItemCard = ({ item, userInfo }) => {
   const avatarUpdate = (itemId) => {
     axios
       .put(
-        "http://localhost:7090/api/user/avatar",
+        `http://localhost:7090/api/my/avatar/${item.buyItemId}`,
         {
           itemId: itemId,
           subcategoryId: item.subcategoryId,
@@ -73,6 +75,7 @@ const InventoryItemCard = ({ item, userInfo }) => {
           item.enable = 1;
           setEnable(1);
         }
+        Notify.success(response.data);
       })
       .catch((error) => {});
   };

@@ -256,10 +256,10 @@ const MyInfoPage = () => {
             >
               <div className="w-full flex justify-between h-11 items-center">
                 <label className="w-1/3 font-bold">닉네임</label>
-                <div className="flex w-2/3 h-full gap-4">
+                <div className="flex w-2/3 h-11 gap-4">
                   <input
                     type="text"
-                    className="border rounded-2xl w-full px-4 h-full dark:bg-zinc-950 dark:border-zinc-800"
+                    className="border rounded-2xl w-full px-4 h-11 dark:bg-zinc-950 dark:border-zinc-800"
                     disabled={!enableEditP}
                     defaultValue={userInfo?.nickname}
                     onChange={(e) => setNickname(e.target.value)}
@@ -321,7 +321,7 @@ const MyInfoPage = () => {
             >
               <div className="w-full flex justify-between h-11 items-center">
                 <label className="w-1/3 font-bold">상태</label>
-                <div className="flex w-2/3 h-full gap-4">
+                <div className="flex w-2/3 h-11 gap-4">
                   <input
                     type="text"
                     className="border rounded-2xl w-full px-4 h-full dark:bg-zinc-950 dark:border-zinc-800"

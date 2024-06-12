@@ -7,7 +7,7 @@ const AvatarUi = ({ userId }) => {
   const [avatar, setAvatar] = useState();
   useEffect(() => {
     axios
-      .get(`http://localhost:7090/api/user/avatar/${userId}`, {
+      .get(`http://localhost:7090/api/user/${userId}/avatar`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

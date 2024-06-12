@@ -42,12 +42,12 @@ const AlbumPage = () => {
 
   return (
     <>
-      <div className="w-full h-auto mt-20 mb-16 flex relative p-4">
-        <div className="flex w-full h-auto justify-start gap-4 flex-wrap">
+      <div className="w-full mt-20 mb-16 relative p-4">
+        <div className="grid w-full grid-cols-6  h-auto gap-4 ">
           {albums.map((album, index) => (
             <Link
               key={index}
-              className=" min-w-36 h-36 overflow-hidden border rounded-2xl relative"
+              className=" min-w-36 aspect-square overflow-hidden border rounded-2xl relative"
             >
               <img
                 src={album.file}

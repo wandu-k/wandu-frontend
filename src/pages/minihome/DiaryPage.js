@@ -71,7 +71,7 @@ const DiaryPage = () => {
               </div>
             ) : (
               <>
-                <div className="flex justify-center flex-col h-full items-center">
+                <div className="flex justify-center w-full flex-col h-full items-center">
                   <div className="font-bold text-2xl ">
                     아직 작성된 글이 없습니다.
                   </div>

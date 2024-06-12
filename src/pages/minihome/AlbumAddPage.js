@@ -1,17 +1,14 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
-  Link,
-  NavLink,
-  useLocation,
   useNavigate,
   useParams,
 } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LoginContext } from "../../contexts/LoginContext";
+
 
 import axios from "axios";
-import { format, formatDate } from "date-fns";
 import { useForm } from "react-hook-form";
+import { Notify } from "notiflix";
 
 const AlbumAddPage = () => {
   const { register, handleSubmit, error, reset } = useForm();
@@ -45,10 +42,11 @@ const AlbumAddPage = () => {
       })
       .then((response) => {
         console.log(response.data);
-
-        navigate(`/${userId}/album`);
+        Notify.success(response.data);
+       
       })
       .catch((error) => {});
+      navigate(`/${userId}/album`);
   };
 
   const handleFileButtonClick = () => {
@@ -78,11 +76,12 @@ const AlbumAddPage = () => {
             className="border rounded-2xl overflow-hidden"
             onClick={handleFileButtonClick}
           >
-            <div className="w-96 h-96 relative">
+            <div className="w-96 h-96 relative content-center">
+              {imgPath ?
               <img
                 src={imgPath}
                 className=" absolute inset-0 w-full h-full object-cover"
-              />
+              /> : <><FontAwesomeIcon className="text-6xl" icon="fa-solid fa-plus" /></>}
             </div>
           </button>
           <input
