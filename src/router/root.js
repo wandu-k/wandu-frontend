@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { LoginProvider } from "../contexts/LoginContext";
@@ -13,8 +13,6 @@ import PostPage from "../pages/PostPage";
 import ShopLayout from "../layouts/ShopLayout";
 import ShopPage from "../pages/ShopPage";
 import ItemAddPage from "../pages/ItemAddPage";
-import PictureLayout from "../layouts/PictureLayout";
-import PicturePage from "../pages/PicturePage";
 import { ShopCategoryProvider } from "../contexts/ShopCategoryContext";
 import ShopSubPage from "../pages/ShopSubPage";
 import ChargePage from "../pages/ChargePage";
@@ -28,6 +26,9 @@ import { MiniHomeProvider } from "../contexts/MiniHomeContext";
 import FollowingPage from "../pages/FollowingPage";
 import FollowersPage from "../pages/FollowersPage";
 import { BgmProvider } from "../contexts/BgmContext";
+import AlbumLayout from "../layouts/AlbumLayout";
+import AlbumPage from "../pages/minihome/AlbumPage";
+import AlbumAddPage from "../pages/minihome/AlbumAddPage";
 
 library.add(fas);
 
@@ -66,12 +67,16 @@ const root = createBrowserRouter([
             element: <Main />,
           },
           {
-            path: "picture",
-            element: <PictureLayout />,
+            path: "album",
+            element: <AlbumLayout />,
             children: [
               {
                 path: "",
-                element: <PicturePage />,
+                element: <AlbumPage />,
+              },
+              {
+                path: "add",
+                element: <AlbumAddPage />,
               },
             ],
           },

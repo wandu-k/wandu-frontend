@@ -107,7 +107,7 @@ const NavigationUi = () => {
             스토리북
           </NavLink>
           <NavLink
-            to={`/${userId}/picture`}
+            to={`/${userId}/album`}
             className={({ isActive }) => (isActive ? "text-lime-500" : "")}
           >
             앨범
