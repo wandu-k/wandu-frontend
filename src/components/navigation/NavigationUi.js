@@ -94,21 +94,30 @@ const NavigationUi = () => {
     ) {
       return (
         <>
-          {["minihome", "diary", "picture", "guest"].map((section) => (
-            <NavLink
-              key={section}
-              to={`/${userId}/${section}`}
-              className={({ isActive }) => (isActive ? "text-lime-500" : "")}
-            >
-              {section === "minihome"
-                ? "홈"
-                : section === "diary"
-                ? "다이어리"
-                : section === "picture"
-                ? "사진첩"
-                : "방명록"}
-            </NavLink>
-          ))}
+          <NavLink
+            to={`/${userId}/minihome`}
+            className={({ isActive }) => (isActive ? "text-lime-500" : "")}
+          >
+            마이룸
+          </NavLink>
+          <NavLink
+            to={`/${userId}/diary`}
+            className={({ isActive }) => (isActive ? "text-lime-500" : "")}
+          >
+            스토리북
+          </NavLink>
+          <NavLink
+            to={`/${userId}/picture`}
+            className={({ isActive }) => (isActive ? "text-lime-500" : "")}
+          >
+            앨범
+          </NavLink>
+          <NavLink
+            to={`/${userId}/guest`}
+            className={({ isActive }) => (isActive ? "text-lime-500" : "")}
+          >
+            방명록
+          </NavLink>
         </>
       );
     } else if (

@@ -3,11 +3,15 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { LoginContext } from "../../contexts/LoginContext";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+import { MiniHomeContext } from "../../contexts/MiniHomeContext";
+import { BgmContext } from "../../contexts/BgmContext";
 
 Modal.setAppElement("#root");
 
 const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
   const { userInfo } = useContext(LoginContext);
+  const { miniHome } = useContext(MiniHomeContext);
+  const { loadBgmList } = useContext(BgmContext);
   const [playlistList, setPlaylistList] = useState([]);
   const [checkItems, setCheckItems] = useState(new Set());
 
@@ -24,6 +28,12 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
       })
       .catch((error) => {});
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      loadBgmList();
+    }
+  }, [isOpen]);
 
   const toggleCheck = (playlistId) => {
     const newCheckItems = new Set(checkItems);
@@ -44,13 +54,14 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
           }
         )
         .then((response) => {
+          loadPlaylist();
           Notify.success(response.data);
         })
         .catch((error) => {});
     } else {
       axios
         .delete(
-          `http://localhost:7090/api/user/playlist/${playlistId}/bgm/${item.buyItemId}`,
+          `http://localhost:7090/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           }

@@ -7,6 +7,8 @@ import TimeLine from "./TimeLine";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
+import { BgmContext } from "../../../contexts/BgmContext";
+import defaultAlbum from "../../../images/shop/album.png";
 
 const ControllerUi = () => {
   const [playing, setPlaying] = useState(false);
@@ -24,7 +26,8 @@ const ControllerUi = () => {
   const [musicPanel, setMusicPanel] = useState(false);
   const location = useLocation();
   const [playlist, setPlaylist] = useState();
-  const [bgmList, setBgmList] = useState([]);
+  const { bgmList, loadBgmList } = useContext(BgmContext);
+
   const [nowPlayNumber, setNowPlayNumber] = useState(0);
 
   const formatTime = (time) => {
@@ -41,21 +44,6 @@ const ControllerUi = () => {
   useEffect(() => {
     setMusicPanel(false);
   }, [location.pathname]);
-
-  const loadBgmList = () => {
-    axios
-      .get(
-        `http://localhost:7090/api/user/playlist/${miniHome?.playlistId}/bgm`,
-        {
-          headers: { Authorization: localStorage.getItem("accessToken") },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        setBgmList(response.data);
-      })
-      .catch((error) => {});
-  };
 
   useEffect(() => {
     if (miniHome) {
@@ -103,21 +91,16 @@ const ControllerUi = () => {
           <>
             {bgmList.length > 0 ? (
               <>
-                <div className=" container h-full items-center mx-auto flex p-4">
-                  <div className=" w-full flex justify-center">
-                    <div className="flex flex-col">
-                      <div className="w-96 h-96 relative">
-                        <img
-                          className="absolute inset-0 object-cover w-full h-full"
-                          src={
-                            "data:image/jpeg;base64," +
-                            (bgmList.length > 0 && bgmList[nowPlayNumber].album)
-                          }
-                        ></img>
-                      </div>
+                <div className=" container h-full items-center justify-center mx-auto flex p-4">
+                  <div className="w-auto h-full p-auto  flex justify-center aspect-square">
+                    <div className="w-full h-full relative">
+                      <img
+                        className="absolute inset-0 object-cover p-28 w-full h-full"
+                        src={bgmList[nowPlayNumber].album || defaultAlbum}
+                      ></img>
                     </div>
                   </div>
-                  <div className=" w-full flex flex-col">
+                  <div className="min-w-96 w-full flex flex-col">
                     {bgmList.map((bgm, index) => (
                       <button
                         key={bgm.itemId}
@@ -132,18 +115,16 @@ const ControllerUi = () => {
                           <div className="w-11 aspect-square relative">
                             <img
                               className="absolute inset-0 object-cover w-full h-full"
-                              src={
-                                "data:image/jpeg;base64," +
-                                (bgmList.length > 0 && bgmList[index].album)
-                              }
+                              src={bgmList[nowPlayNumber].album || defaultAlbum}
                             ></img>
                           </div>
-                          <div>
-                            <div className="">{bgm.title}</div>
-                            <h3 className=" text-gray-300">
+                          <div className="flex flex-col">
+                            <div className=" text-left">{bgm.title}</div>
+                            <h3 className=" text-left text-gray-600">
                               {bgm?.artist || "정보 없음"}
                             </h3>
                           </div>
+                          <div className="text-gray-600">{bgm?.duration}</div>
                         </div>
                       </button>
                     ))}
@@ -210,7 +191,37 @@ const ControllerUi = () => {
         >
           <div className="flex flex-col w-ful items-center justify-center absolute inset-0 m-auto">
             {bgmList.length > 0 ? (
-              <>dsd</>
+              <>
+                <div className="flex h-full w-full p-2 justify-center gap-4">
+                  <div className="relative h-full aspect-square">
+                    <img
+                      src={bgmList[nowPlayNumber].album || defaultAlbum}
+                      className=" absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="font-bold">
+                      {" "}
+                      {bgmList[nowPlayNumber].title}
+                    </div>
+                    <div>{bgmList[nowPlayNumber].artist}</div>
+                  </div>
+                  <div
+                    className="flex gap-6"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button type="button" className="text-xl">
+                      <FontAwesomeIcon icon="fa-solid fa-thumbs-up" />
+                    </button>
+                    <button type="button" className="text-xl">
+                      <FontAwesomeIcon icon="fa-solid fa-thumbs-down" />
+                    </button>
+                    <button type="button" className="text-xl">
+                      <FontAwesomeIcon icon="fa-solid fa-ellipsis-vertical" />
+                    </button>
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <div>현재 곡이 존재하지 않아요</div>
@@ -218,7 +229,10 @@ const ControllerUi = () => {
             )}
           </div>
           <div className="flex gap-6">
-            <div className="flex gap-6" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="flex gap-6 z-20"
+              onClick={(e) => e.stopPropagation()}
+            >
               <button>
                 <FontAwesomeIcon icon="fa-solid fa-backward-step" />
               </button>

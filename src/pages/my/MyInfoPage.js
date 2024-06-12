@@ -6,6 +6,7 @@ import { LoginContext } from "../../contexts/LoginContext";
 import { MiniHomeContext } from "../../contexts/MiniHomeContext";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MyInfoPage = () => {
   const userInfo = useOutletContext();
@@ -484,7 +485,26 @@ const MyInfoPage = () => {
                   </form>
                 </>
               )}
-              <div className="font-bold">미니홈에 설정된 플레이리스트 :</div>
+              <div className=" flex h-full justify-center gap-4 font-bold items-center">
+                <label>미니홈에 설정된 플레이리스트 :</label>
+                <div>
+                  {playlistList.map((playlist) => (
+                    <>
+                      {miniHome?.playlistId == playlist?.playlistId && (
+                        <button
+                          type="button"
+                          key={playlist.playlistId}
+                          className=" h-14"
+                          onClick={() => handleSelectPlaylist(playlist)}
+                        >
+                          <h3 className="font-bold ">{playlist.plName}</h3>
+                        </button>
+                      )}
+                    </>
+                  ))}
+                </div>
+                <button className=" text-red-600">비활성화</button>
+              </div>
             </div>
           </div>
         </div>

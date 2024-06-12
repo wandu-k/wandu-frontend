@@ -28,9 +28,14 @@ const ShopItemCard = ({ item }) => {
           alt={item.itemName}
         />
       </div>
-      <div className=" p-4">
-        <p className="text-sm text-gray-500">{item.subcategoryName}</p>
-        <h3>{item.itemName}</h3>
+      <div className="flex p-4 justify-between">
+        <div>
+          <p className="text-sm text-gray-500">{item.subcategoryName}</p>
+          <h3>{item.itemName}</h3>
+        </div>
+        <div className="flex flex-col justify-end">
+          <div>{item.price} 콩</div>
+        </div>
       </div>
     </Link>
   );

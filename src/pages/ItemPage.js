@@ -2,9 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemSideBar from "../components/navigation/ItemSideBar";
-import avatarBody from "../images/avatar/body.png";
 import defaultAlbum from "../images/shop/album.png";
 import ReactPlayer from "react-player";
+import previewAvatar from "../images/avatar/body.png";
 
 const ItemPage = () => {
   const { itemId } = useParams();
@@ -22,7 +22,7 @@ const ItemPage = () => {
   }, []);
   return (
     <>
-      <div className="flex justify-center w-full pb-16 pt-20 relative max-lg:flex-col">
+      <div className="flex justify-center w-full h-dvh pb-16 pt-20 relative max-lg:flex-col">
         <div className="w-full p-4 flex gap-4 flex-col">
           <div className="w-full flex gap-4 h-full max-xl:flex-col">
             <div className=" w-full aspect-square rounded-2xl overflow-hidden relative">
@@ -34,8 +34,13 @@ const ItemPage = () => {
                     ? item?.thumbnail
                     : defaultAlbum
                 }
-                className="absolute inset-0 object-cover w-full h-full"
+                className="absolute inset-0 object-contain w-full h-full"
               ></img>
+              <img
+                src={previewAvatar}
+                className="absolute inset-0 object-contain w-full h-full -z-40 brightness-150 grayscale"
+                alt={item?.itemName}
+              />
             </div>
           </div>
         </div>

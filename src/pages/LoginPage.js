@@ -15,13 +15,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="absolute w-full h-full -z-50">
-        <img
-          src={loginBackground}
-          alt="Login Background"
-          className="absolute w-full h-full object-cover opacity-50"
-        />
-      </div>
+      <div className="absolute w-full h-full -z-50"></div>
       <div className="container flex my-auto mx-auto p-10 h-dvh gap-4">
         <div className="flex flex-col justify-center items-center w-full">
           <div>
@@ -32,7 +26,7 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center w-full">
-          <div className="w-96 h-auto rounded-2xl backdrop-blur-md bg-white/75 border-slate-100 shadow-light p-8 flex flex-col gap-4">
+          <div className="w-96 h-auto rounded-2xl p-8 flex flex-col gap-4">
             <div className="flex justify-center">
               <h1 className="font-black text-4xl tracking-tighter text-lime-800">
                 완두콩

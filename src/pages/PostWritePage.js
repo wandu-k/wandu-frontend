@@ -35,8 +35,11 @@ const PostWritePage = () => {
         if (response.status === 200 || response.status === 201) {
           navigate(`/${userId}/diary`);
         }
+        console.log(response.data);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -62,7 +65,7 @@ const PostWritePage = () => {
         </div>
 
         <Editor
-          onChange={(value) => setContent(value)}
+          onEditorChange={(value) => setContent(value)}
           apiKey="mqvcirn1n2i01h0ifbltkq2fk0cvwadntra96la2j2p1g379"
           init={{
             height: "100%",
@@ -82,13 +85,13 @@ const PostWritePage = () => {
               ),
           }}
         ></Editor>
-        <div className="flex gap-4 justify-end">
-          <Link to={`/${userId}/diary`} className="border rounded-md p-1 px-4">
+        <div className="flex gap-4 justify-end font-bold">
+          <Link to={`/${userId}/diary`} className="border rounded-2xl p-1 px-4">
             취소
           </Link>
           <button
             type="submit"
-            className="border border-blue-600 rounded-md p-1 px-4 bg-blue-500 text-white"
+            className="border rounded-2xl p-1 px-4 bg-blue-600 text-white"
           >
             등록
           </button>

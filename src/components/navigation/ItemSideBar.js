@@ -76,7 +76,7 @@ const ItemSideBar = ({ item }) => {
           onClick={handleBuyButton}
           className=" bg-lime-500 h-14 rounded-2xl text-white font-bold text-xl content-center text-center"
         >
-          아이템 구매
+          {item?.price}콩으로 아이템 구매
         </button>
       )}
       <Link

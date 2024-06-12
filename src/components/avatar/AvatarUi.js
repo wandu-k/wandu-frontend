@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import avatarBody from "../../images/avatar/body.png";
+import defaultEye from "../../images/avatar/bigeye.png";
 import axios from "axios";
 
 const AvatarUi = ({ userId }) => {
@@ -23,7 +24,11 @@ const AvatarUi = ({ userId }) => {
           <div className="relative w-full h-full">
             <img
               src={avatarBody}
-              className=" absolute inset-0 w-full h-full object-contain"
+              className=" absolute inset-0 w-full h-full object-contain -z-30"
+            />
+            <img
+              src={avatar?.eye || defaultEye}
+              className=" absolute inset-0 w-full h-full object-contain z-0"
             />
             {avatar?.head && (
               <img

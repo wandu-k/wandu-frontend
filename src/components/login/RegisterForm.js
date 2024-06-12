@@ -83,7 +83,7 @@ const RegisterForm = () => {
         <div>
           <button
             type="submit"
-            className="bg-lime-500 text-lime-800 font-bold w-full h-12 rounded-2xl"
+            className="bg-lime-500 text-white font-bold w-full h-12 rounded-2xl"
           >
             회원가입
           </button>

@@ -27,6 +27,7 @@ import AccountPage from "../pages/my/AccountPage";
 import { MiniHomeProvider } from "../contexts/MiniHomeContext";
 import FollowingPage from "../pages/FollowingPage";
 import FollowersPage from "../pages/FollowersPage";
+import { BgmProvider } from "../contexts/BgmContext";
 
 library.add(fas);
 
@@ -39,9 +40,11 @@ const root = createBrowserRouter([
     element: (
       <LoginProvider>
         <MiniHomeProvider>
-          <Suspense fallback={Loading}>
-            <MainLayout />
-          </Suspense>
+          <BgmProvider>
+            <Suspense fallback={Loading}>
+              <MainLayout />
+            </Suspense>
+          </BgmProvider>
         </MiniHomeProvider>
       </LoginProvider>
     ),
