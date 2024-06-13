@@ -1,25 +1,32 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemSideBar from "../components/navigation/ItemSideBar";
 import defaultAlbum from "../images/shop/album.png";
 import ReactPlayer from "react-player";
 import previewAvatar from "../images/avatar/body.png";
+import { LoginContext } from "../contexts/LoginContext";
 
 const ItemPage = () => {
   const { itemId } = useParams();
   const [item, setItem] = useState();
+  const { userInfo } = useContext(LoginContext);
   useEffect(() => {
-    axios
-      .get(`http://localhost:7090/api/user/shop/${itemId}`, {
-        headers: { Authorization: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setItem(response.data);
-      })
-      .catch((error) => {});
-  }, []);
+    if (userInfo) {
+      axios
+        .get(
+          `http://localhost:7090/api/user/shop/${itemId}?userId=${userInfo?.userId}`,
+          {
+            headers: { Authorization: localStorage.getItem("accessToken") },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          setItem(response.data);
+        })
+        .catch((error) => {});
+    }
+  }, [userInfo]);
   return (
     <>
       <div className="flex justify-center w-full h-dvh pb-16 pt-20 relative max-lg:flex-col">
