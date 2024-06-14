@@ -28,5 +28,5 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             echo "AWS 연결"
-            docker pull ${{ secrets.DOCKER_USERNAME }}/wandu-front
-            docker-compose up -d
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/wandu-front
+            sudo docker-compose up -d
