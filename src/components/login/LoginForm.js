@@ -47,15 +47,10 @@ const LoginForm = () => {
               <button className="text-xs">비밀번호를 잊으셨나요?</button>
             </div>
           </div>
-          {code === 401 ? (
-            <>
-              {" "}
+          {code === 401 && (
               <div className="text-center p-3 bg-red-400 text-white rounded-2xl border-red-500 border">
                 계정을 찾을 수 없습니다.
               </div>
-            </>
-          ) : (
-            <></>
           )}
         </div>
         <div>
