@@ -34,7 +34,7 @@ const AlbumAddPage = () => {
 
     console.log(data);
     axios
-      .post("http://localhost:7090/api/user/album", formDataToSend, {
+      .post("/api/user/album", formDataToSend, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",

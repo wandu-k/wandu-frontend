@@ -18,7 +18,7 @@ const DiaryPage = () => {
   useEffect(() => {
     if (location.pathname === `/${userId}/diary`) {
       axios
-        .get("http://localhost:7090/api/user/diary/list", {
+        .get("/api/user/diary/list", {
           params: {
             userId: userId,
           },

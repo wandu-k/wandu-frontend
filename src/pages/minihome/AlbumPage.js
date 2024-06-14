@@ -25,7 +25,7 @@ const AlbumPage = () => {
   useEffect(() => {
     axios
       .post(
-        `http://localhost:7090/api/user/${userId}/album/list`,
+        `/api/user/${userId}/album/list`,
         {},
         {
           headers: { Authorization: localStorage.getItem("accessToken") }, // 헤더를 설정 객체 안에 포함

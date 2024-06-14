@@ -49,7 +49,7 @@ const ControllerUi = () => {
     if (miniHome) {
       axios
         .get(
-          `http://localhost:7090/api/user/playlist/${miniHome?.playlistId}`,
+          `/api/user/playlist/${miniHome?.playlistId}`,
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           }

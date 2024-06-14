@@ -21,7 +21,7 @@ const PostWritePage = () => {
 
     axios
       .post(
-        "http://localhost:7090/api/user/diary",
+        "/api/user/diary",
         {
           userId: userId,
           title: title,

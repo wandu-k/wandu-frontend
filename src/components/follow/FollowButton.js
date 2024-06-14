@@ -5,7 +5,7 @@ const FollowButton = ({ user, setUser }) => {
   const handleFollowButton = (userId) => {
     axios
       .post(
-        `http://localhost:7090/api/my/follow/${userId}`,
+        `/api/my/follow/${userId}`,
         {},
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
@@ -25,7 +25,7 @@ const FollowButton = ({ user, setUser }) => {
 
   const handleUnFollowButton = (userId) => {
     axios
-      .delete(`http://localhost:7090/api/my/follow/${userId}`, {
+      .delete(`/api/my/follow/${userId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

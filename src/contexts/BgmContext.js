@@ -10,7 +10,7 @@ export const BgmProvider = ({ children }) => {
   const loadBgmList = () => {
     axios
       .get(
-        `http://localhost:7090/api/user/playlist/${miniHome?.playlistId}/bgm`,
+        `/api/user/playlist/${miniHome?.playlistId}/bgm`,
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
         }

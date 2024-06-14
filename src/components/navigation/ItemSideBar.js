@@ -12,7 +12,7 @@ const ItemSideBar = ({ item }) => {
   const purchase = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:7090/api/user/item",
+        "/api/user/item",
         {
           userId: userInfo?.userId,
           itemId: item?.itemId,

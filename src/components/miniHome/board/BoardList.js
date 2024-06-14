@@ -6,7 +6,7 @@ const BoardList = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:7090/api/minihome/board")
+      .get("/api/minihome/board")
       .then((respone) => {
         setBoards(respone.data);
       })

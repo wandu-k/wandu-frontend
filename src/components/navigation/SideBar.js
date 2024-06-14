@@ -1,19 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useParams} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "animate.css";
-import {
-  format,
-  addDays,
-  subDays,
-  addMonths,
-  subMonths,
-  getMonth,
-  getYear,
-} from "date-fns"; // Importing date formatting function
+import {addDays, format, getMonth, getYear, subDays,} from "date-fns"; // Importing date formatting function
 import axios from "axios"; // Importing axios for HTTP requests
 import UserInfoUi from "../userInfo/UserInfoUi";
-import { LoginContext } from "../../contexts/LoginContext";
 import AvatarUi from "../avatar/AvatarUi";
 
 const SideBar = ({ userInfo }) => {
@@ -64,7 +55,7 @@ const SideBar = ({ userInfo }) => {
 
   const dailyCheck = () => {
     axios.post(
-      "http://localhost:7090/api/user/daily",
+      "/api/user/daily",
       {
         userId: userId,
         date: new Date(),
@@ -87,7 +78,7 @@ const SideBar = ({ userInfo }) => {
 
     axios
       .post(
-        "http://localhost:7090/api/user/diary",
+        "/api/user/diary",
         {
           date: formattedDate,
           userId: userId,

@@ -13,7 +13,7 @@ export const ShopCategoryProvider = ({ children }) => {
       location.pathname.includes("/inventory")
     ) {
       axios
-        .get("http://localhost:7090/api/public/shop/category")
+        .get("/api/public/shop/category")
         .then((response) => {
           setCategory(response.data);
         })

@@ -13,7 +13,7 @@ const ShopSubPage = () => {
   useEffect(() => {
     axios
       .post(
-        "http://localhost:7090/api/user/shop/list",
+        "/api/user/shop/list",
         {
           categoryName: searchParams.get("categoryName"),
           userId: searchParams.get("userId"),

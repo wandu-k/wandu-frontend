@@ -12,7 +12,7 @@ const PostPage = () => {
   const [post, setPost] = useState(null); // 게시물 상태
   useEffect(() => {
     axios
-      .get(`http://localhost:7090/api/user/${userId}/diary/${postId}`, {
+      .get(`/api/user/${userId}/diary/${postId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -25,7 +25,7 @@ const PostPage = () => {
 
   const handlePostDelete = () => {
     axios
-      .delete(`http://localhost:7090/api/user/diary/${postId}`, {
+      .delete(`/api/user/diary/${postId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
