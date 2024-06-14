@@ -11,7 +11,7 @@ const FollowingPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:7090/api/user/${userId}/follow/following`, {
+      .get(`/api/user/${userId}/follow/following`, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
         },

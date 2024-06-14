@@ -20,7 +20,7 @@ const RegisterForm = () => {
     formData.append("accountDto", blob);
 
     api
-      .post("http://localhost:7090/api/public/register", formData, {
+      .post("/api/public/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

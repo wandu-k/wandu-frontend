@@ -15,7 +15,7 @@ const ItemPage = () => {
     if (userInfo) {
       axios
         .get(
-          `http://localhost:7090/api/user/shop/${itemId}?userId=${userInfo?.userId}`,
+          `/api/user/shop/${itemId}?userId=${userInfo?.userId}`,
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           }

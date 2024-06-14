@@ -17,7 +17,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
 
   const loadPlaylist = () => {
     axios
-      .get("http://localhost:7090/api/my/playlist", {
+      .get("/api/my/playlist", {
         params: { itemId: item.itemId },
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
@@ -47,7 +47,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
     if (newCheckItems.has(playlistId)) {
       axios
         .post(
-          `http://localhost:7090/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
+          `/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {},
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
@@ -61,7 +61,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
     } else {
       axios
         .delete(
-          `http://localhost:7090/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
+          `/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           }

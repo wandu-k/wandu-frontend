@@ -2,7 +2,7 @@ const MiniCalender = () => {
   useEffect(() => {
     if (location.pathname.includes(`/diary`)) {
       axios
-        .get("http://localhost:7090/api/user/daily", {
+        .get("/api/user/daily", {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

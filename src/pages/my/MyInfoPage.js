@@ -26,7 +26,7 @@ const MyInfoPage = () => {
   useEffect(() => {
     fetchMiniHomeData();
     axios
-      .get("http://localhost:7090/api/my/statistics", {
+      .get("/api/my/statistics", {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
         },
@@ -51,7 +51,7 @@ const MyInfoPage = () => {
   const handleEditMiniHome = () => {
     axios
       .patch(
-        `http://localhost:7090/api/user/minihome`,
+        `/api/user/minihome`,
         {
           introduction: introduction,
           statusM: statusM,
@@ -80,7 +80,7 @@ const MyInfoPage = () => {
     formData.append("userDto", blob);
     console.log(userInfo?.userId);
     axios
-      .put(`http://localhost:7090/api/user`, formData, {
+      .put(`/api/user`, formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -101,7 +101,7 @@ const MyInfoPage = () => {
 
   const loadPlayList = () => {
     axios
-      .get("http://localhost:7090/api/my/playlist", {
+      .get("/api/my/playlist", {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => setPlaylistList(response.data))
@@ -125,7 +125,7 @@ const MyInfoPage = () => {
 
     axios
       .post(
-        "http://localhost:7090/api/my/playlist",
+        "/api/my/playlist",
         {
           plName: plName,
         },
@@ -142,7 +142,7 @@ const MyInfoPage = () => {
 
   const handlePlaylistDelete = (playlistId) => {
     axios
-      .delete(`http://localhost:7090/api/my/playlist/${playlistId}`, {
+      .delete(`/api/my/playlist/${playlistId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -171,7 +171,7 @@ const MyInfoPage = () => {
     const { plName } = data;
     axios
       .put(
-        `http://localhost:7090/api/my/playlist/${selectedPlaylist.playlistId}`,
+        `/api/my/playlist/${selectedPlaylist.playlistId}`,
         {
           plName: plName,
         },
@@ -190,7 +190,7 @@ const MyInfoPage = () => {
   const handleSetPlaylist = (playlistId) => {
     axios
       .patch(
-        `http://localhost:7090/api/user/minihome/playlist`,
+        `/api/user/minihome/playlist`,
         playlistId,
 
         {

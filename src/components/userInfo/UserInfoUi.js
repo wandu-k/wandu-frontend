@@ -26,7 +26,7 @@ const UserInfoUi = ({ userInfo }) => {
     if (userId && userInfo) {
       axios
         .get(
-          `http://localhost:7090/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`
+          `/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`
         )
         .then((response) => {
           if (response.status === 200) {

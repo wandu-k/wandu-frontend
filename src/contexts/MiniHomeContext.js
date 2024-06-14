@@ -14,7 +14,7 @@ export const MiniHomeProvider = ({ children }) => {
 
   const fetchMiniHomeData = (userId) => {
     axios
-      .get(`http://localhost:7090/api/user/${userId}/minihome`, {
+      .get(`/api/user/${userId}/minihome`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

@@ -13,7 +13,7 @@ const InventoryPage = () => {
     if (userInfo?.userId) {
       axios
         .post(
-          `http://localhost:7090/api/user/${userInfo?.userId}/inventory/list`,
+          `/api/user/${userInfo?.userId}/inventory/list`,
           { categoryName: searchParams.get("categoryName") },
           {
             headers: { Authorization: localStorage.getItem("accessToken") },

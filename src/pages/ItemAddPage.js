@@ -55,7 +55,7 @@ const ItemAddPage = () => {
     formData.append("shopDto", blob);
 
     axios
-      .post("http://localhost:7090/api/user/shop", formData, {
+      .post("/api/user/shop", formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -75,7 +75,7 @@ const ItemAddPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:7090/api/public/shop/subcategory")
+      .get("/api/public/shop/subcategory")
       .then((response) => {
         setSubcategories(response.data);
         if (response.data.length > 0) {

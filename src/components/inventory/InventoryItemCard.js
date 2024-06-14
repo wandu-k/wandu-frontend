@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Confirm } from "notiflix/build/notiflix-confirm-aio";
+import React, {useCallback, useEffect, useState} from "react";
+import {Confirm} from "notiflix/build/notiflix-confirm-aio";
 import axios from "axios";
 import PlaylistAddMusicModal from "../modal/PlaylistAddMusicModal";
 import defaultAlbum from "../../images/shop/album.png";
 import previewAvatar from "../../images/avatar/body.png";
-import { Notify } from "notiflix";
+import {Notify} from "notiflix";
 
 
 const InventoryItemCard = ({ item, userInfo }) => {
@@ -58,7 +57,7 @@ const InventoryItemCard = ({ item, userInfo }) => {
   const avatarUpdate = (itemId) => {
     axios
       .put(
-        `http://localhost:7090/api/my/avatar/${item.buyItemId}`,
+        `/api/my/avatar/${item.buyItemId}`,
         {
           itemId: itemId,
           subcategoryId: item.subcategoryId,
