@@ -115,7 +115,7 @@ const ControllerUi = () => {
                           <div className="w-11 aspect-square relative">
                             <img
                               className="absolute inset-0 object-cover w-full h-full"
-                              src={bgmList[nowPlayNumber].album || defaultAlbum}
+                              src={bgm.album || defaultAlbum}
                             ></img>
                           </div>
                           <div className="flex flex-col">

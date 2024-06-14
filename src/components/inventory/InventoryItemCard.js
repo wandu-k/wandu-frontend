@@ -25,7 +25,9 @@ const InventoryItemCard = ({ item, userInfo }) => {
   }, []);
 
   const handleInvenItemButton = () => {
-    const itemId = item.enable === 1 ? null : item.itemId;
+
+
+    console.log(item.buyItemId);
 
     if (item?.categoryId == 1) {
       item.enable === 0
@@ -35,7 +37,7 @@ const InventoryItemCard = ({ item, userInfo }) => {
             "장착",
             "취소",
             () => {
-              avatarUpdate(itemId);
+              avatarUpdate(item);
             },
             () => {}
           )
@@ -45,7 +47,7 @@ const InventoryItemCard = ({ item, userInfo }) => {
             "해제",
             "취소",
             () => {
-              avatarUpdate(itemId);
+              avatarUpdate(item);
             },
             () => {}
           );
@@ -54,13 +56,13 @@ const InventoryItemCard = ({ item, userInfo }) => {
     }
   };
 
-  const avatarUpdate = (itemId) => {
+  const avatarUpdate = (item) => {
     axios
       .put(
         `/api/my/avatar/${item.buyItemId}`,
         {
-          itemId: itemId,
           subcategoryId: item.subcategoryId,
+            enable: item.enable,
         },
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
