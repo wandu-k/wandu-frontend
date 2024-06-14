@@ -29,5 +29,6 @@ jobs:
           script: |
             echo "AWS 연결"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/wandu-front
-            sudo docker-compose up -d --remove-orphans
-            sudo docker image prune
+            sudo docker-compose down
+            sudo docker-compose pull
+            sudo docker-compose up -d
