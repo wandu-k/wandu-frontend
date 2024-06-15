@@ -16,6 +16,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       contentLabel="Login Modal"
       style={{
         overlay: {
+          zIndex: 1000,
           backgroundColor: "rgba(0, 0, 0, 0.75)",
         },
         content: {
@@ -26,7 +27,6 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
         },
-        overlay: { zIndex: 1000 },
       }}
     >
       <form

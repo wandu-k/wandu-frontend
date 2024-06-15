@@ -490,7 +490,7 @@ const MyInfoPage = () => {
                 <div>
                   {playlistList.map((playlist) => (
                     <>
-                      {miniHome?.playlistId == playlist?.playlistId && (
+                      {miniHome?.playlistId === playlist?.playlistId && (
                         <button
                           type="button"
                           key={playlist.playlistId}

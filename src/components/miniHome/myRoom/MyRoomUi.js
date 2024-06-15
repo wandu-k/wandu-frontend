@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useRef } from "react";
 import main from "../../../images/myroom/main.jpg";
 import AvatarUi from "../../avatar/AvatarUi";
-import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
 
 const MyRoomUi = ({ userId, miniHome }) => {
 

@@ -4,7 +4,6 @@ import profile from "../../images/basic/profile.png";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import axios from "axios";
-import { Notify } from "notiflix/build/notiflix-notify-aio";
 import FollowButton from "../follow/FollowButton";
 
 let content;

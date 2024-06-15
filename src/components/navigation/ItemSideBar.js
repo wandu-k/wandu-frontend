@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +7,7 @@ import defaultAlbum from "../../images/shop/album.png";
 
 const ItemSideBar = ({ item }) => {
   const navigate = useNavigate();
-  const { userInfo, isLogin } = useContext(LoginContext);
+  const { userInfo } = useContext(LoginContext);
 
   const purchase = async () => {
     try {
