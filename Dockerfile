@@ -13,9 +13,6 @@ RUN npm run build
 # Nginx를 기반으로 하는 최종 이미지
 FROM nginx:alpine
 
-# Install Cerbot(SSL 을 위한)
-RUN apk add --no-cache certbot certbot-nginx
-
 # Nginx 설정 파일 복사
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
@@ -25,12 +22,9 @@ COPY nginx/mime.types /etc/nginx/mime.types
 # 빌드된 리액트 앱을 Nginx의 HTML 디렉토리로 복사
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Create directory for Certbot challenge
-RUN mkdir -p /var/www/certbot
-
 # 포트 설정
 EXPOSE 80
 EXPOSE 443
 
 # Nginx 실행 및 Certbot 인증서 갱신
-CMD ["sh", "-c", "nginx -g 'daemon off;' & certbot certonly --webroot -w /var/www/certbot --email hppmm@naver.com --agree-tos --no-eff-email -d mgsip.xyz && crond -f"]
+CMD ["sh", "-c", "nginx -g 'daemon off;'"]
