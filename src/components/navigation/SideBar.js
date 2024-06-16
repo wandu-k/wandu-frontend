@@ -6,6 +6,7 @@ import {addDays, format, getMonth, getYear, subDays,} from "date-fns"; // Import
 import axios from "axios"; // Importing axios for HTTP requests
 import UserInfoUi from "../userInfo/UserInfoUi";
 import AvatarUi from "../avatar/AvatarUi";
+import Chat from "../miniHome/Chat";
 
 const SideBar = ({ userInfo }) => {
   const location = useLocation();
@@ -155,19 +156,7 @@ const SideBar = ({ userInfo }) => {
     content = (
       <>
         <div className="flex flex-col gap-4 h-full">
-          <div className="flex flex-col h-full gap-4 border rounded-2xl p-4">
-            <label className="text-xl font-bold">실시간 채팅</label>
-            <div className="flex flex-col h-full justify-end"></div>
-          </div>
-          <div className="h-14 flex rounded-full border w-full pr-10 overflow-hidden relative">
-            <input
-              placeholder="채팅 보내기"
-              className="h-full w-full rounded-full p-4"
-            ></input>
-            <button className=" absolute right-6 bottom-0 top-0">
-              <FontAwesomeIcon icon="fa-solid fa-paper-plane" />
-            </button>
-          </div>
+          <Chat></Chat>
         </div>
       </>
     );

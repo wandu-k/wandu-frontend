@@ -5,8 +5,6 @@ const TimeLine = ({
   duration,
   setNowPlayTime,
   playerRef,
-  playing,
-  setPlaying,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [timeLineBarTransClass, setTimeLineBarTransClass] =

@@ -13,11 +13,9 @@ import axios from "axios";
 import { format, formatDate } from "date-fns";
 
 const AlbumPage = () => {
-  const { userInfo, isLogin } = useContext(LoginContext);
+  const { userInfo } = useContext(LoginContext);
   const { userId } = useParams();
-  const location = useLocation();
   const [albums, setAlbums] = useState([]);
-  const navigate = useNavigate();
 
   console.log("userInfo:", userInfo);
   console.log("userId:", userId);

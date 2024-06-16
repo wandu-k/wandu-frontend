@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "../../contexts/LoginContext";
 
 import axios from "axios";
-import { format, formatDate } from "date-fns";
+import { formatDate } from "date-fns";
 
 const DiaryPage = () => {
-  const { userInfo, isLogin } = useContext(LoginContext);
+  const { userInfo } = useContext(LoginContext);
   const { userId } = useParams();
   const [diaryAllList, setDiaryAllList] = useState([]);
   const location = useLocation();
