@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import avatarBody from "../../images/avatar/body.png";
 import defaultEye from "../../images/avatar/bigeye.png";
 import axios from "axios";
@@ -15,7 +15,7 @@ const AvatarUi = ({ userId }) => {
         setAvatar(response.data);
       })
       .catch((error) => {});
-  }, []);
+  }, [userId]);
 
   return (
     <>
@@ -37,10 +37,10 @@ const AvatarUi = ({ userId }) => {
               />
             )}
             {avatar?.cloth && (
-                <img
-                    src={avatar?.cloth}
-                    className=" absolute inset-0 w-full h-full object-contain z-20"
-                />
+              <img
+                src={avatar?.cloth}
+                className=" absolute inset-0 w-full h-full object-contain z-20"
+              />
             )}
           </div>
         </div>
