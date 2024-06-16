@@ -2,7 +2,6 @@ import main from "../../../images/myroom/main.jpg";
 import AvatarUi from "../../avatar/AvatarUi";
 
 const MyRoomUi = ({ userId, miniHome }) => {
-
   return (
     <div className="w-full h-full relative overflow-hidden rounded-2xl">
       <img
