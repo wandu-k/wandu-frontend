@@ -5,22 +5,54 @@ import { MiniHomeContext } from "../contexts/MiniHomeContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { LoginContext } from "../contexts/LoginContext";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 const MainPage = () => {
   const { userId } = useParams();
   const { miniHome } = useContext(MiniHomeContext);
+  const { userInfo } = useContext(LoginContext);
+  const [commentEnable, setCommentEnable] = useState(false);
+  const [comments, setComments] = useState([]);
+  const { register, handleSubmit, error, reset } = useForm();
+  const commentCancel = () => {
+    reset();
+    setCommentEnable(false);
+  };
+
+  const addComment = (data) => {
+    console.log(data);
+    axios
+      .post(
+        `/api/user/minihome/${miniHome.hpId}/guest`,
+        {
+          userId: userInfo.userId,
+          mainContent: data.mainContent,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        },
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {});
+    reset();
+  };
 
   useEffect(() => {
     if (miniHome) {
       axios
         .post(
-          `/api/user/minihome/${miniHome.hpId}/guest`,
+          `/api/user/minihome/${miniHome.hpId}/guest/list`,
           {},
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           },
         )
         .then((response) => {
+          setComments(response.data);
           console.log(response.data);
         })
         .catch((error) => {});
@@ -53,28 +85,38 @@ const MainPage = () => {
         </div>
         <div className={"font-bold text-xl"}>방명록</div>
         <div>
-          <form className={"flex flex-col w-full gap-4"}>
+          <form
+            className={"flex flex-col w-full gap-4"}
+            onSubmit={handleSubmit(addComment)}
+          >
             <input
               type={"text"}
               className={"border-b"}
               placeholder={"댓글 추가..."}
+              onFocus={() => setCommentEnable(true)}
+              {...register("mainContent", { required: true })}
             />
-            <div className={"flex justify-end gap-4"}>
-              <button
-                type={"button"}
-                className={"h-11 w-20 rounded-2xl border font-bold"}
-              >
-                취소
-              </button>
-              <button
-                type={"submit"}
-                className={
-                  "h-11 w-20 rounded-2xl bg-lime-500 text-white font-bold"
-                }
-              >
-                확인
-              </button>
-            </div>
+            {commentEnable && (
+              <>
+                <div className={"flex justify-end gap-4"}>
+                  <button
+                    type={"button"}
+                    onClick={commentCancel}
+                    className={"h-11 w-20 rounded-2xl border font-bold"}
+                  >
+                    취소
+                  </button>
+                  <button
+                    type={"submit"}
+                    className={
+                      "h-11 w-20 rounded-2xl bg-lime-500 text-white font-bold"
+                    }
+                  >
+                    확인
+                  </button>
+                </div>
+              </>
+            )}
           </form>
         </div>
         <div className={"flex flex-col"}></div>
