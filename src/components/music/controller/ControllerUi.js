@@ -48,12 +48,9 @@ const ControllerUi = () => {
   useEffect(() => {
     if (miniHome) {
       axios
-        .get(
-          `/api/user/playlist/${miniHome?.playlistId}`,
-          {
-            headers: { Authorization: localStorage.getItem("accessToken") },
-          }
-        )
+        .get(`/api/user/playlist/${miniHome?.playlistId}`, {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        })
         .then((response) => {
           console.log(response.data);
           setPlaylist(response.data);
