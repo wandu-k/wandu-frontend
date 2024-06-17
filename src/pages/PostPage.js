@@ -1,10 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import DOMPurify from "dompurify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-
+import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 const PostPage = () => {
   const { postId } = useParams();
   const { userId } = useParams();
@@ -24,18 +30,28 @@ const PostPage = () => {
   }, [postId]);
 
   const handlePostDelete = () => {
-    axios
-      .delete(`/api/user/diary/${postId}`, {
-        headers: { Authorization: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigate(`/${userId}/diary`);
-        Notify.success(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    Confirm.show(
+      "다이어리 삭제 확인",
+      "정말로 삭제하나요?",
+      "삭제",
+      "취소",
+      () => {
+        axios
+          .delete(`/api/user/diary/${postId}`, {
+            headers: { Authorization: localStorage.getItem("accessToken") },
+          })
+          .then((response) => {
+            console.log(response.data);
+            navigate(`/${userId}/diary`);
+            Notify.success(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+      () => {},
+      {},
+    );
   };
 
   if (!post) {
@@ -45,9 +61,10 @@ const PostPage = () => {
   return (
     <>
       {" "}
-      <div className="w-full flex h-auto mt-20 mb-16 relative p-4">
-        <div className="flex flex-col">
+      <div className="w-full flex h-auto mt-20 mb-16 relative p-4 w-full">
+        <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">{post.title}</h1> {/* 제목 표시 */}
+          <div>{post.writeDay}</div>
           <div
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(post.content),

@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {Link, useLocation, useParams} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "animate.css";
-import {addDays, format, getMonth, getYear, subDays,} from "date-fns"; // Importing date formatting function
+import { addDays, format, getMonth, getYear, subDays } from "date-fns"; // Importing date formatting function
 import axios from "axios"; // Importing axios for HTTP requests
 import UserInfoUi from "../userInfo/UserInfoUi";
 import AvatarUi from "../avatar/AvatarUi";
@@ -50,7 +50,7 @@ const SideBar = ({ userInfo }) => {
         }
       >
         {dayNumber}
-      </button>
+      </button>,
     );
   }
 
@@ -63,7 +63,7 @@ const SideBar = ({ userInfo }) => {
       },
       {
         headers: { Authorization: localStorage.getItem("accessToken") },
-      }
+      },
     );
   };
 
@@ -86,14 +86,14 @@ const SideBar = ({ userInfo }) => {
         },
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
-        }
+        },
       )
       .then((response) => {
         setDiaryList(
           response.data.map((diary) => ({
             ...diary,
             content: diary.content.replace(/<[^>]+>/g, ""), // Removing HTML tags
-          }))
+          })),
         );
         console.log(response.data);
       })
@@ -147,7 +147,7 @@ const SideBar = ({ userInfo }) => {
             ""
           )}
         </div>
-        <div className="flex flex-col border p-4 rounded-2xl min-h-72 h-full">
+        <div className="flex flex-col border p-4 rounded-2xl min-h-72 h-96">
           <AvatarUi userId={userId}></AvatarUi>
         </div>
       </>

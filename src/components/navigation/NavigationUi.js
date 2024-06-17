@@ -68,7 +68,7 @@ const NavigationUi = () => {
         openModal();
       }
     },
-    [isLogin, openModal]
+    [isLogin, openModal],
   );
 
   const handleDropMenu = useCallback(() => {
@@ -112,12 +112,6 @@ const NavigationUi = () => {
           >
             앨범
           </NavLink>
-          <NavLink
-            to={`/${userId}/guest`}
-            className={({ isActive }) => (isActive ? "text-lime-500" : "")}
-          >
-            방명록
-          </NavLink>
         </>
       );
     } else if (
@@ -159,35 +153,34 @@ const NavigationUi = () => {
             </Link>
           </div>
           <div className=" relative">
-          <button
-            ref={dropMenuButton}
-            type="button"
-            onClick={handleDropMenu}
-            className="flex items-center gap-2"
-          >
-            <div className="w-6 h-6 relative rounded-full overflow-hidden">
-              <img
-                src={userInfo?.profileImage || profile}
-                className="absolute object-cover"
-                onError={onErrorProfileImg}
-              />
-            </div>
-            {userInfo ? userInfo.nickname : "로그인"}
-          </button>
-          {profileDropMenu && (
-        <div
-          ref={dropMenu}
-          className=" w-56 text-sm right-0 top-10 mx-auto absolute flex flex-col border rounded-2xl bg-white dark:bg-zinc-950 dark:border-none p-4 gap-4"
-        >
-          <>
-            <Link to={"/my"}>내 정보</Link>
-            <Link to={"/my/inventory"}>인벤토리</Link>
-            <Link to={"/logout"}>로그아웃</Link>
-          </>
-        </div>
-      )}
+            <button
+              ref={dropMenuButton}
+              type="button"
+              onClick={handleDropMenu}
+              className="flex items-center gap-2"
+            >
+              <div className="w-6 h-6 relative rounded-full overflow-hidden">
+                <img
+                  src={userInfo?.profileImage || profile}
+                  className="absolute object-cover"
+                  onError={onErrorProfileImg}
+                />
+              </div>
+              {userInfo ? userInfo.nickname : "로그인"}
+            </button>
+            {profileDropMenu && (
+              <div
+                ref={dropMenu}
+                className=" w-56 text-sm right-0 top-10 mx-auto absolute flex flex-col border rounded-2xl bg-white dark:bg-zinc-950 dark:border-none p-4 gap-4"
+              >
+                <>
+                  <Link to={"/my"}>내 정보</Link>
+                  <Link to={"/my/inventory"}>인벤토리</Link>
+                  <Link to={"/logout"}>로그아웃</Link>
+                </>
+              </div>
+            )}
           </div>
-          
         </div>
       </div>
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
