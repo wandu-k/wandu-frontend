@@ -24,9 +24,7 @@ const UserInfoUi = ({ userInfo }) => {
   useEffect(() => {
     if (userId && userInfo) {
       axios
-        .get(
-          `/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`
-        )
+        .get(`/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`)
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);
@@ -47,7 +45,12 @@ const UserInfoUi = ({ userInfo }) => {
     <>
       <div className="flex flex-col gap-2 ">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold">{user?.nickname}</h2>
+          <Link
+            to={`/${user?.userId}/minihome`}
+            className="text-xl font-semibold"
+          >
+            {user?.nickname}
+          </Link>
           {user?.followerCheck == 1 && (
             <div className="text-sm bg-gray-200 text-gray-600 px-2 rounded-2xl">
               나를 팔로우 합니다

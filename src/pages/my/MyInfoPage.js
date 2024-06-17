@@ -51,7 +51,7 @@ const MyInfoPage = () => {
   const handleEditMiniHome = () => {
     axios
       .patch(
-        `/api/user/minihome`,
+        `/api/user/${userInfo.userId}/minihome/${miniHome.hpId}`,
         {
           introduction: introduction,
           statusM: statusM,
@@ -60,7 +60,7 @@ const MyInfoPage = () => {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
           },
-        }
+        },
       )
       .then((response) => {
         Notify.success(response.data);
@@ -131,10 +131,11 @@ const MyInfoPage = () => {
         },
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
-        }
+        },
       )
       .then((response) => {
         Notify.success(response.data);
+        reset();
         loadPlayList();
       })
       .catch((error) => {});
@@ -160,7 +161,7 @@ const MyInfoPage = () => {
             handlePlaylistDelete(playlistId);
           },
           () => {},
-          {}
+          {},
         );
       });
     setSelectedPlaylist(null);
@@ -177,7 +178,7 @@ const MyInfoPage = () => {
         },
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
-        }
+        },
       )
       .then((response) => {
         loadPlayList();
@@ -190,7 +191,7 @@ const MyInfoPage = () => {
   const handleSetPlaylist = (playlistId) => {
     axios
       .patch(
-        `/api/user/minihome/playlist`,
+        `/api/user/${userInfo.userId}/minihome/${miniHome.hpId}/playlist`,
         playlistId,
 
         {
@@ -198,7 +199,7 @@ const MyInfoPage = () => {
             Authorization: localStorage.getItem("accessToken"),
             "Content-Type": "application/json",
           },
-        }
+        },
       )
       .then((response) => {
         Notify.success(response.data);

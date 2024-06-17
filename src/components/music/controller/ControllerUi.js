@@ -66,7 +66,7 @@ const ControllerUi = () => {
   };
 
   const handleOnEndedPlayer = () => {
-    if (bgmList.length > nowPlayNumber) {
+    if (bgmList.length - 1 > nowPlayNumber) {
       setNowPlayNumber(nowPlayNumber + 1);
       setPlaying(true);
     }

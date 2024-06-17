@@ -20,6 +20,8 @@ const Chat = () => {
   const { miniHome } = useContext(MiniHomeContext);
   const { userInfo } = useContext(LoginContext);
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null); // 스크롤 제어를 위한 ref 생성
+  const chatContainerRef = useRef(null); // 스크롤 컨테이너 ref 생성
 
   useEffect(() => {
     console.log("채팅 연결 중..");
@@ -61,6 +63,14 @@ const Chat = () => {
     }
   }, [miniHome?.hpId]);
 
+  // 메시지가 업데이트 될 때마다 스크롤을 맨 아래로 이동
+  useEffect(() => {
+    if (messagesEndRef.current && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const loadChatList = () => {
     console.log("채팅 기록 불러오는 중..");
     axios
@@ -94,8 +104,13 @@ const Chat = () => {
   return (
     <>
       <div className="flex flex-col h-full max-h-96 gap-4 border rounded-2xl">
-        <label className="text-xl font-bold pt-4 pl-4 pr-4">실시간 채팅</label>
-        <div className="flex flex-col h-full justify-end overflow-y-scroll gap-4 p-4">
+        <label className="flex text-xl font-bold pt-4 pl-4 pr-4">
+          실시간 채팅
+        </label>
+        <div
+          className="grid grid-cols-1 h-full justify-end overflow-scroll gap-4 p-4"
+          ref={chatContainerRef}
+        >
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -110,9 +125,10 @@ const Chat = () => {
               <div>{msg.message}</div>
             </div>
           ))}
+          <div ref={messagesEndRef}></div>
         </div>
       </div>
-      <div className="h-14 flex rounded-full border w-full pr-10 overflow-hidden relative">
+      <div className="h-14 flex rounded-full border w-full pr-10 overflow-y-scroll relative">
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <input
             placeholder="채팅 보내기"

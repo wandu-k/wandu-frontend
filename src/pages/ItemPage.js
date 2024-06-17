@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import ItemSideBar from "../components/navigation/ItemSideBar";
 import defaultAlbum from "../images/shop/album.png";
 import ReactPlayer from "react-player";
+import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import previewAvatar from "../images/avatar/body.png";
 import { LoginContext } from "../contexts/LoginContext";
 
@@ -14,12 +15,9 @@ const ItemPage = () => {
   useEffect(() => {
     if (userInfo) {
       axios
-        .get(
-          `/api/user/shop/${itemId}?userId=${userInfo?.userId}`,
-          {
-            headers: { Authorization: localStorage.getItem("accessToken") },
-          }
-        )
+        .get(`/api/user/shop/${itemId}?userId=${userInfo?.userId}`, {
+          headers: { Authorization: localStorage.getItem("accessToken") },
+        })
         .then((response) => {
           console.log(response.data);
           setItem(response.data);
@@ -38,8 +36,8 @@ const ItemPage = () => {
                   item?.categoryId == 1
                     ? item?.file
                     : item?.thumbnail
-                    ? item?.thumbnail
-                    : defaultAlbum
+                      ? item?.thumbnail
+                      : defaultAlbum
                 }
                 className="absolute inset-0 object-contain w-full h-full"
               ></img>
