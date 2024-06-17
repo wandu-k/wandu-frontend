@@ -13,7 +13,7 @@ import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 
 const MainPage = () => {
   const { userId } = useParams();
-  const { miniHome } = useContext(MiniHomeContext);
+  const { miniHome, setMiniHome } = useContext(MiniHomeContext);
   const { userInfo } = useContext(LoginContext);
   const [commentEnable, setCommentEnable] = useState(false);
   const [comments, setComments] = useState([]);
@@ -103,6 +103,46 @@ const MainPage = () => {
     );
   };
 
+  const miniHomeLike = () => {
+    if (miniHome?.like == true) {
+      axios
+        .delete(`/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`, {
+          headers: {
+            Authorization: localStorage.getItem("accessToken"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setMiniHome((prevMiniHome) => ({
+            ...prevMiniHome,
+            like: false,
+            likeCount: prevMiniHome.likeCount - 1,
+          }));
+        })
+        .catch((error) => {});
+    } else {
+      axios
+        .post(
+          `/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`,
+          {},
+          {
+            headers: {
+              Authorization: localStorage.getItem("accessToken"),
+            },
+          },
+        )
+        .then((response) => {
+          console.log(response.data);
+          setMiniHome((prevMiniHome) => ({
+            ...prevMiniHome,
+            like: true,
+            likeCount: prevMiniHome.likeCount + 1,
+          }));
+        })
+        .catch((error) => {});
+    }
+  };
+
   useEffect(() => {
     if (miniHome) {
       axios
@@ -142,12 +182,17 @@ const MainPage = () => {
           <div className={"content-center flex w-full justify-end"}>
             <button
               type={"button"}
+              onClick={miniHomeLike}
               className={
                 "rounded-full bg-gray-100 text-xl flex items-center justify-center h-full gap-4 px-2"
               }
             >
-              <div className={"text-sm"}>100</div>
-              <FontAwesomeIcon icon={faHeart} />
+              <div className={"text-sm"}>{miniHome?.likeCount}</div>
+              {miniHome?.like ? (
+                <FontAwesomeIcon icon="fa-solid fa-heart" />
+              ) : (
+                <FontAwesomeIcon icon={faHeart} />
+              )}
             </button>
           </div>
         </div>

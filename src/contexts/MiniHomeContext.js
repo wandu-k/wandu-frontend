@@ -23,7 +23,7 @@ export const MiniHomeProvider = ({ children }) => {
     }
     if (userId) {
       axios
-        .get(`/api/user/${userId}/minihome`, {
+        .get(`/api/user/${userId}/minihome?likeUserId=${userInfo.userId}`, {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {
@@ -40,7 +40,9 @@ export const MiniHomeProvider = ({ children }) => {
   };
 
   return (
-    <MiniHomeContext.Provider value={{ miniHome, fetchMiniHomeData }}>
+    <MiniHomeContext.Provider
+      value={{ miniHome, fetchMiniHomeData, setMiniHome }}
+    >
       {children}
     </MiniHomeContext.Provider>
   );
