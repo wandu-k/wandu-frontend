@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
-import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Client } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
-import { MiniHomeContext } from "../../contexts/MiniHomeContext";
-import { LoginContext } from "../../contexts/LoginContext";
 import axios from "axios";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import SockJS from "sockjs-client";
+import { LoginContext } from "../../contexts/LoginContext";
+import { MiniHomeContext } from "../../contexts/MiniHomeContext";
 
 const Chat = () => {
   const {
@@ -74,7 +74,7 @@ const Chat = () => {
   const loadChatList = () => {
     console.log("채팅 기록 불러오는 중..");
     axios
-      .get(`/api/user/minihome/${miniHome.hpId}/chat`, {
+      .get(`http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/chat`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

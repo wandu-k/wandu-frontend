@@ -1,6 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LoginContext } from "../../contexts/LoginContext";
 
 import axios from "axios";
@@ -18,7 +18,7 @@ const DiaryPage = () => {
   useEffect(() => {
     if (location.pathname === `/${userId}/diary`) {
       axios
-        .get("/api/user/diary/list", {
+        .get("http://wookportfolio.duckdns.org:8082/api/user/diary/list", {
           params: {
             userId: userId,
           },

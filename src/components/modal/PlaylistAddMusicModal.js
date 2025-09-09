@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import Modal from "react-modal";
-import { LoginContext } from "../../contexts/LoginContext";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { MiniHomeContext } from "../../contexts/MiniHomeContext";
+import { useContext, useEffect, useState } from "react";
+import Modal from "react-modal";
 import { BgmContext } from "../../contexts/BgmContext";
+import { LoginContext } from "../../contexts/LoginContext";
+import { MiniHomeContext } from "../../contexts/MiniHomeContext";
 
 Modal.setAppElement("#root");
 
@@ -17,7 +17,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
 
   const loadPlaylist = () => {
     axios
-      .get("/api/my/playlist", {
+      .get("http://wookportfolio.duckdns.org:8082/api/my/playlist", {
         params: { itemId: item.itemId },
         headers: { Authorization: localStorage.getItem("accessToken") },
       })

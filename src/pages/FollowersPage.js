@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import profile from "../images/basic/profile.png";
-import FollowButton from "../components/follow/FollowButton";
+import { useParams } from "react-router-dom";
 import FollowUserList from "../components/follow/FollowUserList";
 
 const FollowersPage = () => {
@@ -11,7 +9,7 @@ const FollowersPage = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/user/${userId}/follow/follower`, {
+      .get(`http://wookportfolio.duckdns.org:8082/api/user/${userId}/follow/follower`, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
         },

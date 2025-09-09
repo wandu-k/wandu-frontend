@@ -1,16 +1,13 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
-import DOMPurify from "dompurify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Notify } from "notiflix/build/notiflix-notify-aio";
+import axios from "axios";
+import DOMPurify from "dompurify";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
+import { useEffect, useState } from "react";
+import {
+    useNavigate,
+    useParams
+} from "react-router-dom";
 const PostPage = () => {
   const { postId } = useParams();
   const { userId } = useParams();
@@ -18,7 +15,7 @@ const PostPage = () => {
   const [post, setPost] = useState(null); // 게시물 상태
   useEffect(() => {
     axios
-      .get(`/api/user/${userId}/diary/${postId}`, {
+      .get(`http://wookportfolio.duckdns.org:8082/api/user/${userId}/diary/${postId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -37,7 +34,7 @@ const PostPage = () => {
       "취소",
       () => {
         axios
-          .delete(`/api/user/diary/${postId}`, {
+          .delete(`http://wookportfolio.duckdns.org:8082/api/user/diary/${postId}`, {
             headers: { Authorization: localStorage.getItem("accessToken") },
           })
           .then((response) => {

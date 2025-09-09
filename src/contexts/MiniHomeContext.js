@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LoginContext } from "./LoginContext";
 
@@ -23,7 +23,7 @@ export const MiniHomeProvider = ({ children }) => {
     }
     if (userId) {
       axios
-        .get(`/api/user/${userId}/minihome?likeUserId=${userInfo.userId}`, {
+        .get(`http://wookportfolio.duckdns.org:8082/api/user/${userId}/minihome?likeUserId=${userInfo.userId}`, {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

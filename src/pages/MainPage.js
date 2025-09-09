@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import MyRoomUi from "../components/miniHome/myRoom/MyRoomUi";
-import { Link, useParams } from "react-router-dom";
-import { MiniHomeContext } from "../contexts/MiniHomeContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { useForm } from "react-hook-form";
-import { LoginContext } from "../contexts/LoginContext";
-import { Notify } from "notiflix/build/notiflix-notify-aio";
-import defaultProfileImage from "../images/basic/profile.png";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useParams } from "react-router-dom";
+import MyRoomUi from "../components/miniHome/myRoom/MyRoomUi";
+import { LoginContext } from "../contexts/LoginContext";
+import { MiniHomeContext } from "../contexts/MiniHomeContext";
+import defaultProfileImage from "../images/basic/profile.png";
 
 const MainPage = () => {
   const { userId } = useParams();
@@ -84,7 +84,7 @@ const MainPage = () => {
       "취소",
       () => {
         axios
-          .delete(`/api/user/minihome/${miniHome.hpId}/guest/${commentId}`, {
+          .delete(`http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/guest/${commentId}`, {
             headers: {
               Authorization: localStorage.getItem("accessToken"),
             },
@@ -106,7 +106,7 @@ const MainPage = () => {
   const miniHomeLike = () => {
     if (miniHome?.like == true) {
       axios
-        .delete(`/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`, {
+        .delete(`http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`, {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
           },

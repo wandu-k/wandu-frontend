@@ -1,9 +1,9 @@
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import naver from "../../images/login/naver.png";
-import google from "../../images/login/google.png";
 import api from "../../apis/Api";
-import {useContext, useState} from "react";
 import { LoginContext } from "../../contexts/LoginContext";
+import google from "../../images/login/google.png";
+import naver from "../../images/login/naver.png";
 
 const RegisterForm = () => {
   const { register, handleSubmit, error } = useForm();
@@ -29,7 +29,7 @@ const RegisterForm = () => {
     formData.append("accountDto", blob);
 
     api
-      .post("/api/public/register", formData, {
+      .post("http://wookportfolio.duckdns.org:8082/api/public/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

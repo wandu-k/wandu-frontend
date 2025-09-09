@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
-import ReactPlayer from "react-player/lazy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Cookies from "js-cookie";
-import Volume from "./Volume";
-import TimeLine from "./TimeLine";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { useContext, useEffect, useRef, useState } from "react";
+import ReactPlayer from "react-player/lazy";
 import { Link, useLocation } from "react-router-dom";
-import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
 import { BgmContext } from "../../../contexts/BgmContext";
+import { MiniHomeContext } from "../../../contexts/MiniHomeContext";
 import defaultAlbum from "../../../images/shop/album.png";
+import TimeLine from "./TimeLine";
+import Volume from "./Volume";
 
 const ControllerUi = () => {
   const [playing, setPlaying] = useState(false);
@@ -48,7 +48,7 @@ const ControllerUi = () => {
   useEffect(() => {
     if (miniHome) {
       axios
-        .get(`/api/user/playlist/${miniHome?.playlistId}`, {
+        .get(`http://wookportfolio.duckdns.org:8082/api/user/playlist/${miniHome?.playlistId}`, {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

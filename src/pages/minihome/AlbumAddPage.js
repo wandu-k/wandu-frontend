@@ -1,14 +1,14 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
 import {
-  useNavigate,
-  useParams,
+    useNavigate,
+    useParams,
 } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 import axios from "axios";
-import { useForm } from "react-hook-form";
 import { Notify } from "notiflix";
+import { useForm } from "react-hook-form";
 
 const AlbumAddPage = () => {
   const { register, handleSubmit, error, reset } = useForm();
@@ -34,7 +34,7 @@ const AlbumAddPage = () => {
 
     console.log(data);
     axios
-      .post("/api/user/album", formDataToSend, {
+      .post("http://wookportfolio.duckdns.org:8082/api/user/album", formDataToSend, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",

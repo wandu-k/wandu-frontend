@@ -2,7 +2,7 @@ const MiniCalender = () => {
   useEffect(() => {
     if (location.pathname.includes(`/diary`)) {
       axios
-        .get("/api/user/daily", {
+        .get("http://wookportfolio.duckdns.org:8082/api/user/daily", {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

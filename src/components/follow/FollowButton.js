@@ -25,7 +25,7 @@ const FollowButton = ({ user, setUser }) => {
 
   const handleUnFollowButton = (userId) => {
     axios
-      .delete(`/api/my/follow/${userId}`, {
+      .delete(`http://wookportfolio.duckdns.org:8082/api/my/follow/${userId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

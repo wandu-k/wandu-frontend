@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useEffect, useRef, useState, useContext } from "react";
-import { LoginContext } from "../contexts/LoginContext";
+import { Notify } from "notiflix";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Notify } from "notiflix";
+import { LoginContext } from "../contexts/LoginContext";
 
 
 const ItemAddPage = () => {
@@ -55,7 +55,7 @@ const ItemAddPage = () => {
     formData.append("shopDto", blob);
 
     axios
-      .post("/api/user/shop", formData, {
+      .post("http://wookportfolio.duckdns.org:8082/api/user/shop", formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -75,7 +75,7 @@ const ItemAddPage = () => {
 
   useEffect(() => {
     axios
-      .get("/api/public/shop/subcategory")
+      .get("http://wookportfolio.duckdns.org:8082/api/public/shop/subcategory")
       .then((response) => {
         setSubcategories(response.data);
         if (response.data.length > 0) {

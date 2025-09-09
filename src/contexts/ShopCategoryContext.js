@@ -13,7 +13,7 @@ export const ShopCategoryProvider = ({ children }) => {
       location.pathname.includes("/inventory")
     ) {
       axios
-        .get("/api/public/shop/category")
+        .get("http://wookportfolio.duckdns.org:8082/api/public/shop/category")
         .then((response) => {
           setCategory(response.data);
         })

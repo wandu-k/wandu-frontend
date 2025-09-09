@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import avatarBody from "../../images/avatar/body.png";
-import defaultEye from "../../images/avatar/bigeye.png";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import defaultEye from "../../images/avatar/bigeye.png";
+import avatarBody from "../../images/avatar/body.png";
 
 const AvatarUi = ({ userId }) => {
   const [avatar, setAvatar] = useState();
   useEffect(() => {
     axios
-      .get(`/api/user/${userId}/avatar`, {
+      .get(`http://wookportfolio.duckdns.org:8082/api/user/${userId}/avatar`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

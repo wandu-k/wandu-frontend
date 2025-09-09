@@ -1,12 +1,11 @@
-import { Link, useOutletContext } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
-import { LoginContext } from "../../contexts/LoginContext";
-import { MiniHomeContext } from "../../contexts/MiniHomeContext";
 import { Confirm } from "notiflix/build/notiflix-confirm-aio";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useOutletContext } from "react-router-dom";
+import { LoginContext } from "../../contexts/LoginContext";
+import { MiniHomeContext } from "../../contexts/MiniHomeContext";
 
 const MyInfoPage = () => {
   const userInfo = useOutletContext();
@@ -26,7 +25,7 @@ const MyInfoPage = () => {
   useEffect(() => {
     fetchMiniHomeData();
     axios
-      .get("/api/my/statistics", {
+      .get("http://wookportfolio.duckdns.org:8082/api/my/statistics", {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
         },
@@ -80,7 +79,7 @@ const MyInfoPage = () => {
     formData.append("userDto", blob);
     console.log(userInfo?.userId);
     axios
-      .put(`/api/user`, formData, {
+      .put(`http://wookportfolio.duckdns.org:8082/api/user`, formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -101,7 +100,7 @@ const MyInfoPage = () => {
 
   const loadPlayList = () => {
     axios
-      .get("/api/my/playlist", {
+      .get("http://wookportfolio.duckdns.org:8082/api/my/playlist", {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => setPlaylistList(response.data))
@@ -143,7 +142,7 @@ const MyInfoPage = () => {
 
   const handlePlaylistDelete = (playlistId) => {
     axios
-      .delete(`/api/my/playlist/${playlistId}`, {
+      .delete(`http://wookportfolio.duckdns.org:8082/api/my/playlist/${playlistId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

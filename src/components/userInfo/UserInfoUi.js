@@ -1,9 +1,9 @@
 // UserInfoUi 컴포넌트
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import profile from "../../images/basic/profile.png";
-import { Link, useParams } from "react-router-dom";
-import { format } from "date-fns";
 import axios from "axios";
+import { format } from "date-fns";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import profile from "../../images/basic/profile.png";
 import FollowButton from "../follow/FollowButton";
 
 let content;
@@ -24,7 +24,7 @@ const UserInfoUi = ({ userInfo }) => {
   useEffect(() => {
     if (userId && userInfo) {
       axios
-        .get(`/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`)
+        .get(`http://wookportfolio.duckdns.org:8082/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`)
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);
