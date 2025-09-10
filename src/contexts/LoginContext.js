@@ -34,8 +34,9 @@ export const LoginProvider = ({ children }) => {
     let response;
     try {
       response = await auth.login(username, password);
-      console.log(response.data);
+        console.log("123",response);
       if (response.status === 200) {
+        console.log(response.headers)
         const accessToken = response.headers["authorization"];
         console.log(accessToken);
         localStorage.setItem("accessToken", accessToken);
@@ -43,12 +44,15 @@ export const LoginProvider = ({ children }) => {
         const jwtData = JSON.parse(decode(payload));
         loginCheck();
         navigate(`/${jwtData.userId}/minihome`);
+         return response.status;
       }
+     
     } catch (error) {
+      console.log(error)
       response = error.response;
       logout();
     }
-    return response.status;
+    
   };
 
   const logout = () => {
