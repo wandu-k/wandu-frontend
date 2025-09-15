@@ -47,7 +47,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
     if (newCheckItems.has(playlistId)) {
       axios
         .post(
-          `/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
+          `http://wookportfolio.duckdns.org:8082/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {},
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
@@ -61,7 +61,7 @@ const PlaylistAddMusicModal = ({ isOpen, onRequestClose, item }) => {
     } else {
       axios
         .delete(
-          `/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
+          `http://wookportfolio.duckdns.org:8082/api/my/playlist/${playlistId}/bgm/${item.buyItemId}`,
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
           }

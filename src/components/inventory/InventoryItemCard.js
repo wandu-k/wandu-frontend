@@ -59,7 +59,7 @@ const InventoryItemCard = ({ item, userInfo }) => {
   const avatarUpdate = (item) => {
     axios
       .put(
-        `/api/my/avatar/${item.buyItemId}`,
+        `http://wookportfolio.duckdns.org:8082/api/my/avatar/${item.buyItemId}`,
         {
           subcategoryId: item.subcategoryId,
             enable: item.enable,

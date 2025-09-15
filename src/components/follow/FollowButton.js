@@ -5,7 +5,7 @@ const FollowButton = ({ user, setUser }) => {
   const handleFollowButton = (userId) => {
     axios
       .post(
-        `/api/my/follow/${userId}`,
+        `http://wookportfolio.duckdns.org:8082/api/my/follow/${userId}`,
         {},
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
