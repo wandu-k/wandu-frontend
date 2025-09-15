@@ -50,7 +50,7 @@ const MainPage = () => {
     console.log(data);
     axios
       .post(
-        `/api/user/minihome/${miniHome.hpId}/guest`,
+        `http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/guest`,
         {
           userId: userInfo.userId,
           mainContent: data.mainContent,
@@ -147,7 +147,7 @@ const MainPage = () => {
     if (miniHome) {
       axios
         .post(
-          `/api/user/minihome/${miniHome.hpId}/guest/list`,
+          `http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/guest/list`,
           {},
           {
             headers: { Authorization: localStorage.getItem("accessToken") },
