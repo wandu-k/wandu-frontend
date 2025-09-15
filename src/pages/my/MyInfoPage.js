@@ -50,7 +50,7 @@ const MyInfoPage = () => {
   const handleEditMiniHome = () => {
     axios
       .patch(
-        `/api/user/${userInfo.userId}/minihome/${miniHome.hpId}`,
+        `http://wookportfolio.duckdns.org:8082/api/user/${userInfo.userId}/minihome/${miniHome.hpId}`,
         {
           introduction: introduction,
           statusM: statusM,
@@ -124,7 +124,7 @@ const MyInfoPage = () => {
 
     axios
       .post(
-        "/api/my/playlist",
+        "http://wookportfolio.duckdns.org:8082/api/my/playlist",
         {
           plName: plName,
         },
@@ -171,7 +171,7 @@ const MyInfoPage = () => {
     const { plName } = data;
     axios
       .put(
-        `/api/my/playlist/${selectedPlaylist.playlistId}`,
+        `http://wookportfolio.duckdns.org:8082/api/my/playlist/${selectedPlaylist.playlistId}`,
         {
           plName: plName,
         },
@@ -190,7 +190,7 @@ const MyInfoPage = () => {
   const handleSetPlaylist = (playlistId) => {
     axios
       .patch(
-        `/api/user/${userInfo.userId}/minihome/${miniHome.hpId}/playlist`,
+        `http://wookportfolio.duckdns.org:8082/api/user/${userInfo.userId}/minihome/${miniHome.hpId}/playlist`,
         playlistId,
 
         {

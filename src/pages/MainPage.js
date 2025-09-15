@@ -123,7 +123,7 @@ const MainPage = () => {
     } else {
       axios
         .post(
-          `/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`,
+          `http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`,
           {},
           {
             headers: {

@@ -21,7 +21,7 @@ const PostWritePage = () => {
 
     axios
       .post(
-        "/api/user/diary",
+        "http://wookportfolio.duckdns.org:8082/api/user/diary",
         {
           userId: userId,
           title: title,
