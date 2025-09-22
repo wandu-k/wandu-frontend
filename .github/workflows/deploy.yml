@@ -71,4 +71,6 @@ jobs:
             sudo docker run -d \
               --name wandu-front \
               -p 81:81 \
+              -v /etc/letsencrypt/live/wookportfolio.duckdns.org/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro \
+              -v /etc/letsencrypt/live/wookportfolio.duckdns.org/privkey.pem:/etc/nginx/certs/privkey.pem:ro \
               ${{ secrets.DOCKER_USERNAME }}/wandu-front
