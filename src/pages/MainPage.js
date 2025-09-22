@@ -50,7 +50,7 @@ const MainPage = () => {
     console.log(data);
     axios
       .post(
-        `https://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/guest`,
+        `https://wookportfolio.duckdns.org:81/api/user/minihome/${miniHome.hpId}/guest`,
         {
           userId: userInfo.userId,
           mainContent: data.mainContent,
@@ -84,7 +84,7 @@ const MainPage = () => {
       "취소",
       () => {
         axios
-          .delete(`https://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/guest/${commentId}`, {
+          .delete(`https://wookportfolio.duckdns.org:81/api/user/minihome/${miniHome.hpId}/guest/${commentId}`, {
             headers: {
               Authorization: localStorage.getItem("accessToken"),
             },
@@ -106,7 +106,7 @@ const MainPage = () => {
   const miniHomeLike = () => {
     if (miniHome?.like == true) {
       axios
-        .delete(`https://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`, {
+        .delete(`https://wookportfolio.duckdns.org:81/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`, {
           headers: {
             Authorization: localStorage.getItem("accessToken"),
           },
@@ -123,7 +123,7 @@ const MainPage = () => {
     } else {
       axios
         .post(
-          `https://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`,
+          `https://wookportfolio.duckdns.org:81/api/user/minihome/${miniHome.hpId}/like/${userInfo.userId}`,
           {},
           {
             headers: {
@@ -147,7 +147,7 @@ const MainPage = () => {
     if (miniHome) {
       axios
         .post(
-          `https://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/guest/list`,
+          `https://wookportfolio.duckdns.org:81/api/user/minihome/${miniHome.hpId}/guest/list`,
           {},
           {
             headers: { Authorization: localStorage.getItem("accessToken") },

@@ -5,7 +5,7 @@ const FollowButton = ({ user, setUser }) => {
   const handleFollowButton = (userId) => {
     axios
       .post(
-        `https://wookportfolio.duckdns.org:8082/api/my/follow/${userId}`,
+        `https://wookportfolio.duckdns.org:81/api/my/follow/${userId}`,
         {},
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
@@ -25,7 +25,7 @@ const FollowButton = ({ user, setUser }) => {
 
   const handleUnFollowButton = (userId) => {
     axios
-      .delete(`https://wookportfolio.duckdns.org:8082/api/my/follow/${userId}`, {
+      .delete(`https://wookportfolio.duckdns.org:81/api/my/follow/${userId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

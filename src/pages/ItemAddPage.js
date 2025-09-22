@@ -55,7 +55,7 @@ const ItemAddPage = () => {
     formData.append("shopDto", blob);
 
     axios
-      .post("https://wookportfolio.duckdns.org:8082/api/user/shop", formData, {
+      .post("https://wookportfolio.duckdns.org:81/api/user/shop", formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -75,7 +75,7 @@ const ItemAddPage = () => {
 
   useEffect(() => {
     axios
-      .get("https://wookportfolio.duckdns.org:8082/api/public/shop/subcategory")
+      .get("https://wookportfolio.duckdns.org:81/api/public/shop/subcategory")
       .then((response) => {
         setSubcategories(response.data);
         if (response.data.length > 0) {

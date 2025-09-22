@@ -13,7 +13,7 @@ const InventoryPage = () => {
     if (userInfo?.userId) {
       axios
         .post(
-          `https://wookportfolio.duckdns.org:8082/api/user/${userInfo?.userId}/inventory/list`,
+          `https://wookportfolio.duckdns.org:81/api/user/${userInfo?.userId}/inventory/list`,
           { categoryName: searchParams.get("categoryName") },
           {
             headers: { Authorization: localStorage.getItem("accessToken") },

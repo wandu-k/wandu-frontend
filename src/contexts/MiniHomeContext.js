@@ -23,7 +23,7 @@ export const MiniHomeProvider = ({ children }) => {
     }
     if (userId) {
       axios
-        .get(`https://wookportfolio.duckdns.org:8082/api/user/${userId}/minihome?likeUserId=${userInfo.userId}`, {
+        .get(`https://wookportfolio.duckdns.org:81/api/user/${userId}/minihome?likeUserId=${userInfo.userId}`, {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

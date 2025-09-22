@@ -13,7 +13,7 @@ const ShopPage = () => {
   useEffect(() => {
     axios
       .post(
-        "https://wookportfolio.duckdns.org:8082/api/user/shop/list",
+        "https://wookportfolio.duckdns.org:81/api/user/shop/list",
         { categoryName: "아바타", page: 1, size: 12 },
         {
           headers: { Authorization: localStorage.getItem("accessToken") },
@@ -29,7 +29,7 @@ const ShopPage = () => {
   useEffect(() => {
     axios
       .post(
-        "https://wookportfolio.duckdns.org:8082/api/user/shop/list",
+        "https://wookportfolio.duckdns.org:81/api/user/shop/list",
         { categoryName: "음악", page: 1, size: 12 },
         {
           headers: { Authorization: localStorage.getItem("accessToken") },

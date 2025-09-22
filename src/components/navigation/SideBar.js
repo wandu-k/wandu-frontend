@@ -56,7 +56,7 @@ const SideBar = ({ userInfo }) => {
 
   const dailyCheck = () => {
     axios.post(
-      "https://wookportfolio.duckdns.org:8082/api/user/daily",
+      "https://wookportfolio.duckdns.org:81/api/user/daily",
       {
         userId: userId,
         date: new Date(),
@@ -79,7 +79,7 @@ const SideBar = ({ userInfo }) => {
 
     axios
       .post(
-        "https://wookportfolio.duckdns.org:8082/api/user/diary",
+        "https://wookportfolio.duckdns.org:81/api/user/diary",
         {
           date: formattedDate,
           userId: userId,

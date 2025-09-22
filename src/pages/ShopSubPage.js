@@ -13,7 +13,7 @@ const ShopSubPage = () => {
   useEffect(() => {
     axios
       .post(
-        "https://wookportfolio.duckdns.org:8082/api/user/shop/list",
+        "https://wookportfolio.duckdns.org:81/api/user/shop/list",
         {
           categoryName: searchParams.get("categoryName"),
           userId: searchParams.get("userId"),

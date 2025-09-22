@@ -15,7 +15,7 @@ const PostPage = () => {
   const [post, setPost] = useState(null); // 게시물 상태
   useEffect(() => {
     axios
-      .get(`https://wookportfolio.duckdns.org:8082/api/user/${userId}/diary/${postId}`, {
+      .get(`https://wookportfolio.duckdns.org:81/api/user/${userId}/diary/${postId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -34,7 +34,7 @@ const PostPage = () => {
       "취소",
       () => {
         axios
-          .delete(`https://wookportfolio.duckdns.org:8082/api/user/diary/${postId}`, {
+          .delete(`https://wookportfolio.duckdns.org:81/api/user/diary/${postId}`, {
             headers: { Authorization: localStorage.getItem("accessToken") },
           })
           .then((response) => {
