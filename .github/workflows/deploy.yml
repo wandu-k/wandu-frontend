@@ -36,7 +36,24 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
+            APP_DIR=/home/ubuntu/wandu-frontend
             echo "AWS 연결"
+
+            # Git clone 또는 pull
+            if [ ! -d "$APP_DIR/.git" ]; then
+              # 기존 소스 초기화
+              sudo rm -rf $APP_DIR
+              mkdir -p $APP_DIR
+
+              echo "Git 저장소 없음 → 클론 실행"
+              sudo git clone https://github.com/wandu-k/wandu-frontend.git .
+            else
+              echo "Git 저장소 있음 → 최신으로 pull"
+              cd $APP_DIR
+              sudo git reset --hard
+              sudo git clean -fd
+              sudo git pull origin main
+            fi
 
             # 기존 컨테이너 중지 및 제거 (실행 중이든 중지 상태든)
             if [ $(sudo docker ps -aq -f name=wandu-front) ]; then

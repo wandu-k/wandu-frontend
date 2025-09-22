@@ -2,7 +2,7 @@
 FROM node:22-alpine3.19 as build
 
 # 작업 디렉토리 설정
-WORKDIR /app
+WORKDIR /wandu-frontend
 
 # 의존성 설치 및 빌드(CI)
 COPY package.json .
@@ -23,8 +23,7 @@ COPY nginx/mime.types /etc/nginx/mime.types
 COPY --from=build /app/build /usr/share/nginx/html
 
 # 포트 설정
-EXPOSE 80
-EXPOSE 443
+EXPOSE 81
 
 # Nginx 실행 및 Certbot 인증서 갱신
 CMD ["sh", "-c", "nginx -g 'daemon off;'"]
