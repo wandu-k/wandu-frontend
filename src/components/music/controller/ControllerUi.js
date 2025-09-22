@@ -48,7 +48,7 @@ const ControllerUi = () => {
   useEffect(() => {
     if (miniHome) {
       axios
-        .get(`http://wookportfolio.duckdns.org:8082/api/user/playlist/${miniHome?.playlistId}`, {
+        .get(`https://wookportfolio.duckdns.org:8082/api/user/playlist/${miniHome?.playlistId}`, {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

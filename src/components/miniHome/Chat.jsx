@@ -27,7 +27,7 @@ const Chat = () => {
     console.log("채팅 연결 중..");
     if (miniHome) {
       // SockJS와 STOMP 클라이언트 설정
-      const socket = new SockJS("http://3.34.146.77:8082/ws-stomp");
+      const socket = new SockJS("https://3.38.189.143:8082/ws-stomp");
       const stompClient = new Client({
         webSocketFactory: () => socket,
         connectHeaders: {
@@ -74,7 +74,7 @@ const Chat = () => {
   const loadChatList = () => {
     console.log("채팅 기록 불러오는 중..");
     axios
-      .get(`http://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/chat`, {
+      .get(`https://wookportfolio.duckdns.org:8082/api/user/minihome/${miniHome.hpId}/chat`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

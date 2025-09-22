@@ -23,7 +23,7 @@ const AlbumPage = () => {
   useEffect(() => {
     axios
       .post(
-        `http://wookportfolio.duckdns.org:8082/api/user/${userId}/album/list`,
+        `https://wookportfolio.duckdns.org:8082/api/user/${userId}/album/list`,
         {},
         {
           headers: { Authorization: localStorage.getItem("accessToken") }, // 헤더를 설정 객체 안에 포함

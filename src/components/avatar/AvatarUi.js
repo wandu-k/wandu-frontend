@@ -7,7 +7,7 @@ const AvatarUi = ({ userId }) => {
   const [avatar, setAvatar] = useState();
   useEffect(() => {
     axios
-      .get(`http://wookportfolio.duckdns.org:8082/api/user/${userId}/avatar`, {
+      .get(`https://wookportfolio.duckdns.org:8082/api/user/${userId}/avatar`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {

@@ -25,7 +25,7 @@ const MyInfoPage = () => {
   useEffect(() => {
     fetchMiniHomeData();
     axios
-      .get("http://wookportfolio.duckdns.org:8082/api/my/statistics", {
+      .get("https://wookportfolio.duckdns.org:8082/api/my/statistics", {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
         },
@@ -50,7 +50,7 @@ const MyInfoPage = () => {
   const handleEditMiniHome = () => {
     axios
       .patch(
-        `http://wookportfolio.duckdns.org:8082/api/user/${userInfo.userId}/minihome/${miniHome.hpId}`,
+        `https://wookportfolio.duckdns.org:8082/api/user/${userInfo.userId}/minihome/${miniHome.hpId}`,
         {
           introduction: introduction,
           statusM: statusM,
@@ -79,7 +79,7 @@ const MyInfoPage = () => {
     formData.append("userDto", blob);
     console.log(userInfo?.userId);
     axios
-      .put(`http://wookportfolio.duckdns.org:8082/api/user`, formData, {
+      .put(`https://wookportfolio.duckdns.org:8082/api/user`, formData, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",
@@ -100,7 +100,7 @@ const MyInfoPage = () => {
 
   const loadPlayList = () => {
     axios
-      .get("http://wookportfolio.duckdns.org:8082/api/my/playlist", {
+      .get("https://wookportfolio.duckdns.org:8082/api/my/playlist", {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => setPlaylistList(response.data))
@@ -124,7 +124,7 @@ const MyInfoPage = () => {
 
     axios
       .post(
-        "http://wookportfolio.duckdns.org:8082/api/my/playlist",
+        "https://wookportfolio.duckdns.org:8082/api/my/playlist",
         {
           plName: plName,
         },
@@ -142,7 +142,7 @@ const MyInfoPage = () => {
 
   const handlePlaylistDelete = (playlistId) => {
     axios
-      .delete(`http://wookportfolio.duckdns.org:8082/api/my/playlist/${playlistId}`, {
+      .delete(`https://wookportfolio.duckdns.org:8082/api/my/playlist/${playlistId}`, {
         headers: { Authorization: localStorage.getItem("accessToken") },
       })
       .then((response) => {
@@ -171,7 +171,7 @@ const MyInfoPage = () => {
     const { plName } = data;
     axios
       .put(
-        `http://wookportfolio.duckdns.org:8082/api/my/playlist/${selectedPlaylist.playlistId}`,
+        `https://wookportfolio.duckdns.org:8082/api/my/playlist/${selectedPlaylist.playlistId}`,
         {
           plName: plName,
         },
@@ -190,7 +190,7 @@ const MyInfoPage = () => {
   const handleSetPlaylist = (playlistId) => {
     axios
       .patch(
-        `http://wookportfolio.duckdns.org:8082/api/user/${userInfo.userId}/minihome/${miniHome.hpId}/playlist`,
+        `https://wookportfolio.duckdns.org:8082/api/user/${userInfo.userId}/minihome/${miniHome.hpId}/playlist`,
         playlistId,
 
         {

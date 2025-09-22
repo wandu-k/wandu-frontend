@@ -34,7 +34,7 @@ const AlbumAddPage = () => {
 
     console.log(data);
     axios
-      .post("http://wookportfolio.duckdns.org:8082/api/user/album", formDataToSend, {
+      .post("https://wookportfolio.duckdns.org:8082/api/user/album", formDataToSend, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
           "Content-Type": "multipart/form-data",

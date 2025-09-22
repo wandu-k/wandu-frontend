@@ -12,7 +12,7 @@ const ItemSideBar = ({ item }) => {
   const purchase = async () => {
     try {
       const response = await axios.post(
-        "http://wookportfolio.duckdns.org:8082/api/user/item",
+        "https://wookportfolio.duckdns.org:8082/api/user/item",
         {
           userId: userInfo?.userId,
           itemId: item?.itemId,

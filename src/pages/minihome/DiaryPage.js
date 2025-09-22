@@ -18,7 +18,7 @@ const DiaryPage = () => {
   useEffect(() => {
     if (location.pathname === `/${userId}/diary`) {
       axios
-        .get("http://wookportfolio.duckdns.org:8082/api/user/diary/list", {
+        .get("https://wookportfolio.duckdns.org:8082/api/user/diary/list", {
           params: {
             userId: userId,
           },

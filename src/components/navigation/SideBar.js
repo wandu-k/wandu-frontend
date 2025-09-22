@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "animate.css";
 import { addDays, format, getMonth, getYear, subDays } from "date-fns"; // Importing date formatting function
-import axios from "axios"; // Importing axios for HTTP requests
+import axios from "axios"; // Importing axios for https requests
 import UserInfoUi from "../userInfo/UserInfoUi";
 import AvatarUi from "../avatar/AvatarUi";
 import Chat from "../miniHome/Chat";
@@ -56,7 +56,7 @@ const SideBar = ({ userInfo }) => {
 
   const dailyCheck = () => {
     axios.post(
-      "http://wookportfolio.duckdns.org:8082/api/user/daily",
+      "https://wookportfolio.duckdns.org:8082/api/user/daily",
       {
         userId: userId,
         date: new Date(),
@@ -79,7 +79,7 @@ const SideBar = ({ userInfo }) => {
 
     axios
       .post(
-        "http://wookportfolio.duckdns.org:8082/api/user/diary",
+        "https://wookportfolio.duckdns.org:8082/api/user/diary",
         {
           date: formattedDate,
           userId: userId,

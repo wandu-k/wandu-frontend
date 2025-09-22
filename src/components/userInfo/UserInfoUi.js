@@ -24,7 +24,7 @@ const UserInfoUi = ({ userInfo }) => {
   useEffect(() => {
     if (userId && userInfo) {
       axios
-        .get(`http://wookportfolio.duckdns.org:8082/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`)
+        .get(`https://wookportfolio.duckdns.org:8082/api/public/user/${userId}?followCheckUserId=${userInfo?.userId}`)
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);

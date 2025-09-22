@@ -13,7 +13,7 @@ const ItemPage = () => {
   useEffect(() => {
     if (userInfo) {
       axios
-        .get(`http://wookportfolio.duckdns.org:8082/api/user/shop/${itemId}?userId=${userInfo?.userId}`, {
+        .get(`https://wookportfolio.duckdns.org:8082/api/user/shop/${itemId}?userId=${userInfo?.userId}`, {
           headers: { Authorization: localStorage.getItem("accessToken") },
         })
         .then((response) => {

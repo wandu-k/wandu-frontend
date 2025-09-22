@@ -9,7 +9,7 @@ const FollowingPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://wookportfolio.duckdns.org:8082/api/user/${userId}/follow/following`, {
+      .get(`https://wookportfolio.duckdns.org:8082/api/user/${userId}/follow/following`, {
         headers: {
           Authorization: localStorage.getItem("accessToken"),
         },
