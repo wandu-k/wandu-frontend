@@ -27,7 +27,7 @@ const Chat = () => {
     console.log("채팅 연결 중..");
     if (miniHome) {
       // SockJS와 STOMP 클라이언트 설정
-      const socket = new SockJS("https://3.38.189.143/ws-stomp");
+      const socket = new SockJS("https://3.38.189.143:81/ws-stomp");
       const stompClient = new Client({
         webSocketFactory: () => socket,
         connectHeaders: {
