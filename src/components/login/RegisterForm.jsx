@@ -29,7 +29,7 @@ const RegisterForm = () => {
     formData.append("accountDto", blob);
 
     api
-      .post("https://wookportfolio.duckdns.org:8082:81/api/public/register", formData, {
+      .post("https://wookportfolio.duckdns.org:81/api/public/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
